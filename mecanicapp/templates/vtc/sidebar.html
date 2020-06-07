@@ -1,5 +1,5 @@
 {% load static %}
-<aside class="main-sidebar sidebar-dark-danger elevation-4">
+<aside class="main-sidebar sidebar-light-primary elevation-4">
     <a href="#" class="brand-link">
         <img src="{% static 'img/mecanicapp.ico' %}"
             alt="AdminLTE Logo"
@@ -18,10 +18,10 @@
         </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-header">Mantenimientos</li>
+                <li class="nav-header">Servicios</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-truck-loading"></i>
+                        <i class="fas fa-car"></i>
                         <p>
                             Vehiculos
                         </p>
@@ -29,15 +29,15 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-boxes"></i>
+                        <i class="fas fa-tint"></i>                        
                         <p>
                             Lavados
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-gas-pump"></i>
                         <p>
                             Recargas
                         </p>
@@ -45,11 +45,27 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <i class="fas fa-oil-can"></i>
                         <p>
                             Mantenimientos
                         </p>
                     </a>
+                </li>
+                <li class="nav-header">Datos adicionales</li>
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">  
+                        <i class="nav-icon far fa-circle text-info"></i>                      
+                        <p>Desplegar<i class="fas fa-angle-left right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">                        
+                        <li class="nav-item">
+                        <a href="{% url 'gestion:marcas' %}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Marcas</p>
+                        </a>
+                        </li>                        
+                    </ul>
                 </li>
             </ul>
         </nav>

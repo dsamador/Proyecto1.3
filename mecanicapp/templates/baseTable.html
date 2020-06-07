@@ -1,0 +1,70 @@
+{%extends 'layout.html'%}
+{%block content%} 
+<!-- ESTE ES EL MODAL PARA CREAR Y EDITAR -->
+<div class="modal fade" id="crear_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form action="." method="POST" enctype="multipart/form-data">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Creación de {{entity}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="action" value="add">
+          <input type="hidden" name="id" value="0" id="id">
+          {{form}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card mb-2">  
+<div class="card-header card-header-success">
+  <ul class="nav nav-pills card-header-pills">
+    <li class="nav nav-tabs mr-3">
+      <h4><strong class="card-title">{{title}} </strong></h4>
+    </li>
+    <li class="nav-item">        
+        {% if request.path == '/app/listar_vehiculos/' %}
+            <a href="{{create_url}}" class="btn btn-info"> Crear nuevo registro</a>          
+        {% else %}
+            <a class="btn btn-info btnAdd">Crear nuevo registro</a>                            
+        {% endif %}
+        
+        {% if request.path == '/app/listar_lavados/' or request.path == '/app/listar_mantenimientos/' or request.path == '/app/listar_recargas/'%}
+          <a href="{{url_print}}" class="btn btn-warning" target="blank">Imprimir</a>  
+        {% endif %}          
+        
+    </li>        
+  </ul>   
+</div>        
+  <div class="table-light table-hover">
+    <table class="table table-responsive-md" id="data">
+      <thead class="thead-light">
+        <tr>
+            {% block columns %}
+
+            {% endblock %}      
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% block for_loop %}
+          
+      {% endblock for_loop %}
+      </tbody>
+    </table>    
+  </div>
+</div>
+{%endblock%}
+
+
+
+

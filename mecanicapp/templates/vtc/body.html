@@ -27,7 +27,7 @@
                 <div class="container-fluid">
                     {% block content %}
 
-                    {% endblock %}
+                    {% endblock content %}
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
     <!-- Block javascript -->
     {% block javascript %}
 
-    {% endblock %}
+    {% endblock javascript %}
     <script>
         {% if messages %}
             var html = '<p>';
