@@ -314,12 +314,13 @@ class OdometroView(TemplateView):
             elif action == 'add':
                 m = Odometro()
                 m.distancia = request.POST['distancia']
-                m.vehiculo = request.POST['vehiculo']
+                m.vehiculo = request.POST['vehiculo']                
                 m.save()
             elif action == 'edit':
                 m = Odometro.objects.get(pk=request.POST['id'])
                 m.distancia = request.POST['distancia']
                 m.vehiculo = request.POST['vehiculo']
+                m.fecha = request.POST['fecha']
                 m.save()
             elif action == 'delete':
                 m = Odometro.objects.get(pk=request.POST['id'])
@@ -356,13 +357,11 @@ class TipoCombustibleView(TemplateView):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoCombustible()
-                m.distancia = request.POST['distancia']
-                m.vehiculo = request.POST['vehiculo']
+                m.nombre = request.POST['nombre']
                 m.save()
             elif action == 'edit':
                 m = TipoCombustible.objects.get(pk=request.POST['id'])
-                m.distancia = request.POST['distancia']
-                m.vehiculo = request.POST['vehiculo']
+                m.nombre = request.POST['nombre']
                 m.save()
             elif action == 'delete':
                 m = TipoCombustible.objects.get(pk=request.POST['id'])

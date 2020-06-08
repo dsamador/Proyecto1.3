@@ -62,6 +62,10 @@ class Local(Comunes):
 class TipoCombustible(models.Model):
     """Model definition for TipoCombustible."""
     nombre = models.CharField('Nombre', max_length=40, unique = True, blank=False, null=False)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         """Meta definition for TipoCombustible."""
@@ -128,7 +132,7 @@ class Vehiculo(models.Model):
     tipo = models.ForeignKey(TipoVehiculo, on_delete = models.CASCADE)
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Dueño")
-    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None)
+    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -149,10 +153,14 @@ class Odometro(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete = models.CASCADE, default=None)
     fecha = models.DateTimeField('Fecha',auto_now=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:        
         verbose_name = 'Odómetro'
         verbose_name_plural = 'Odómetros'
-        unique_together = ('vehiculo', 'distancia')
+        #unique_together = ('vehiculo', 'distancia') Me da problemas
 
     def __str__(self):        
         return f'Vehículo : {self.vehiculo}, distancia : {self.distancia}, fecha : {self.fecha}'

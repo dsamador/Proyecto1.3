@@ -120,7 +120,7 @@ btnActualizar.addEventListener("click", () => {
                         console.log(data);
                         if (!data.hasOwnProperty('error')) {
                             callback();
-                            toastr.success('Registro eliminado correctamente', 'Excelente!',{
+                            toastr.warning('Registro eliminado correctamente', 'Excelente!',{
                                 "progressBar": true,
                                 "positionClass": "toast-bottom-right"
                             });
@@ -128,7 +128,7 @@ btnActualizar.addEventListener("click", () => {
                         }
                         message_error(data.error);
                     }).fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(textStatus + ': ' + errorThrown);
+                        console.log(textStatus + ': ' + errorThrown);
                     }).always(function (data) {
 
                     });

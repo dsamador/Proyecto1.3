@@ -99,14 +99,14 @@ class OdometroForm(ModelForm):
         super().__init__(*args, **kwargs)
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb2'
-        self.fields['nombre'].widget.attrs['autofocus'] = True
+        self.fields['distancia'].widget.attrs['autofocus'] = True
     
     class Meta:
         model = Odometro
         fields = '__all__'
         widgets = {
             'distancia' : NumberInput(attrs={                
-                'placeholder':'Marca',
+                'placeholder':'Distancia',
             }),
             'vehiculo' : Select(attrs={                
                 'placeholder':'Vehiculo'                
