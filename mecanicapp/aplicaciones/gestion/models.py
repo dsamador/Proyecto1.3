@@ -28,6 +28,10 @@ class TipoLavado(Comunes):
 
 class TipoMantenimiento(Comunes):    
     
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+    
     class Meta:
         verbose_name = 'Tipo Mantenimiento'
         verbose_name_plural = 'Tipos de Mantenimientos'
@@ -40,6 +44,10 @@ class Gasolinera(Comunes):
     
     direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:        
         verbose_name = 'Gasolinera'
         verbose_name_plural = 'Gasolineras'
@@ -51,6 +59,10 @@ class Gasolinera(Comunes):
 class Local(Comunes):
     
     direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
     
     class Meta:        
         verbose_name = 'Local'
@@ -62,6 +74,10 @@ class Local(Comunes):
 class TipoCombustible(models.Model):
     """Model definition for TipoCombustible."""
     nombre = models.CharField('Nombre', max_length=40, unique = True, blank=False, null=False)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         """Meta definition for TipoCombustible."""
@@ -77,7 +93,7 @@ class TipoCombustible(models.Model):
 
 class MarcaVehiculo(models.Model):
     """Model definition for MarcaVehiculo."""
-    nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)
+    nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)    
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -148,6 +164,10 @@ class Odometro(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete = models.CASCADE, default=None)
     fecha = models.DateTimeField('Fecha',auto_now=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:        
         verbose_name = 'Odómetro'
         verbose_name_plural = 'Odómetros'
@@ -163,6 +183,10 @@ class Servicio(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     local = models.ForeignKey(Local, on_delete=models.CASCADE, null=True)
     nota = models.TextField(blank=True, null=True)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         abstract = True

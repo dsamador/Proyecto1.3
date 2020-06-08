@@ -22,7 +22,9 @@
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Creación de {{entity}}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">
+            <b><i class="fas fa-search"></i> <span></span></b>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -68,7 +70,7 @@
             <a class="btn btn-primary btn-flat btnAdd">
                 <i class="fas fa-plus"></i> Nuevo registro
             </a>
-            <a href="{{ list_url }}" class="btn btn-success btn-flat">
+            <a class="btn btn-success btn-flat" id="actualizar">
                 <i class="fas fa-sync"></i> Actualizar
             </a>
         {% endblock buttons_list %}
@@ -76,6 +78,13 @@
 </div>
 
 <script type="application/javascript">
+
+const btnActualizar = document.getElementById('actualizar');
+btnActualizar.addEventListener("click", () => {
+    miTabla.ajax.reload();
+})
+
+    /* Esto carga datatables */
     $(document).ready(function(){
         console.log('Texto')
         $('#data').DataTable({
@@ -111,6 +120,10 @@
                         console.log(data);
                         if (!data.hasOwnProperty('error')) {
                             callback();
+                            toastr.success('Registro eliminado correctamente', 'Excelente!',{
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right"
+                            });
                             return false;
                         }
                         message_error(data.error);

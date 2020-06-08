@@ -16,7 +16,8 @@
 <script>
   
     var miTabla;
-    
+    let modal_title;
+
     function getData(){
       $(function () {
         miTabla = $('#data').DataTable({
@@ -56,17 +57,21 @@
     }
     
     $(function () {
-    
+      modal_title = $('.modal-title');
       getData();
     
     $('.btnAdd').on('click', function(){
       $('input[name = "action"]').val('add');
+      modal_title.find('span').html('Creación de una marca');
+      modal_title.find('i').removeClass().addClass('fas fa-plus')      
       $('form')[0].reset();
       $('#crear_registro').modal('show');
     });
     
     $('#data tbody')
     .on('click', 'a[rel="edit"]', function(){
+      modal_title.find('span').html('Edición de una marca');
+      modal_title.find('i').removeClass().addClass('fas fa-edit');
       var tr = miTabla.cell($(this).closest('td, li')).index();
       var data = miTabla.row(tr.row).data();
       $('input[name="action"]').val('edit');
