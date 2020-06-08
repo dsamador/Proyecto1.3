@@ -16,6 +16,8 @@ urlpatterns = [
 
     path('list_tipolavado/',        TipoLavadoView.as_view(),        name = 'tipolavado'),
 
+    path('list_tipocombustible/',   TipoCombustibleView.as_view(),   name = 'tipocombustible'),
+
     path('list_local/',             LocalView.as_view(),             name = 'local'),
 
     path('list_gasolinera/',        GasolineraView.as_view(),        name = 'gasolinera'),

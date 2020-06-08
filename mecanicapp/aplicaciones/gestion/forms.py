@@ -22,7 +22,12 @@ class MarcaVehiculoForm(SoloNombre):
     class Meta(SoloNombre.Meta):
         model = MarcaVehiculo   
 
-class TipoVehiculo(SoloNombre):
+class TipoCombustibleForm(SoloNombre):    
+    
+    class Meta(SoloNombre.Meta):
+        model = TipoCombustible   
+
+class TipoVehiculoForm(SoloNombre):
 
     class Meta(SoloNombre.Meta):
         model = TipoVehiculo

@@ -43,14 +43,18 @@
                     class: 'text-center',
                     orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                     render: function (data, type, row) {
-                        var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm btn-flat"><i class="fas fa-edit"></i></a> ';
-                        buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                        var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+                        buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
                         return buttons;
                     }
                 },
             ],
             initComplete: function (settings, json) {
               /*Esto se ejecuta cuando se ha cargado la tabla*/
+              toastr.success('Tabla cargada completamente', 'Excelente!',{
+                "progressBar": true,
+                "positionClass": "toast-bottom-right"
+              });
             }
         });
       });
@@ -62,7 +66,7 @@
     
     $('.btnAdd').on('click', function(){
       $('input[name = "action"]').val('add');
-      modal_title.find('span').html('Creación de una marca');
+      modal_title.find('span').html('Creación de un tipo de combustible');
       modal_title.find('i').removeClass().addClass('fas fa-plus')      
       $('form')[0].reset();
       $('#crear_registro').modal('show');
@@ -70,7 +74,7 @@
     
     $('#data tbody')
     .on('click', 'a[rel="edit"]', function(){
-      modal_title.find('span').html('Edición de una marca');
+      modal_title.find('span').html('Edición de un tipo de combustible');
       modal_title.find('i').removeClass().addClass('fas fa-edit');
       var tr = miTabla.cell($(this).closest('td, li')).index();
       var data = miTabla.row(tr.row).data();

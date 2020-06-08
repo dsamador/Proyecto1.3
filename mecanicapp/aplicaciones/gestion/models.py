@@ -9,14 +9,14 @@ class Comunes(models.Model):
     nombre = models.CharField('Nombre (obligatorio)',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
     descripcion = models.TextField('Descripción (opcional)',blank=True, null=True)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         abstract = True
 
 class TipoLavado(Comunes):   
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
 
     class Meta:
         verbose_name = 'Tipo de lavado'
@@ -27,10 +27,6 @@ class TipoLavado(Comunes):
         return self.nombre
 
 class TipoMantenimiento(Comunes):    
-    
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
     
     class Meta:
         verbose_name = 'Tipo Mantenimiento'
@@ -44,10 +40,6 @@ class Gasolinera(Comunes):
     
     direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
 
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
     class Meta:        
         verbose_name = 'Gasolinera'
         verbose_name_plural = 'Gasolineras'
@@ -59,10 +51,6 @@ class Gasolinera(Comunes):
 class Local(Comunes):
     
     direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
     
     class Meta:        
         verbose_name = 'Local'
@@ -74,10 +62,6 @@ class Local(Comunes):
 class TipoCombustible(models.Model):
     """Model definition for TipoCombustible."""
     nombre = models.CharField('Nombre', max_length=40, unique = True, blank=False, null=False)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
 
     class Meta:
         """Meta definition for TipoCombustible."""
@@ -93,7 +77,7 @@ class TipoCombustible(models.Model):
 
 class MarcaVehiculo(models.Model):
     """Model definition for MarcaVehiculo."""
-    nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)    
+    nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -109,6 +93,7 @@ class MarcaVehiculo(models.Model):
     def __str__(self):
         """Unicode representation of MarcaVehiculo."""
         return self.nombre
+        
 
 class TipoVehiculo(models.Model):
     """Model definition for TipoVehiculo."""
@@ -164,10 +149,6 @@ class Odometro(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete = models.CASCADE, default=None)
     fecha = models.DateTimeField('Fecha',auto_now=True)
 
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
     class Meta:        
         verbose_name = 'Odómetro'
         verbose_name_plural = 'Odómetros'
@@ -183,10 +164,6 @@ class Servicio(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     local = models.ForeignKey(Local, on_delete=models.CASCADE, null=True)
     nota = models.TextField(blank=True, null=True)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
 
     class Meta:
         abstract = True

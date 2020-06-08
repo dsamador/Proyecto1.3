@@ -22,7 +22,7 @@ class DashboardView(TemplateView):
 """
 
 class MarcaView(TemplateView):    
-    template_name = 'marca/list_marca.html'    
+    template_name = 'auxdata/marca/list_marca.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -66,7 +66,7 @@ class MarcaView(TemplateView):
 """
 
 class TipoVehiculoView(TemplateView):    
-    template_name = 'tipovehiculo/list_tipovehiculo.html'    
+    template_name = 'auxdata/tipovehiculo/list_tipovehiculo.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -110,7 +110,7 @@ class TipoVehiculoView(TemplateView):
 """
 
 class TipoLavadoView(TemplateView):    
-    template_name = 'tipolavado/list_tipolavado.html'    
+    template_name = 'auxdata/tipolavado/list_tipolavado.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -156,7 +156,7 @@ class TipoLavadoView(TemplateView):
 """
 
 class TipoMantenimientoView(TemplateView):    
-    template_name = 'tipomantenimiento/list_tipomantenimiento.html'    
+    template_name = 'auxdata/tipomantenimiento/list_tipomantenimiento.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -194,14 +194,14 @@ class TipoMantenimientoView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de tipos de mantenimientos'                
         context['entity'] = 'Tipos de Mantenimientos'
-        context['form'] = MarcaVehiculoForm()
+        context['form'] = TipoMantenimientoForm()
         return context 
 """
     Vistas de las Gasolineras
 """
 
 class GasolineraView(TemplateView):    
-    template_name = 'gasolinera/list_gasolinera.html'    
+    template_name = 'auxdata/gasolinera/list_gasolinera.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -249,7 +249,7 @@ class GasolineraView(TemplateView):
 """
 
 class LocalView(TemplateView):    
-    template_name = 'local/list_local.html'    
+    template_name = 'auxdata/local/list_local.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -296,7 +296,7 @@ class LocalView(TemplateView):
 """
 
 class OdometroView(TemplateView):    
-    template_name = 'odometro/list_odometro.html'    
+    template_name = 'auxdata/odometro/list_odometro.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -335,6 +335,49 @@ class OdometroView(TemplateView):
         context['title'] = 'Listado de odómetros'                
         context['entity'] = 'Odometro'
         context['form'] = OdometroForm()
+        return context 
+
+
+class TipoCombustibleView(TemplateView):    
+    template_name = 'auxdata/tipocombustible/list_tipocombustible.html'    
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)  
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:                         
+            action = request.POST['action']                      
+            if action == 'searchdata':
+                print('Buscando los datos')
+                data = []
+                for i in TipoCombustible.objects.all():
+                    data.append(i.toJSON())
+            elif action == 'add':
+                m = TipoCombustible()
+                m.distancia = request.POST['distancia']
+                m.vehiculo = request.POST['vehiculo']
+                m.save()
+            elif action == 'edit':
+                m = TipoCombustible.objects.get(pk=request.POST['id'])
+                m.distancia = request.POST['distancia']
+                m.vehiculo = request.POST['vehiculo']
+                m.save()
+            elif action == 'delete':
+                m = TipoCombustible.objects.get(pk=request.POST['id'])
+                m.delete()
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe = False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de tipos de combustibles'                
+        context['entity'] = 'Tipos de combustibles'
+        context['form'] = TipoCombustibleForm()
         return context 
 
 
