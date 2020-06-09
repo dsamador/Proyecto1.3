@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView, CreateView
 
 from .models import Vehiculo
-from .forms import *
+from .forms import VehiculoForm
 
 from django.http import JsonResponse
 
@@ -25,17 +25,34 @@ class VehiculoListView(ListView): #Este código funciona
             if action == 'searchdata':
                 data = []
                 for i in Vehiculo.objects.all():
-                    data.append(i.toJSON())
+                    data.append(i.toJSON())            
+            elif action == 'edit':
+                m = Vehiculo.objects.get(pk=request.POST['id'])
+                m.nombre = request.POST['nombre']
+                m.modelo = request.POST['descripcion']
+                m.placa = request.POST['placa']
+                m.anio = request.POST['anio']
+                m.color = request.POST['color']
+                m.tanque = request.POST['tanque']
+                m.num_chasis = request.POST['num_chasis']
+                m.VIN = request.POST['VIN']
+                m.matricula = request.POST['matricula']
+                m.tipo = request.POST['tipo']
+                m.marca = request.POST['marca']                
+                m.save()
+            elif action == 'delete':
+                m = Vehiculo.objects.get(pk=request.POST['id'])
+                m.delete()
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-    
-    
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de vehículos'    
         context['create_url'] = reverse_lazy('gestion:create_vehiculo')
         context['entity'] = 'Vehiculo'
+        context['form'] = VehiculoForm
         return context
 
 

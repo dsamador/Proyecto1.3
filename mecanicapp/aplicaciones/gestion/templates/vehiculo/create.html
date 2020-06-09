@@ -14,8 +14,33 @@
                     {{form.modelo}}
                     {{form.placa}}
                     {{form.anio}}                            
-                    {{form.tanque}}   
-                    
+                    {{form.tanque}}                                                             
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card card-secondary">
+                <div class="card-header bg-warning">
+                    <h3 class="card-title"><i class="fas fa-tachometer-alt"></i>  Campos no obligatorios</h3>
+                </div>
+                <div class="card-body bg-gray">        
+                    {{form.color}}                                                                          
+                    {{form.num_chasis}}
+                    {{form.VIN}}
+                    {{form.matricula}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-secondary">
+                <div class="card-header bg-danger">
+                    <h3 class="card-title"><i class="fas fa-car"></i>  Campos obligatorios</h3>
+                </div>
+                <div class="card-body bg-gray">     
                     <div class="row">
                         <div class="col-6">
                             {{form.tipo.label}}
@@ -33,20 +58,7 @@
                         <div class="col-6">
                             <a href="{% url 'gestion:marcas' %}" target="blank" class="btn btn-outline-primary mt-4">Crear nueva marca</a>    
                         </div>
-                    </div>                     
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-5">
-            <div class="card card-secondary">
-                <div class="card-header bg-warning">
-                    <h3 class="card-title"><i class="fas fa-tachometer-alt"></i>  Campos no obligatorios</h3>
-                </div>
-                <div class="card-body bg-gray">        
-                    {{form.color}}                                                                          
-                    {{form.num_chasis}}
-                    {{form.VIN}}
-                    {{form.matricula}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,12 +81,12 @@ var $ = jQuery.noConflict();
             dataType: 'json'
         }).done(function (data){                        
             if(!data.hasOwnProperty('error')){ 
-                toastr.success('Marca agregada correctamente', 'Excelente!',{
+                toastr.success('Vehículo agregada correctamente', 'Excelente!',{
                     "progressBar": true,
                     "positionClass": "toast-bottom-full-width",
                     "timeOut": "1500",
                 });
-                setTimeout(() => {location.href = '{{list_url}}'}, 1500);                
+                setTimeout(() => {location.href = '{{list_url}}'}, 1000);                
                 return false;                
             }                
             alert('Ya existe vehiculo con esa placa');        

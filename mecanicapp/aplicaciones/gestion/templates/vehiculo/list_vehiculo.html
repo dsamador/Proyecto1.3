@@ -8,7 +8,7 @@
 <tr>
     <th>Nombre</th>
     <th>Marca</th>          
-    <th>Tipo</th>          
+    <th>Modelo</th>          
     <th>Placa</th>
     <th>Año</th> 
     <th>Opciones</th>
@@ -18,8 +18,11 @@
 {% block javascript %}
 <script>
 
-$(function () {
-    $('#data').DataTable({
+var miTabla;  
+let modal_title;
+function getData(){
+    $(function () {
+    miTabla = $('#data').DataTable({
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -35,28 +38,65 @@ $(function () {
         columns: [
             {"data": "nombre"},
             {"data": "marca"},
-            {"data": "tipo"},
+            {"data": "modelo"},
             {"data": "placa"},
             {"data": "anio"},
             {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
         ],          
-        columnDefs: [
+            columnDefs: [
             {
                 targets: [-1],
                 class: 'text-center',
                 orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                 render: function (data, type, row) {
-                    var buttons = '<a href="#" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a href="#" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
-                    return buttons;
+                var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+                buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
+                return buttons;
                 }
             },
-        ],
-        initComplete: function (settings, json) {
-        /*Esto se ejecuta cuando se ha cargado la tabla*/
-        
+            ],
+            initComplete: function (settings, json) {
+            toastr.success('Tabla cargada completamente', 'Excelente!',{
+                "progressBar": true,
+                "positionClass": "toast-bottom-right"
+            });
         }
     });
+    });
+}
+$(function () {
+    getData();
+    modal_title = $('.modal-title');
+    $('#data tbody')
+    .on('click', 'a[rel="edit"]', function(){
+        modal_title.find('span').html('Edición de un vehiculo');
+        modal_title.find('i').removeClass().addClass('fas fa-edit');
+        var tr = miTabla.cell($(this).closest('td, li')).index();
+        var data = miTabla.row(tr.row).data();
+        $('input[name="action"]').val('edit');
+        $('input[name="id"]').val(data.id);
+        $('input[name="nombre"]').val(data.nombre);    
+        $('input[name="modelo"]').val(data.modelo);    
+        $('input[name="placa"]').val(data.placa);    
+        $('input[name="anio"]').val(data.anio);    
+        $('input[name="color"]').val(data.color);    
+        $('input[name="tanque"]').val(data.tanque);    
+        $('input[name="num_chasis"]').val(data.num_chasis);    
+        $('input[name="VIN"]').val(data.VIN);    
+        $('input[name="tipo"]').val(data.tipo);                
+        $('input[name="marca"]').val(data.marca);    
+        $('#crear_registro').modal('show');
+    })
+    .on('click', 'a[rel="delete"]', function () {
+        var tr = miTabla.cell($(this).closest('td, li')).index();
+        var data = miTabla.row(tr.row).data();
+        var parameters = new FormData();
+        parameters.append('action', 'delete');
+        parameters.append('id', data.id);    
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {
+            miTabla.ajax.reload();
+        });
+    }); 
 });
 </script>
 {% endblock javascript %}
