@@ -20,7 +20,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-header">Servicios</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{% url 'gestion:vehiculo' %}" class="nav-link">
                         <i class="fas fa-car"></i>
                         <p>
                             Vehiculos
@@ -58,13 +58,13 @@
                         <i class="nav-icon far fa-circle text-info"></i>                      
                         <p>Desplegar<i class="fas fa-angle-left right"></i></p>
                     </a>
-                    <ul class="nav nav-treeview" style="display: none;">                        
+                    <ul class="nav nav-treeview" style="display: none;"> 
                         <li class="nav-item">
-                        <a href="{% url 'gestion:marcas' %}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Marcas</p>
-                        </a>
-                        </li>                        
+                            <a href="{% url 'gestion:local' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Locales</p>
+                            </a>
+                        </li>                                                
                         <li class="nav-item">
                         <a href="{% url 'gestion:tipomantenimiento' %}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
@@ -102,11 +102,11 @@
                         </a>
                         </li>                        
                         <li class="nav-item mb-4">
-                        <a href="{% url 'gestion:local' %}" class="nav-link">
+                        <a href="{% url 'gestion:marcas' %}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Locales</p>
+                            <p>Marcas</p>
                         </a>
-                        </li>                                   
+                        </li>                                                    
                     </ul>
                 </li>
             </ul>

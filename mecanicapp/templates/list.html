@@ -67,9 +67,17 @@
     </div>
     <div class="card-footer">
         {% block buttons_list %}
+            
+            {% if request.path == '/app/create_vehiculo' %}
+                <a href="{{create_url}}" class="btn btn-primary btn-flat btnAdd">
+                    <i class="fas fa-plus"></i> Nuevo registro
+                </a>
+            {% endif %}
+                
             <a class="btn btn-primary btn-flat btnAdd">
                 <i class="fas fa-plus"></i> Nuevo registro
             </a>
+
             <a class="btn btn-success btn-flat" id="actualizar">
                 <i class="fas fa-sync"></i> Actualizar
             </a>

@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% load widget_tweaks %}
+
 {% block head %}
     {% block head_form %}
 
@@ -34,13 +34,13 @@
                             {% endfor %}
                         </ul>
                     </div>
-                {% endif %}
-                {% for field in form.visible_fields %}
+                {% endif %}                
                     <div class="form-group">
-                        <label for="email">{{ field.label }}:</label>
-                        {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
-                    </div>
-                {% endfor %}
+                        
+                        {% block form %}
+                            
+                        {% endblock form %}                                         
+                    </div>                
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary btn-flat">
@@ -70,12 +70,29 @@
             });
         {% endif %}
 
+        var $ = jQuery.noConflict();
         $('form').on('submit', function (e) {
-            e.preventDefault();
-            var parameters = new FormData(this);
-            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
-                location.href = '{{ list_url }}';
-            });
+        e.preventDefault();
+        var parameters = $(this).serializeArray(); 
+        console.log(parameters);
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: parameters,
+            dataType: 'json'
+        }).done(function (data){                        
+            if(!data.hasOwnProperty('error')){ 
+                toastr.success('Marca agregada correctamente', 'Excelente!',{
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-full-width",
+                    "timeOut": "1500",
+                });
+                setTimeout(() => {location.href = '{{list_url}}'}, 1500);                
+                return false;
+            }                        
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert(textStatus + ': ' + errorThrown);            
         });
+    });
     </script>
 {% endblock %}

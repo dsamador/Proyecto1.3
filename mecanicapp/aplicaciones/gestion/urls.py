@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from .views_core import *
 
 
 app_name = 'gestion'
@@ -23,5 +24,9 @@ urlpatterns = [
     path('list_gasolinera/',        GasolineraView.as_view(),        name = 'gasolinera'),
 
     path('list_odometro/',          OdometroView.as_view(),          name = 'odometro'),
+    
+    path('list_vehiculo/',          VehiculoListView.as_view(),      name = 'vehiculo'),
+    
+    path('create_vehiculo/',        VehiculoCreateView.as_view(),    name = 'create_vehiculo'),
 
 ]

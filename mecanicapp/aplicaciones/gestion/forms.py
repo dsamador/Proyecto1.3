@@ -112,3 +112,50 @@ class OdometroForm(ModelForm):
                 'placeholder':'Vehiculo'                
             }),
         }
+
+class VehiculoForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control mb-2 bg-dark'
+        self.fields['nombre'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Vehiculo
+        exclude = ['usuario']
+        widgets = {
+            'nombre' : TextInput(attrs={                
+                'placeholder':'nombre del carro'
+            }),
+            'modelo' : TextInput(attrs={                  
+                'placeholder':'modelo'            
+            }),
+            'placa' : TextInput(attrs={                              
+                'placeholder':'placa'            
+            }),
+            'anio' : TextInput(attrs={                               
+                'placeholder':'año'            
+            }),           
+            'color' : TextInput(attrs={                                
+                'placeholder':'color'            
+            }),
+            'tanque' : NumberInput(attrs={                               
+                'placeholder':'capacidad del tanque'            
+            }),
+            'num_chasis' : TextInput(attrs={                   
+                'placeholder':'numero del chasis'                     
+            }),
+            'VIN' : TextInput(attrs={                
+                'placeholder':'VIN'                        
+            }),
+            'matricula' : TextInput(attrs={                
+                'placeholder':'matricula'            
+            }),
+            'tipo' : Select(attrs={                           
+                'placeholder':'tipo de vehiculo'            
+            }),
+            'marca' : Select(attrs={                
+                'placeholder':'marca'                         
+            }),           
+        }        

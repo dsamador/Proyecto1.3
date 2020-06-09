@@ -1,0 +1,58 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+
+{% endblock %}
+
+{% block columns %}
+  <th>Nombre</th>
+  <th>Marca</th>          
+  <th>Tipo</th>          
+  <th>Placa</th>
+  <th>Año</th> 
+  <th>Opciones</th>
+{% endblock %}
+
+{% block javascript %}
+<script>
+$(function () {
+    $('#data').DataTable({
+        responsive: true,
+        autoWidth: true,
+        destroy: true,
+        deferRender: true, /*  Para cuando hay más de 50.000 registros*/
+        ajax: {
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'searchdata'
+            },
+            dataSrc: "" /*Para identificar todos los datos con un nombre de variable*/
+        },
+        columns: [
+            {"data": "nombre"},
+            {"data": "marca"},
+            {"data": "tipo"},
+            {"data": "placa"},
+            {"data": "anio"},
+            {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
+        ],          
+        columnDefs: [
+            {
+                targets: [-1],
+                class: 'text-center',
+                orderable: false,/*Esta columna de botones no es necesario que se ordene*/
+                render: function (data, type, row) {
+                    var buttons = '<a href="/app/actualizar_vehiculo/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
+                    buttons += '<a href="/app/eliminar_vehiculo/' + row.id + '/" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                    return buttons;
+                }
+            },
+        ],
+        initComplete: function (settings, json) {
+        /*Esto se ejecuta cuando se ha cargado la tabla*/
+        }
+    });
+});
+</script>
+{% endblock javascript %}
