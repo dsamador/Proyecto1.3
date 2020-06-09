@@ -35,6 +35,7 @@ class VehiculoListView(ListView): #Este código funciona
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de vehículos'    
         context['create_url'] = reverse_lazy('gestion:create_vehiculo')
+        context['entity'] = 'Vehiculo'
         return context
 
 
@@ -69,4 +70,5 @@ class VehiculoCreateView(CreateView):
         context['title'] = 'Creación de vehiculo'        
         context['list_url'] = self.success_url       
         context['action'] = 'add'        
+        context['entity'] = 'Crear Vehiculo'
         return context         

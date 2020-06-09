@@ -132,15 +132,14 @@ class Vehiculo(models.Model):
     tipo = models.ForeignKey(TipoVehiculo, on_delete = models.CASCADE)
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Dueño")
-    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
-
+    #imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    
     def toJSON(self):
         item = model_to_dict(self)
         return item
 
     class Meta:
         """Meta definition for Vehiculo."""
-
         verbose_name = 'Vehiculo'
         verbose_name_plural = 'Vehiculos'
 

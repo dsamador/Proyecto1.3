@@ -69,30 +69,5 @@
                 icon: 'error'
             });
         {% endif %}
-
-        var $ = jQuery.noConflict();
-        $('form').on('submit', function (e) {
-        e.preventDefault();
-        var parameters = $(this).serializeArray(); 
-        console.log(parameters);
-        $.ajax({
-            url: window.location.pathname,
-            type: 'POST',
-            data: parameters,
-            dataType: 'json'
-        }).done(function (data){                        
-            if(!data.hasOwnProperty('error')){ 
-                toastr.success('Marca agregada correctamente', 'Excelente!',{
-                    "progressBar": true,
-                    "positionClass": "toast-bottom-full-width",
-                    "timeOut": "1500",
-                });
-                setTimeout(() => {location.href = '{{list_url}}'}, 1500);                
-                return false;
-            }                        
-        }).fail(function(jqXHR, textStatus, errorThrown){
-            alert(textStatus + ': ' + errorThrown);            
-        });
-    });
     </script>
 {% endblock %}

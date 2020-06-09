@@ -5,20 +5,23 @@
 {% endblock %}
 
 {% block columns %}
-  <th>Nombre</th>
-  <th>Marca</th>          
-  <th>Tipo</th>          
-  <th>Placa</th>
-  <th>Año</th> 
-  <th>Opciones</th>
+<tr>
+    <th>Nombre</th>
+    <th>Marca</th>          
+    <th>Tipo</th>          
+    <th>Placa</th>
+    <th>Año</th> 
+    <th>Opciones</th>
+</tr>
 {% endblock %}
 
 {% block javascript %}
 <script>
+
 $(function () {
     $('#data').DataTable({
         responsive: true,
-        autoWidth: true,
+        autoWidth: false,
         destroy: true,
         deferRender: true, /*  Para cuando hay más de 50.000 registros*/
         ajax: {
@@ -43,14 +46,15 @@ $(function () {
                 class: 'text-center',
                 orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                 render: function (data, type, row) {
-                    var buttons = '<a href="/app/actualizar_vehiculo/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a href="/app/eliminar_vehiculo/' + row.id + '/" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                    var buttons = '<a href="#" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
+                    buttons += '<a href="#" type="button" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
                     return buttons;
                 }
             },
         ],
         initComplete: function (settings, json) {
         /*Esto se ejecuta cuando se ha cargado la tabla*/
+        
         }
     });
 });

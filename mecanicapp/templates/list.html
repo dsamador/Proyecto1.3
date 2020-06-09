@@ -68,16 +68,15 @@
     <div class="card-footer">
         {% block buttons_list %}
             
-            {% if request.path == '/app/create_vehiculo' %}
+            {% if request.path == '/app/list_vehiculo/' %}
                 <a href="{{create_url}}" class="btn btn-primary btn-flat btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
-                </a>
-            {% endif %}
-                
+                </a>            
+            {% else %}  
             <a class="btn btn-primary btn-flat btnAdd">
                 <i class="fas fa-plus"></i> Nuevo registro
             </a>
-
+            {% endif %}
             <a class="btn btn-success btn-flat" id="actualizar">
                 <i class="fas fa-sync"></i> Actualizar
             </a>
@@ -88,18 +87,19 @@
 <script type="application/javascript">
 
 const btnActualizar = document.getElementById('actualizar');
+const miTabla = document.getElementById('data')
 btnActualizar.addEventListener("click", () => {
     miTabla.ajax.reload();
 })
 
     /* Esto carga datatables */
-    $(document).ready(function(){
+    /* $(document).ready(function(){
         console.log('Texto')
         $('#data').DataTable({
             responsive : true,
             autoWidth : false
         });
-    });
+    }); */
     /* Función que es llamada cuando se va a borrar un registro */
     function submit_with_ajax(url, title, content, parameters, callback) {
     $.confirm({
