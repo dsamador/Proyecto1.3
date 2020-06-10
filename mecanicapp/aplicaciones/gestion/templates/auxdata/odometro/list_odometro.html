@@ -6,9 +6,8 @@
 
 {% block columns %}
     <tr>        
-        <th scope="col" style="width: 20%;">Distancia</th>
-        <th scope="col" style="width: 20%;">Vehículo</th>
-        <th scope="col" style="width: 40%;">Fecha</th>
+        <th scope="col" style="width: 40%;">Distancia</th>
+        <th scope="col" style="width: 40%;">Vehículo</th>        
         <th scope="col" style="width: 20%;">Opciones</th>
     </tr>
 {% endblock %}
@@ -37,9 +36,8 @@
             },
             columns: [
                 {"data": "distancia"},
-                {"data": "vehiculo"},
-                {"data": "fecha"},
-                {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
+                {"data": "vehiculo.nombre"},                
+                {"data": ""},/*Esta se repite para poder tener la columna de los botones*/
             ],          
             columnDefs: [
                 {
@@ -119,8 +117,7 @@
                   "positionClass": "toast-bottom-right"
                 });
                 return false;
-            }                 
-            alert(error)      
+            }                             
         }).fail(function(jqXHR, textStatus, errorThrown){
             console.log(textStatus + ': ' + errorThrown);            
         });

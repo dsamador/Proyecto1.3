@@ -76,10 +76,19 @@ class VehiculoCreateView(CreateView):
         context['entity'] = 'Crear Vehiculo'
         return context         
 
-class VehiculoUpdateView(UpdateView):
-    pass
-
-
+class VehiculoUpdateView(UpdateView):# Este no tiene ajax
+    model = Vehiculo
+    form_class = VehiculoForm    
+    template_name = 'vehiculo/update.html'
+    success_url = reverse_lazy('gestion:vehiculo')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edición de vehiculo'        
+        context['list_url'] = self.success_url       
+        context['action'] = 'edit'        
+        context['entity'] = 'Editar Vehiculo'
+        return context    
 
 
 

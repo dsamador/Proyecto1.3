@@ -155,6 +155,7 @@ class Odometro(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['vehiculo'] = self.vehiculo.toJSON()
         return item
 
     class Meta:        

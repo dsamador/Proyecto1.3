@@ -75,33 +75,3 @@
 </div>
 </div>
 {% endblock form %}
-
-{% block javascript %}
-<script>
-    var $ = jQuery.noConflict();
-    $('form').on('submit', function (e) {
-    e.preventDefault();
-    var parameters = $(this).serializeArray(); /* obtiene todos lo datos a manera de json */
-    console.log(parameters);
-    $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: parameters,
-        dataType: 'json'
-    }).done(function (data){                        
-        if(!data.hasOwnProperty('error')){ 
-            toastr.success('Acción realizada correctamente', 'Excelente!',{
-                "progressBar": true,
-                "positionClass": "toast-bottom-full-width",
-                "timeOut": "1500",
-            });
-            setTimeout(() => {location.href = '{{list_url}}'}, 1000);                
-            return false;                
-        }                
-        alert('Ya existe vehiculo con esa placa');        
-    }).fail(function(jqXHR, textStatus, errorThrown){            
-        alert(textStatus + ': ' + errorThrown);            
-    });
-});
-</script>    
-{% endblock javascript %}

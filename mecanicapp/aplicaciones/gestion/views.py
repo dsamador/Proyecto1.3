@@ -315,6 +315,7 @@ class OdometroView(TemplateView):
                 m = Odometro()
                 m.distancia = request.POST['distancia']
                 m.vehiculo = request.POST['vehiculo']                
+                m.fecha = request.POST['fecha']
                 m.save()
             elif action == 'edit':
                 m = Odometro.objects.get(pk=request.POST['id'])
