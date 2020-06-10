@@ -77,7 +77,7 @@
     });
     
     $('#data tbody')
-    .on('click', 'a[rel="edit"]', function(){
+    .on('click', 'a[rel="edit"]', function(){      
       modal_title.find('span').html('Edición de un local');
       modal_title.find('i').removeClass().addClass('fas fa-edit');
       var tr = miTabla.cell($(this).closest('td, li')).index();
@@ -85,8 +85,8 @@
       $('input[name="action"]').val('edit');
       $('input[name="id"]').val(data.id);
       $('input[name="nombre"]').val(data.nombre);
-      $('input[name="direccion"]').val(data.direccion);
       $('input[name="descripcion"]').val(data.descripcion);
+      $('input[name="direccion"]').val(data.direccion);
       $('#crear_registro').modal('show');
     })
     .on('click', 'a[rel="delete"]', function () {

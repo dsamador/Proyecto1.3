@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
 from .models import Vehiculo
 from .forms import VehiculoForm
@@ -25,21 +25,7 @@ class VehiculoListView(ListView): #Este código funciona
             if action == 'searchdata':
                 data = []
                 for i in Vehiculo.objects.all():
-                    data.append(i.toJSON())            
-            elif action == 'edit':
-                m = Vehiculo.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
-                m.modelo = request.POST['descripcion']
-                m.placa = request.POST['placa']
-                m.anio = request.POST['anio']
-                m.color = request.POST['color']
-                m.tanque = request.POST['tanque']
-                m.num_chasis = request.POST['num_chasis']
-                m.VIN = request.POST['VIN']
-                m.matricula = request.POST['matricula']
-                m.tipo = request.POST['tipo']
-                m.marca = request.POST['marca']                
-                m.save()
+                    data.append(i.toJSON())                        
             elif action == 'delete':
                 m = Vehiculo.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -89,3 +75,28 @@ class VehiculoCreateView(CreateView):
         context['action'] = 'add'        
         context['entity'] = 'Crear Vehiculo'
         return context         
+
+class VehiculoUpdateView(UpdateView):
+    pass
+
+
+
+
+
+
+
+
+""" elif action == 'edit':
+    m = Vehiculo.objects.get(pk=request.POST['id'])
+    m.nombre = request.POST['nombre']
+    m.modelo = request.POST['descripcion']
+    m.placa = request.POST['placa']
+    m.anio = request.POST['anio']
+    m.color = request.POST['color']
+    m.tanque = request.POST['tanque']
+    m.num_chasis = request.POST['num_chasis']
+    m.VIN = request.POST['VIN']
+    m.matricula = request.POST['matricula']
+    m.tipo = request.POST['tipo']
+    m.marca = request.POST['marca']                
+    m.save() """

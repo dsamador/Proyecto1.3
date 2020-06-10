@@ -267,14 +267,14 @@ class LocalView(TemplateView):
             elif action == 'add':
                 m = Local()
                 m.nombre = request.POST['nombre']
-                m.descripcion = request.POST['descripcion']
                 m.direccion = request.POST['direccion']
+                m.descripcion = request.POST['descripcion']
                 m.save()
             elif action == 'edit':
                 m = Local.objects.get(pk=request.POST['id'])
                 m.nombre = request.POST['nombre']
-                m.descripcion = request.POST['descripcion']
                 m.direccion = request.POST['direccion']
+                m.descripcion = request.POST['descripcion']
                 m.save()
             elif action == 'delete':
                 m = Local.objects.get(pk=request.POST['id'])

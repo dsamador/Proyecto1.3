@@ -136,6 +136,7 @@ class Vehiculo(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
+        item['tipo'] = self.tipo.toJSON()
         return item
 
     class Meta:
