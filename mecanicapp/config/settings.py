@@ -141,3 +141,7 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'user.User'
 
 LOGIN_REDIRECT_URL = '/app/dashboard/'
+
+LOGOUT_REDIRECT_URL = '/login/'
+
+LOGIN_URL = '/login/'

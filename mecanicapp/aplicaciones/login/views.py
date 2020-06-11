@@ -5,11 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, RedirectView
-
+from .forms import FormularioLogin
 import config.settings as setting
 
 
 class LoginFormView(LoginView):
+    form_class = FormularioLogin
     template_name = 'login.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -21,3 +22,10 @@ class LoginFormView(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Iniciar sesión'
         return context
+
+class LogoutView(RedirectView):
+    pattern_name = 'login'
+
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return super().dispatch(request, *args, **kwargs)

@@ -31,7 +31,7 @@
                     {{ form.username}}
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-signature"></span>
                         </div>
                     </div>
                 </div>
@@ -45,11 +45,22 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 mb-2">
                         <button type="submit" class="btn btn-primary btn-block">
                             <i class="fas fa-sign-in-alt"></i> Iniciar sesión
                         </button>
                     </div>
+                    
+                    <div class="col-lg-12 mb-2">
+                        <a href="#" class="btn btn-success btn-block">
+                            <i class="fas fa-user-circle"></i> Crear una cuenta
+                        </a>
+                    </div>
+                    <div class="col-lg-12 mb-2">
+                        <a href="{% url 'index' %}" class="btn btn-info btn-block">
+                            <i class="fas fa-arrow-circle-left"></i>  Regresar
+                        </a>
+                    </div>                    
                 </div>
             </form>
         </div>
