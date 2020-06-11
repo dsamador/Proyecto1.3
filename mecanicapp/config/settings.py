@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Mis apps
+    'aplicaciones.login',
     'aplicaciones.gestion',
     'aplicaciones.user',
+    'aplicaciones.homepage',
     #Mis librerias
     'django_userforeignkey',
 ]
@@ -137,3 +139,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'user.User'
+
+LOGIN_REDIRECT_URL = '/app/dashboard/'

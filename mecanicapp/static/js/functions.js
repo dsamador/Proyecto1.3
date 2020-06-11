@@ -93,3 +93,10 @@ function alert_action(title, content, callback) {
         }
     })
 }
+
+() => {
+    $('html, body').animate({
+        scrollTop: 0
+    }, 1500, 'easeInOutExpo');
+    return false;
+}
