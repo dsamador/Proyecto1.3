@@ -10,6 +10,7 @@
     <th>Marca</th>          
     <th>Modelo</th>          
     <th>Placa</th>
+    <th>Imágen</th>
     <th>Tipo</th>
     <th>Año</th> 
     <th>Opciones</th>
@@ -38,14 +39,23 @@ function getData(){
         },
         columns: [
             {"data": "nombre"},
-            {"data": "marca"},
+            {"data": "marca.nombre"},
             {"data": "modelo"},
             {"data": "placa"},
+            {"data": "imagen"},
             {"data": "tipo.nombre"},
             {"data": "anio"},
             {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
         ],          
             columnDefs: [
+            {
+                targets: [-4],
+                class: 'text-center',
+                orderable: false,
+                render: function (data, type, row) {
+                    return '<img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 30px; height: 25px;">';
+                }
+            },
             {
                 targets: [-1],
                 class: 'text-center',

@@ -116,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'America/Bogota'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -144,4 +144,4 @@ LOGIN_REDIRECT_URL = '/app/dashboard/'
 
 LOGOUT_REDIRECT_URL = '/login/'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login/'#Reemplaza al accounts/login/

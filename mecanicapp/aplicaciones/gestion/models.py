@@ -3,7 +3,7 @@ from django.conf import settings
 from django_userforeignkey.models.fields import UserForeignKey
 from aplicaciones.user.models import User
 from django.forms import model_to_dict
-
+from config.settings import MEDIA_URL, STATIC_URL
 # Create your models here
 class Comunes(models.Model):
     nombre = models.CharField('Nombre (obligatorio)',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
@@ -132,12 +132,19 @@ class Vehiculo(models.Model):
     tipo = models.ForeignKey(TipoVehiculo, on_delete = models.CASCADE)
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Dueño")
-    #imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     
     def toJSON(self):
         item = model_to_dict(self)
         item['tipo'] = self.tipo.toJSON()
+        item['marca'] = self.marca.toJSON()
+        item['imagen'] = self.get_imagen()
         return item
+
+    def get_imagen(self):
+        if self.imagen:
+            return '{}{}'.format(MEDIA_URL, self.imagen)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     class Meta:
         """Meta definition for Vehiculo."""
@@ -156,6 +163,7 @@ class Odometro(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['vehiculo'] = self.vehiculo.toJSON()
+        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
         return item
 
     class Meta:        

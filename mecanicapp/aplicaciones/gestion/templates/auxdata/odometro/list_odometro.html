@@ -6,8 +6,9 @@
 
 {% block columns %}
     <tr>        
-        <th scope="col" style="width: 40%;">Distancia</th>
-        <th scope="col" style="width: 40%;">Vehículo</th>        
+        <th scope="col" style="width: 20%;">Distancia(Km)</th>
+        <th scope="col" style="width: 30%;">Vehículo</th>        
+        <th scope="col" style="width: 30%;">Fecha</th>        
         <th scope="col" style="width: 20%;">Opciones</th>
     </tr>
 {% endblock %}
@@ -37,6 +38,7 @@
             columns: [
                 {"data": "distancia"},
                 {"data": "vehiculo.nombre"},                
+                {"data": "fecha"},                
                 {"data": ""},/*Esta se repite para poder tener la columna de los botones*/
             ],          
             columnDefs: [
@@ -83,7 +85,7 @@
       $('input[name="action"]').val('edit');
       $('input[name="id"]').val(data.id);
       $('input[name="distancia"]').val(data.distancia);
-      $('input[name="vehiculo"]').val(data.vehiculo);      
+      $('input[name="vehiculo"]').val(data.vehiculo);         
       $('#crear_registro').modal('show');
     })
     .on('click', 'a[rel="delete"]', function () {

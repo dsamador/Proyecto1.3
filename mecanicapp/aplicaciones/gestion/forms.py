@@ -157,5 +157,8 @@ class VehiculoForm(ModelForm):
             }),
             'marca' : Select(attrs={                
                 'placeholder':'marca'                         
-            }),           
+            }),   
+            'imagen' : FileInput(attrs={
+                'placeholder':'imágen'
+            }),
         }        

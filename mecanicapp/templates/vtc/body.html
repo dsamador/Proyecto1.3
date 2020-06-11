@@ -24,11 +24,29 @@
                 </div>
             </div>
             <div class="content">
-                <div class="container-fluid">
+                <div class="container-fluid" >
                     {% block content %}
-                    <a href="#" class="back-to-top" style="display: inline;"><i class="icofont-simple-up"></i></a>
+                    <a href="#" class="back-to-top" style="display: inline; "><i class="icofont-simple-up"></i></a>
                     {% endblock content %}
                 </div>
+            </div>
+        </div>
+        <!--Modal para confirmar la salida-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Cerrar Sesión para <mark> {{ user.username}} </mark>?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">Al dar click en el botón Salir, cerrará la sesión para <mark> {{ user.username}} </mark>  </div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="{% url 'logout' %}">Salir</a>
+                </div>
+            </div>
             </div>
         </div>
         <!-- Footer -->
@@ -51,6 +69,18 @@
                 icon: 'error'
             });
         {% endif %}
+        /* Modal de cerrar sesión */
+function abrir_modal(url)
+    {
+        $("#popup").load(url, function(){
+            $(this).modal({
+                backdrop:'static',
+                keyboard: false
+            })
+            $(this).modal('show');
+        });
+        return false;
+    }  
     </script>
     </body>
 {% endblock %}

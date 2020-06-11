@@ -37,6 +37,8 @@
                     {{form.VIN}}
                     {{form.matricula.label}}
                     {{form.matricula}}
+                    {{form.imagen.label}}
+                    {{form.imagen}}
                 </div>
             </div>
         </div>
@@ -79,15 +81,17 @@
 {% block javascript %}
 <script>
     var $ = jQuery.noConflict();
-    $('form').on('submit', function (e) {
+$('form').on('submit', function (e) {
     e.preventDefault();
-    var parameters = $(this).serializeArray(); /* obtiene todos lo datos a manera de json */
+    var parameters = new FormData(this);/* Toma los datos y los pasa a JSON y también toma los media */
     console.log(parameters);
     $.ajax({
         url: window.location.pathname,
         type: 'POST',
         data: parameters,
-        dataType: 'json'
+        dataType: 'json',
+        processData: false,
+        contentType:false
     }).done(function (data){                        
         if(!data.hasOwnProperty('error')){ 
             toastr.success('Acción realizada correctamente', 'Excelente!',{

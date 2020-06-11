@@ -80,7 +80,7 @@ class VehiculoUpdateView(UpdateView):# Este no tiene ajax
     model = Vehiculo
     form_class = VehiculoForm    
     template_name = 'vehiculo/update.html'
-    success_url = reverse_lazy('gestion:vehiculo')
+    success_url = reverse_lazy('gestion:vehiculo')        
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,94 +1,43 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ title }}</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/font-awesome-5.11.1/css/all.min.css' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <!-- Sweetalert2 -->
-    <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="{% url 'index' %}"><b>Mecanic</b>app</a>
-    </div>
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">Inicie sesión con sus credenciales</p>
-            <form action="." method="post">
-                <input type="hidden" name="next" value="{{ next }}">
-                {% csrf_token %}
-                <div class="input-group mb-3">
-                    {{ form.username}}
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-signature"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    {{ form.password}}
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-lg-12 mb-2">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-sign-in-alt"></i> Iniciar sesión
-                        </button>
-                    </div>
-                    
-                    <div class="col-lg-12 mb-2">
-                        <a href="#" class="btn btn-success btn-block">
-                            <i class="fas fa-user-circle"></i> Crear una cuenta
-                        </a>
-                    </div>
-                    <div class="col-lg-12 mb-2">
-                        <a href="{% url 'index' %}" class="btn btn-info btn-block">
-                            <i class="fas fa-arrow-circle-left"></i>  Regresar
-                        </a>
-                    </div>                    
-                </div>
-            </form>
+{% extends 'baseLogin.html' %}
+
+{% block formUser %}    
+<form action="." method="post">
+    <input type="hidden" name="next" value="{{ next }}">
+    {% csrf_token %}
+    <div class="input-group mb-3">
+        {{ form.username}}
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-signature"></span>
+            </div>
         </div>
     </div>
-    <script type="application/javascript">
-        {% if form.errors %}
-            var errors = '';
-            {% for field in form %}
-                {% for error in field.errors %}
-                    errors += '{{ error }}\n';
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                errors += '{{ error }}\n';
-            {% endfor %}
-            Swal.fire({
-                title: 'Error!',
-                text: errors,
-                icon: 'error'
-            });
-        {% endif %}
-    </script>
-</div>
-<!-- jQuery -->
-<script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
-</body>
-</html>
+    <div class="input-group mb-3">
+        {{ form.password}}
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12 mb-2">
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+            </button>
+        </div>
+        
+        <div class="col-lg-12 mb-2">
+            <a href="#" class="btn btn-success btn-block">
+                <i class="fas fa-user-circle"></i> Crear una cuenta
+            </a>
+        </div>
+        <div class="col-lg-12 mb-2">
+            <a href="{% url 'index' %}" class="btn btn-info btn-block">
+                <i class="fas fa-arrow-circle-left"></i>  Regresar
+            </a>
+        </div>                    
+    </div>
+</form>
+{% endblock formUser %}     

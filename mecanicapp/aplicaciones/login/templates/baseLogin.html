@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ title }}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/font-awesome-5.11.1/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Sweetalert2 -->
+    <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+</head>
+<!-- background: linear-gradient(to right, #000428, #004e92); También me gusta-->
+<!-- background: linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea); También me gusta-->
+<!-- background: linear-gradient(to right, #4ecdc4, #556270); También me gusta-->
+<body class="hold-transition login-page" style="background: linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea);">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="{% url 'index' %}"><i class="fas fa-arrow-circle-left"></i></a>  <a href="{% url 'index' %}"><b> Mecanic</b>app</a>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Inicie sesión con sus credenciales</p>
+            
+            {% block formUser %}
+                
+            {% endblock formUser %}
+                
+        </div>
+    </div>
+    <script type="application/javascript">
+        {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+    </script>
+</div>
+<!-- jQuery -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
+</body>
+</html>
