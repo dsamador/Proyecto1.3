@@ -4,7 +4,9 @@ from django_userforeignkey.models.fields import UserForeignKey
 from aplicaciones.user.models import User
 from django.forms import model_to_dict
 from config.settings import MEDIA_URL, STATIC_URL
+
 # Create your models here
+
 class Comunes(models.Model):
     nombre = models.CharField('Nombre (obligatorio)',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
     descripcion = models.TextField('Descripción (opcional)',blank=True, null=True)
@@ -118,6 +120,7 @@ class TipoVehiculo(models.Model):
         """Unicode representation of TipoVehiculo."""
         return self.nombre
 
+
 class Vehiculo(models.Model):
     """Model definition for Vehiculo."""
     nombre = models.CharField('Nombre del vehículo', max_length=100, blank=False, null=False)
@@ -146,13 +149,11 @@ class Vehiculo(models.Model):
             return '{}{}'.format(MEDIA_URL, self.imagen)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
-    class Meta:
-        """Meta definition for Vehiculo."""
+    class Meta:        
         verbose_name = 'Vehiculo'
         verbose_name_plural = 'Vehiculos'
 
-    def __str__(self):
-        """Unicode representation of TipoVehiculo."""
+    def __str__(self):        
         return self.nombre
 
 class Odometro(models.Model):    

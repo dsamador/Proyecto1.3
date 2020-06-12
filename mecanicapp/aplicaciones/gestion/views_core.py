@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
 from .models import Vehiculo
@@ -10,7 +11,7 @@ from .forms import VehiculoForm
 from django.http import JsonResponse
 
 
-class VehiculoListView(ListView): #Este código funciona
+class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
     model = Vehiculo
     template_name = 'vehiculo/list_vehiculo.html'
 
@@ -42,7 +43,7 @@ class VehiculoListView(ListView): #Este código funciona
         return context
 
 
-class VehiculoCreateView(CreateView):
+class VehiculoCreateView(LoginRequiredMixin, CreateView):
     model = Vehiculo
     form_class = VehiculoForm    
     template_name = 'vehiculo/create.html'
@@ -76,7 +77,7 @@ class VehiculoCreateView(CreateView):
         context['entity'] = 'Crear Vehiculo'
         return context         
 
-class VehiculoUpdateView(UpdateView):# Este no tiene ajax
+class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
     model = Vehiculo
     form_class = VehiculoForm    
     template_name = 'vehiculo/update.html'

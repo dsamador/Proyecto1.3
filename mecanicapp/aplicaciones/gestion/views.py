@@ -2,27 +2,28 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 
 from .models import *
 from .forms import *
-
+from datetime import datetime
 from django.http import JsonResponse
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['panel'] = 'Panel de administrador'
+        context['panel'] = 'Panel de administrador'        
         return context
 
 """
     Vistas de las marcas de vehiculos
 """
 
-class MarcaView(TemplateView):    
+class MarcaView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/marca/list_marca.html'    
     
     @method_decorator(csrf_exempt)
@@ -66,7 +67,7 @@ class MarcaView(TemplateView):
     Vistas de los tipos de vehiculos
 """
 
-class TipoVehiculoView(TemplateView):    
+class TipoVehiculoView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipovehiculo/list_tipovehiculo.html'    
     
     @method_decorator(csrf_exempt)
@@ -110,7 +111,7 @@ class TipoVehiculoView(TemplateView):
     Vistas de tipos de lavados
 """
 
-class TipoLavadoView(TemplateView):    
+class TipoLavadoView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipolavado/list_tipolavado.html'    
     
     @method_decorator(csrf_exempt)
@@ -156,7 +157,7 @@ class TipoLavadoView(TemplateView):
     Vistas de Tipos de Mantenimientos
 """
 
-class TipoMantenimientoView(TemplateView):    
+class TipoMantenimientoView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipomantenimiento/list_tipomantenimiento.html'    
     
     @method_decorator(csrf_exempt)
@@ -201,11 +202,11 @@ class TipoMantenimientoView(TemplateView):
     Vistas de las Gasolineras
 """
 
-class GasolineraView(TemplateView):    
+class GasolineraView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/gasolinera/list_gasolinera.html'    
     
     @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
+    #@method_decorator(login_required)Otra forma de meter seguridad
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)  
     
@@ -250,7 +251,7 @@ class GasolineraView(TemplateView):
     Vistas de los locales
 """
 
-class LocalView(TemplateView):    
+class LocalView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/local/list_local.html'    
     
     @method_decorator(csrf_exempt)
@@ -297,7 +298,7 @@ class LocalView(TemplateView):
     Vistas de los odometros
 """
 
-class OdometroView(TemplateView):    
+class OdometroView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/odometro/list_odometro.html'    
     
     @method_decorator(csrf_exempt)
@@ -342,7 +343,7 @@ class OdometroView(TemplateView):
         return context 
 
 
-class TipoCombustibleView(TemplateView):    
+class TipoCombustibleView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipocombustible/list_tipocombustible.html'    
     
     @method_decorator(csrf_exempt)
