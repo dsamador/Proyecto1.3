@@ -26,7 +26,11 @@ class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
             if action == 'searchdata':
                 data = []
                 for i in Vehiculo.objects.all():
-                    data.append(i.toJSON())                        
+                    data.append(i.toJSON())     
+            elif action == 'retrieveVhcl':
+                data = []                
+                for i in Vehiculo.objects.filter(id=request.POST['id']):                    
+                    data.append(i.toJSON())                    
             elif action == 'delete':
                 m = Vehiculo.objects.get(pk=request.POST['id'])
                 m.delete()

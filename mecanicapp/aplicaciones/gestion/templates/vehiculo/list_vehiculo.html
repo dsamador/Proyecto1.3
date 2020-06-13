@@ -1,8 +1,8 @@
 {% extends 'list.html' %}
 {% load static %}
-{% block head_list %}
 
-{% endblock %}
+{% block head_list %}    
+{% endblock head_list %}
 
 {% block columns %}
 <tr>
@@ -17,14 +17,54 @@
 </tr>
 {% endblock %}
 
-{% block javascript %}
-<script>
 
+{% block javascript %}
+<div class="modal fade" id="myModelDet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-shopping-cart"></i></b> Detalle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-responsive" id="tblDet">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                            <th>Año</th>
+                            <th>Tanque</th>
+                            <th>Num Chasis</th>
+                            <th>VIN</th>
+                            <th>Matricula</th>
+                            <th>Tipo</th>
+                            <th>Marca</th>                        
+                            <th>Imágen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+var tblDetalle = $('#tblDet');
 var miTabla;  
 let modal_title;
+
 function getData(){
-    $(function () {
-    miTabla = $('#data').DataTable({
+    
+    $(function () {        
+
+    miTabla = $('#data').DataTable({                
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -47,33 +87,86 @@ function getData(){
             {"data": "anio"},
             {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
         ],          
-            columnDefs: [
-            {
-                targets: [-4],
-                class: 'text-center',
-                orderable: false,
-                render: function (data, type, row) {
-                    return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 30px; height: 25px;"> </a>';
-                }
-            },
-            {
-                targets: [-1],
-                class: 'text-center',
-                orderable: false,/*Esta columna de botones no es necesario que se ordene*/
-                render: function (data, type, row) {
-                var buttons = '<a href="/app/update_vehiculo/'+ row.id+'/" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
-                buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
-                return buttons;
-                }
-            },
+            columnDefs: [                
+                {
+                    targets: [-4],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 30px; height: 25px;"> </a>';
+                    }
+                },
+                {
+                    targets: [-1],
+                    class: 'text-center',
+                    orderable: false,/*Esta columna de botones no es necesario que se ordene*/
+                    render: function (data, type, row) {
+                        var buttons = '<a href="/app/update_vehiculo/'+ row.id+'/" rel="edit" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a> ';
+                        buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></a> ';
+                        buttons += '<a rel="retrieve" class="btn btn-success btn-xs"><i class="fas fa-search"></i></a>';
+                        return buttons;
+                    }
+                },
             ],
             initComplete: function (settings, json) {
-            toastr.success('Tabla cargada completamente', 'Excelente!',{
-                "progressBar": true,
-                "positionClass": "toast-bottom-right"
-            });
+                toastr.success('Tabla cargada completamente', 'Excelente!',{
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right"
+                });                
         }
-    });
+    });    
+
+    $('#data tbody')    
+        .on('click', 'a[rel="retrieve"]', function() {
+        var tr = miTabla.cell($(this).closest('td, li')).index();// Toma el id de la fila
+        var data = miTabla.row(tr.row).data();//Toma los datos del la fila        
+        tblDetalle.DataTable({
+                responsive: true,
+                autoWidth: false,
+                destroy: true,
+                deferRender: true,                
+                ajax: {
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'retrieveVhcl',
+                        'id': data.id
+                    },
+                    dataSrc: ""
+                },
+                columns: [
+                    {"data": "nombre"},
+                    {"data": "modelo"},
+                    {"data": "placa"},
+                    {"data": "anio"},                    
+                    {"data": "tanque"},
+                    {"data": "num_chasis"},
+                    {"data": "VIN"},
+                    {"data": "matricula"},
+                    {"data": "tipo.nombre"},
+                    {"data": "marca.nombre"},  
+                    {"data": "imagen"},                                                 
+                ],
+                columnDefs: [
+                {
+                    targets: [-1],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 70px; height: 50px;"> </a>';
+                    }
+                },
+                ],
+                initComplete: function (settings, json) {
+                    
+                }
+            });
+
+            $('#myModelDet').modal('show');
+
+    })
+
+
     });
 }
 $(function () {
