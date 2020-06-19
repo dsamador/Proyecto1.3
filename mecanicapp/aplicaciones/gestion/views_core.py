@@ -5,8 +5,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
-from .models import Vehiculo
-from .forms import VehiculoForm
+from .models import Vehiculo, Mantenimiento
+from .forms import VehiculoForm, MantenimientoForm
 
 from django.http import JsonResponse
 
@@ -96,21 +96,37 @@ class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
         return context    
 
 
+class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funciona
+    model = Mantenimiento
+    template_name = 'mantenimiento/list_mantenimiento.html'
 
+    @method_decorator(csrf_exempt)    
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
-
-
-""" elif action == 'edit':
-    m = Vehiculo.objects.get(pk=request.POST['id'])
-    m.nombre = request.POST['nombre']
-    m.modelo = request.POST['descripcion']
-    m.placa = request.POST['placa']
-    m.anio = request.POST['anio']
-    m.color = request.POST['color']
-    m.tanque = request.POST['tanque']
-    m.num_chasis = request.POST['num_chasis']
-    m.VIN = request.POST['VIN']
-    m.matricula = request.POST['matricula']
-    m.tipo = request.POST['tipo']
-    m.marca = request.POST['marca']                
-    m.save() """
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Mantenimiento.objects.all():
+                    data.append(i.toJSON())     
+            elif action == 'retrieveMantenimiento':
+                data = []                
+                for i in Mantenimiento.objects.filter(id=request.POST['id']):                    
+                    data.append(i.toJSON())                    
+            elif action == 'delete':
+                m = Mantenimiento.objects.get(pk=request.POST['id'])
+                m.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de mantenimientos'    
+        context['create_url'] = reverse_lazy('gestion:create_mantenimiento')
+        context['entity'] = 'Mantenimiento'
+        context['form'] = MantenimientoForm
+        return context

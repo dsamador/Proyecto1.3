@@ -162,3 +162,14 @@ class VehiculoForm(ModelForm):
                 'placeholder':'imágen'
             }),
         }        
+
+
+class MantenimientoForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control mb-2 bg-danger'
+        self.fields['tipo_mantenimiento'].widget.attrs['autofocus'] = True
+
+        

@@ -23,7 +23,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-shopping-cart"></i></b> Detalle</h5>
+                <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-search"></i></b> Detalle</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -124,7 +124,7 @@ function getData(){
                 responsive: true,
                 autoWidth: false,
                 destroy: true,
-                deferRender: true,                
+                deferRender: true,
                 ajax: {
                     url: window.location.pathname,
                     type: 'POST',
@@ -148,14 +148,19 @@ function getData(){
                     {"data": "imagen"},                                                 
                 ],
                 columnDefs: [
-                {
-                    targets: [-1],
-                    class: 'text-center',
-                    orderable: false,
-                    render: function (data, type, row) {
-                        return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 70px; height: 50px;"> </a>';
-                    }
-                },
+                    {
+                        targets: [-1],
+                        class: 'text-center',
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="max-width: 100%;"> </a>';
+                        }
+                    },
+                    {
+                        targets: [0,1,2,3,4,5,6,7,8,9,10],
+                        class: 'text-center',
+                        orderable: false,                        
+                    },
                 ],
                 initComplete: function (settings, json) {
                     
