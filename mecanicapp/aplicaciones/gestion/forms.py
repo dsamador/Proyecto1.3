@@ -169,8 +169,8 @@ class MantenimientoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control mb-2 bg-danger'
-        self.fields['tipo_mantenimiento'].widget.attrs['autofocus'] = True
+            form.field.widget.attrs['class'] = 'form-control mb-2'
+            self.fields['valor'].widget.attrs['autofocus'] = True
 
     class Meta:
         model = Mantenimiento

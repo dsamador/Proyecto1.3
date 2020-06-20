@@ -50,10 +50,9 @@ class Gasolinera(Comunes):
         return self.nombre
 
 
-class Local(Comunes):
-    
-    direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
-    
+class Local(Comunes):    
+    direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)    
+
     class Meta:        
         verbose_name = 'Local'
         verbose_name_plural = 'Locales'
@@ -180,7 +179,7 @@ class Servicio(models.Model):
     fecha = models.DateTimeField('Fecha de lavado',auto_now_add=True)
     valor = models.DecimalField('Valor', max_digits=11, decimal_places=2, blank=False, null=False)    
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
-    local = models.ForeignKey(Local, on_delete=models.CASCADE, null=True)
+    local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=False, null=False)
     nota = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -204,8 +203,7 @@ class Lavado(Servicio):
         return f'{self.tipo_lavado}, Fecha: {self.fecha}'
 
 
-class Mantenimiento(Servicio):
-    """Model definition for Mantenimiento."""
+class Mantenimiento(Servicio):    
     tipo_mantenimiento = models.ForeignKey(TipoMantenimiento, on_delete=models.CASCADE)    
     comprobante = models.ImageField(upload_to="recibos_matenimientos/%Y/%m/%d", null=True, blank=True)     
 
@@ -214,6 +212,7 @@ class Mantenimiento(Servicio):
         item['vehiculo'] = self.vehiculo.toJSON()
         item['tipo_mantenimiento'] = self.tipo_mantenimiento.toJSON()
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
+        item['local'] = self.local.toJSON()
         item['comprobante'] = self.get_imagen()
         return item
 
@@ -222,16 +221,14 @@ class Mantenimiento(Servicio):
             return '{}{}'.format(MEDIA_URL, self.comprobante)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
-    class Meta:
-        """Meta definition for Mantenimiento."""
-
+    class Meta:        
         verbose_name = 'Mantenimiento'
         verbose_name_plural = 'Mantenimientos'
         ordering=['fecha']
 
-    def __str__(self):
-        """Unicode representation of Mantenimiento."""
+    def __str__(self):        
         return f'{self.tipo_mantenimiento}, Fecha: {self.fecha}'
+
 
 class RecargaCombustible(models.Model):
     

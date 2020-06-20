@@ -50,7 +50,7 @@ class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
 class VehiculoCreateView(LoginRequiredMixin, CreateView):
     model = Vehiculo
     form_class = VehiculoForm    
-    template_name = 'vehiculo/create.html'
+    template_name = 'vehiculo/create_vehiculo.html'
     success_url = reverse_lazy('gestion:vehiculo')
     
     @method_decorator(csrf_exempt)
@@ -130,3 +130,37 @@ class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funcion
         context['entity'] = 'Mantenimiento'
         context['form'] = MantenimientoForm
         return context
+
+class MantenimientoCreateView(LoginRequiredMixin, CreateView):
+    model = Mantenimiento
+    form_class = MantenimientoForm    
+    template_name = 'mantenimiento/create_mantenimiento.html'
+    success_url = reverse_lazy('gestion:mantenimiento')
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):        
+        return super().dispatch(request, *args, **kwargs)    
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add': #esto va de acuerdo con un input hidden en el html
+                form = self.get_form() #obtiene el formulario con los datos que contiene
+                if form.is_valid(): 
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Creación de mantenimiento'        
+        context['list_url'] = self.success_url       
+        context['action'] = 'add'        
+        context['entity'] = 'Crear mantenimiento'
+        return context              

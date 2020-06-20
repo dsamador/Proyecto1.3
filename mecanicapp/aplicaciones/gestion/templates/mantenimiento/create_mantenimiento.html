@@ -1,0 +1,84 @@
+{% extends 'form.html' %}
+
+
+{% block form %}
+<div class="card-body ">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-car"></i> Rellene los campos</h3>
+                </div>
+                <div class="card-body bg-gray">  
+                    {{form.valor.label}}
+                    {{form.valor}}
+                    <div class="row " >
+                        <div class="col-8">
+                            {{form.vehiculo.label}}
+                            {{form.vehiculo}}
+                        </div>
+                        <div class="col-4 mt-4">
+                            <a href="{% url 'gestion:create_vehiculo' %}" target="blank" class="btn btn-outline-primary">Crear Vehículo</a>
+                        </div>                        
+                    </div>    
+                    <div class="row " >
+                        <div class="col-8">
+                            {{form.local.label}}
+                            {{form.local}}
+                        </div>
+                        <div class="col-4 mt-4">
+                            <a href="{% url 'gestion:local' %}" target="blank" class="btn btn-outline-primary">Crear local</a>
+                        </div>                        
+                    </div>    
+                    <div class="row " >
+                        <div class="col-8">
+                            {{form.tipo_mantenimiento.label}}
+                            {{form.tipo_mantenimiento}} 
+                        </div>
+                        <div class="col-4 mt-4">
+                            <a href="{% url 'gestion:tipomantenimiento' %}" target="blank" class="btn btn-outline-primary">Crear tipo Mant...</a>
+                        </div>                        
+                    </div>                                                                             
+                    {{form.comprobante.label}}                                          
+                    {{form.comprobante}}
+                    {{form.nota.label}}
+                    {{form.nota}}
+                </div>
+            </div>
+        </div>        
+        </div>
+    </div>
+</div>
+{% endblock form %}
+
+{% block javascript %}
+<script>
+    var $ = jQuery.noConflict();
+$('form').on('submit', function (e) {
+    e.preventDefault();
+    var parameters = new FormData(this);/* Toma los datos y los pasa a JSON y también toma los media */
+    console.log(parameters);
+    $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: parameters,
+        dataType: 'json',
+        processData: false,
+        contentType:false
+    }).done(function (data){                        
+        if(!data.hasOwnProperty('error')){ 
+            toastr.success('Acción realizada correctamente', 'Excelente!',{
+                "progressBar": true,
+                "positionClass": "toast-bottom-full-width",
+                "timeOut": "700",
+            });
+            setTimeout(() => {location.href = '{{list_url}}'}, 700);                
+            return false;                
+        }                
+        alert('Algo malo pasó');        
+    }).fail(function(jqXHR, textStatus, errorThrown){            
+        alert(textStatus + ': ' + errorThrown);            
+    });
+});
+</script>    
+{% endblock javascript %}
