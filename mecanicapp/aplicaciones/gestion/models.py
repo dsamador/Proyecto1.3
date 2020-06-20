@@ -189,7 +189,21 @@ class Servicio(models.Model):
 class Lavado(Servicio):
     """Model definition for Lavado."""
     tipo_lavado = models.ForeignKey(TipoLavado, on_delete=models.CASCADE)
-    comprobante = models.ImageField(upload_to="recibos_lavados/%Y/%m/%d", null=True, blank=True)     
+    comprobante = models.ImageField(upload_to="recibos_lavados/%Y/%m/%d", null=True, blank=True)   
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['vehiculo'] = self.vehiculo.toJSON()
+        item['tipo_lavado'] = self.tipo_lavado.toJSON()
+        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
+        item['local'] = self.local.toJSON()
+        item['comprobante'] = self.get_imagen()
+        return item
+
+    def get_imagen(self):
+        if self.comprobante:
+            return '{}{}'.format(MEDIA_URL, self.comprobante)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
     
     class Meta:
         """Meta definition for Lavado."""

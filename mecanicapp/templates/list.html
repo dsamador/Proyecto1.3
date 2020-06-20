@@ -68,7 +68,7 @@
     <div class="card-footer">
         {% block buttons_list %}
             
-            {% if request.path == '/app/list_vehiculo/' or request.path == '/app/list_mantenimiento/'%}
+            {% if request.path == '/app/list_vehiculo/' or request.path == '/app/list_mantenimiento/' or request.path == '/app/list_lavado/'%}
                 <a href="{{create_url}}" class="btn btn-primary btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>            

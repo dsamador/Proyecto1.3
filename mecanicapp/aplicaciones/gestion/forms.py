@@ -185,3 +185,25 @@ class MantenimientoForm(ModelForm):
             }),
             'comprobante':FileInput()
         }
+
+class LavadoForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control mb-2'
+            self.fields['valor'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Lavado
+        exclude = ['fecha']
+        widgets = {
+            'valor' : NumberInput(),
+            'vehiculo': Select(),
+            'local':Select(),
+            'tipo_lavado': Select(),
+            'nota':Textarea(attrs={
+                'rows': '3'
+            }),
+            'comprobante':FileInput()
+        }

@@ -43,4 +43,13 @@ urlpatterns = [
     path('create_mantenimiento/',          MantenimientoCreateView.as_view(), name = 'create_mantenimiento'),
 
     path('update_mantenimiento/<int:pk>/', MantenimientoUpdateView.as_view(), name = 'update_mantenimiento'),
+    
+
+    #**********************************PATHS DE LAVADO*******************************************
+
+    path('list_lavado/',            LavadoListView.as_view(),   name = 'lavado'),
+
+    path('create_lavado/',          LavadoCreateView.as_view(), name = 'create_lavado'),
+
+    path('update_lavado/<int:pk>/', LavadoUpdateView.as_view(), name = 'update_lavado'),
 ]
