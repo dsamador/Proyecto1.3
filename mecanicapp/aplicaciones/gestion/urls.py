@@ -38,7 +38,9 @@ urlpatterns = [
 
     #********************************PATHS DE MANTENIMIENTO**************************************
 
-    path('list_mantenimiento/',       MantenimientoListView.as_view(),   name = 'mantenimiento'),
+    path('list_mantenimiento/',            MantenimientoListView.as_view(),   name = 'mantenimiento'),
 
-    path('create_mantenimiento/',     MantenimientoCreateView.as_view(), name = 'create_mantenimiento'),
+    path('create_mantenimiento/',          MantenimientoCreateView.as_view(), name = 'create_mantenimiento'),
+
+    path('update_mantenimiento/<int:pk>/', MantenimientoUpdateView.as_view(), name = 'update_mantenimiento'),
 ]
