@@ -172,4 +172,16 @@ class MantenimientoForm(ModelForm):
             form.field.widget.attrs['class'] = 'form-control mb-2 bg-danger'
         self.fields['tipo_mantenimiento'].widget.attrs['autofocus'] = True
 
-        
+    class Meta:
+        model = Mantenimiento
+        exclude = ['fecha']
+        widgets = {
+            'valor' : NumberInput(),
+            'vehiculo': Select(),
+            'local':Select(),
+            'tipo_mantenimiento': Select(),
+            'nota':Textarea(attrs={
+                'rows': '3'
+            }),
+            'comprobante':FileInput()
+        }

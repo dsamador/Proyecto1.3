@@ -209,6 +209,19 @@ class Mantenimiento(Servicio):
     tipo_mantenimiento = models.ForeignKey(TipoMantenimiento, on_delete=models.CASCADE)    
     comprobante = models.ImageField(upload_to="recibos_matenimientos/%Y/%m/%d", null=True, blank=True)     
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['vehiculo'] = self.vehiculo.toJSON()
+        item['tipo_mantenimiento'] = self.tipo_mantenimiento.toJSON()
+        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
+        item['comprobante'] = self.get_imagen()
+        return item
+
+    def get_imagen(self):
+        if self.comprobante:
+            return '{}{}'.format(MEDIA_URL, self.comprobante)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
     class Meta:
         """Meta definition for Mantenimiento."""
 

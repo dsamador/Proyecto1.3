@@ -9,6 +9,8 @@ urlpatterns = [
     
     path('dashboard/',                DashboardView.as_view(),         name = 'dashboard'),
 
+    #********************************PATHS DE DATOS AUXILIARES***********************************
+
     path('list_marca/',               MarcaView.as_view(),             name = 'marcas'),
 
     path('list_tipovehiculo/',        TipoVehiculoView.as_view(),      name = 'tipovehiculo'), 
@@ -25,10 +27,16 @@ urlpatterns = [
 
     path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
     
+    #********************************PATHS DE VEHÍCULO*******************************************
+
     path('list_vehiculo/',            VehiculoListView.as_view(),      name = 'vehiculo'),
     
     path('create_vehiculo/',          VehiculoCreateView.as_view(),    name = 'create_vehiculo'),
     
     path('update_vehiculo/<int:pk>/', VehiculoUpdateView.as_view(),    name = 'update_vehiculo'),
 
+
+    #********************************PATHS DE MANTENIMIENTO**************************************
+
+    path('list_mantenimiento/',       MantenimientoListView.as_view(), name = 'mantenimiento'),
 ]

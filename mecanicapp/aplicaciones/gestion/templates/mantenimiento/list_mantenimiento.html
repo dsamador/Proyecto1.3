@@ -1,0 +1,183 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% block head_list %}    
+{% endblock head_list %}
+
+{% block columns %}
+<tr>
+    <th>Fecha</th>
+    <th>Valor</th>
+    <th>Vehiculo</th>
+    <th>Local</th>
+    <th>Tipo</th>
+    <th>Comprobante</th>
+    <th>Opciones</th>
+</tr>
+{% endblock %}
+
+
+{% block javascript %}
+<!--Modal para consultar el detalle-->
+<div class="modal fade" id="myModelDet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b><i class="fas fa-search"></i></b> Detalle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-responsive" id="tblDet">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Valor</th>
+                            <th>Vehiculo</th>
+                            <th>Local</th>
+                            <th>Tipo</th>
+                            <th>Nota</th>
+                            <th>Comprobante</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+var tblDetalle = $('#tblDet');
+var miTabla;  
+let modal_title;
+
+function getData(){
+    
+    $(function () {        
+
+    miTabla = $('#data').DataTable({                
+        responsive: true,
+        autoWidth: false,
+        destroy: true,
+        deferRender: true, /*  Para cuando hay más de 50.000 registros*/
+        ajax: {
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'searchdata'
+            },
+            dataSrc: "" /*Para identificar todos los datos con un nombre de variable*/
+        },
+        columns: [
+            {"data": "fecha"},
+            {"data": "valor"},
+            {"data": "vehiculo.nombre"},
+            {"data": "local"},            
+            {"data": "tipo_mantenimiento.nombre"},
+            {"data": "comprobante"},
+            {"data": ""},/*Esta se repite para poder tener la columna de los botones*/
+        ],          
+            columnDefs: [                
+                {
+                    targets: [-2],
+                    class: 'text-center',
+                    orderable: false,
+                    render: function (data, type, row) {
+                        return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="width: 30px; height: 25px;"> </a>';
+                    }
+                },
+                {
+                    targets: [-1],
+                    class: 'text-center',
+                    orderable: false,/*Esta columna de botones no es necesario que se ordene*/
+                    render: function (data, type, row) {
+                        var buttons = '<a href="/app/update_mantenimiento/'+ row.id+'/" rel="edit" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a> ';
+                        buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></a> ';
+                        buttons += '<a rel="retrieve" class="btn btn-success btn-xs"><i class="fas fa-search"></i></a>';
+                        return buttons;
+                    }
+                },
+            ],
+            initComplete: function (settings, json) {
+                toastr.success('Tabla cargada completamente', 'Excelente!',{
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right"
+                });                
+        }
+    });    
+
+    $('#data tbody')    
+        .on('click', 'a[rel="retrieve"]', function() {
+        var tr = miTabla.cell($(this).closest('td, li')).index();// Toma el id de la fila
+        var data = miTabla.row(tr.row).data();//Toma los datos del la fila        
+        tblDetalle.DataTable({
+                responsive: true,
+                autoWidth: false,
+                destroy: true,
+                deferRender: true,
+                ajax: {
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'retrieveVhcl',
+                        'id': data.id
+                    },
+                    dataSrc: ""
+                },
+                columns: [
+                    {"data": "fecha"},
+                    {"data": "valor"},
+                    {"data": "vehiculo.nombre"},
+                    {"data": "local"},            
+                    {"data": "tipo.nombre"},
+                    {"data": "comprobante"},                                                            
+                ],
+                columnDefs: [
+                    {
+                        targets: [-1],
+                        class: 'text-center',
+                        orderable: false,
+                        render: function (data, type, row) {
+                            return '<a target="blank" href="'+data+'"><img src="'+data+'" class="img-fluid d-block mx-auto" style="max-width: 100%;"> </a>';
+                        }
+                    },
+                    {
+                        targets: [0,1,2,3,4,5],
+                        class: 'text-center',
+                        orderable: false,                        
+                    },
+                ],
+                initComplete: function (settings, json) {
+                    
+                }
+            });
+
+            $('#myModelDet').modal('show');
+
+    })
+
+
+    });
+}
+$(function () {
+    getData();
+    modal_title = $('.modal-title');
+    $('#data tbody')    
+    .on('click', 'a[rel="delete"]', function () {
+        var tr = miTabla.cell($(this).closest('td, li')).index();
+        var data = miTabla.row(tr.row).data();
+        var parameters = new FormData();
+        parameters.append('action', 'delete');
+        parameters.append('id', data.id);    
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {
+            miTabla.ajax.reload();
+        });
+    }); 
+});
+</script>
+{% endblock javascript %}
