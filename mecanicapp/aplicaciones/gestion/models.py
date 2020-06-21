@@ -176,7 +176,7 @@ class Odometro(models.Model):
 
 
 class Servicio(models.Model):
-    fecha = models.DateTimeField('Fecha de lavado',auto_now_add=True)
+    fecha = models.DateTimeField('Fecha de servicio',auto_now_add=True)
     valor = models.DecimalField('Valor', max_digits=11, decimal_places=2, blank=False, null=False)    
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=False, null=False)
@@ -248,7 +248,7 @@ class RecargaCombustible(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     cantidad = models.IntegerField('Cantidad', blank=False, null=False)
     precio_galon = models.DecimalField('Precio del galón', max_digits=11, decimal_places=2)
-    costo_total = models.DecimalField('Costo del servicio', max_digits=11, decimal_places=3)
+    costo_total = models.DecimalField('Costo del servicio', max_digits=11, decimal_places=2)
     comprobante = models.ImageField(upload_to="recibos_recargas/%Y/%m/%d", null=True, blank=True)
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     tipo_combustible = models.ForeignKey(TipoCombustible, on_delete=models.CASCADE)    

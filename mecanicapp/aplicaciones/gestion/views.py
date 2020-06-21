@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
+from django.db.models.functions import Coalesce
+from django.db.models import Sum
 
 from .models import *
 from .forms import *
@@ -14,10 +16,57 @@ from django.http import JsonResponse
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
+    def get_reporte_lavados(self):
+        data = []
+        try:
+            year = datetime.now().year
+            for i in range(1,13):
+                total = Lavado.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')               
+                data.append(float(total))
+        except:
+            pass
+        return data
+    
+    def get_reporte_mantenimientos(self):
+        data = []
+        try:
+            year = datetime.now().year
+            for i in range(1,13):
+                total = Mantenimiento.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')
+                data.append(float(total))
+        except:
+            pass
+        return data
+
+    def get_reporte_recargas(self):
+        data = []
+        try:
+            year = datetime.now().year
+            for i in range(1,13):
+                total = RecargaCombustible.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('costo_total'), 0)).get('r')
+                data.append(float(total))
+        except:
+            pass
+        return data
+    
+#    def get_reporte_por_vehiculo(self):
+ #       data = []
+  #      year = datetime.now().year
+   #     month = datetime.now().month
+        
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['panel'] = 'Panel de administrador'        
+        context['panel'] = 'Panel de administrador' 
+        context['entity'] = 'Dashboard'
+        context['reporte_lavados'] = self.get_reporte_lavados()
+        context['reporte_mantenimientos'] = self.get_reporte_mantenimientos()
+        context['reporte_recargas'] = self.get_reporte_recargas()
         return context
+
+
+
 
 """
     Vistas de las marcas de vehiculos
