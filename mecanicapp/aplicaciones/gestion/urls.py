@@ -9,6 +9,7 @@ urlpatterns = [
     
     path('dashboard/',                DashboardView.as_view(),         name = 'dashboard'),
 
+
     #********************************PATHS DE DATOS AUXILIARES***********************************
 
     path('list_marca/',               MarcaView.as_view(),             name = 'marcas'),
@@ -26,14 +27,15 @@ urlpatterns = [
     path('list_gasolinera/',          GasolineraView.as_view(),        name = 'gasolinera'),
 
     path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
-    
+
+
     #********************************PATHS DE VEHÍCULO*******************************************
 
-    path('list_vehiculo/',            VehiculoListView.as_view(),      name = 'vehiculo'),
+    path('list_vehiculo/',            VehiculoListView.as_view(),   name = 'vehiculo'),
     
-    path('create_vehiculo/',          VehiculoCreateView.as_view(),    name = 'create_vehiculo'),
+    path('create_vehiculo/',          VehiculoCreateView.as_view(), name = 'create_vehiculo'),
     
-    path('update_vehiculo/<int:pk>/', VehiculoUpdateView.as_view(),    name = 'update_vehiculo'),
+    path('update_vehiculo/<int:pk>/', VehiculoUpdateView.as_view(), name = 'update_vehiculo'),
 
 
     #********************************PATHS DE MANTENIMIENTO**************************************
@@ -52,4 +54,13 @@ urlpatterns = [
     path('create_lavado/',          LavadoCreateView.as_view(), name = 'create_lavado'),
 
     path('update_lavado/<int:pk>/', LavadoUpdateView.as_view(), name = 'update_lavado'),
+
+
+    #**********************************PATHS DE RECARGAS******************************************
+
+    path('list_recarga/',            RecargaCombustibleListView.as_view(),   name = 'recarga'),
+
+    path('create_recarga/',          RecargaCombustibleCreateView.as_view(), name = 'create_recarga'),
+
+    path('update_recarga/<int:pk>/', RecargaCombustibleUpdateView.as_view(), name = 'update_recarga'),
 ]

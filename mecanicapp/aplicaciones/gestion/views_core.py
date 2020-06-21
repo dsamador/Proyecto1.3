@@ -5,8 +5,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
-from .models import Vehiculo, Mantenimiento, Lavado
-from .forms import VehiculoForm, MantenimientoForm, LavadoForm
+from .models import Vehiculo, Mantenimiento, Lavado, RecargaCombustible
+from .forms import VehiculoForm, MantenimientoForm, LavadoForm, RecargaCombustibleForm
 
 from django.http import JsonResponse
 
@@ -95,6 +95,10 @@ class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
         context['entity'] = 'Editar Vehiculo'
         return context    
 
+"""
+VIEWS DE MANTENIMIENTO
+
+"""
 
 class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funciona
     model = Mantenimiento
@@ -180,6 +184,10 @@ class MantenimientoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene aj
         return context  
 
 
+"""
+VIEWS DE LAVADO
+
+"""
 
 class LavadoListView(LoginRequiredMixin, ListView): #Este código funciona
     model = Lavado
@@ -262,4 +270,93 @@ class LavadoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
         context['list_url'] = self.success_url       
         context['action'] = 'edit'        
         context['entity'] = 'Editar Lavado'
+        return context  
+
+
+
+"""
+VIEWS DE RECARGA
+
+"""
+class RecargaCombustibleListView(LoginRequiredMixin, ListView): #Este código funciona
+    model = RecargaCombustible
+    template_name = 'recarga/list_recarga.html'
+
+    @method_decorator(csrf_exempt)    
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in RecargaCombustible.objects.all():
+                    data.append(i.toJSON())     
+            elif action == 'retrieveRecarga':
+                data = []                
+                for i in RecargaCombustible.objects.filter(id=request.POST['id']):                    
+                    data.append(i.toJSON())                    
+            elif action == 'delete':
+                m = RecargaCombustible.objects.get(pk=request.POST['id'])
+                m.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Listado de recargas'    
+        context['create_url'] = reverse_lazy('gestion:create_recarga')
+        context['entity'] = 'Recarga'
+        context['form'] = RecargaCombustibleForm
+        return context
+
+class RecargaCombustibleCreateView(LoginRequiredMixin, CreateView):
+    model = RecargaCombustible
+    form_class = RecargaCombustibleForm    
+    template_name = 'recarga/create_recarga.html'
+    success_url = reverse_lazy('gestion:recarga')
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):        
+        return super().dispatch(request, *args, **kwargs)    
+    
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add': #esto va de acuerdo con un input hidden en el html
+                form = self.get_form() #obtiene el formulario con los datos que contiene
+                if form.is_valid(): 
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Creación de Recarga de Combustible'        
+        context['list_url'] = self.success_url       
+        context['action'] = 'add'        
+        context['entity'] = 'Crear Recarga de Combustible'
+        return context              
+
+class RecargaCombustibleUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
+    model = RecargaCombustible
+    form_class = RecargaCombustibleForm    
+    template_name = 'recarga/update_recarga.html'
+    success_url = reverse_lazy('gestion:recarga')        
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edición de una Recarga de Combustible'        
+        context['list_url'] = self.success_url       
+        context['action'] = 'edit'        
+        context['entity'] = 'Editar Recarga de Combustible'
         return context  

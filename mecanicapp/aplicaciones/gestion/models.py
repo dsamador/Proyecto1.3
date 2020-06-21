@@ -244,9 +244,7 @@ class Mantenimiento(Servicio):
         return f'{self.tipo_mantenimiento}, Fecha: {self.fecha}'
 
 
-class RecargaCombustible(models.Model):
-    
-    """Model definition for RecargaCombustible."""
+class RecargaCombustible(models.Model):        
     fecha = models.DateTimeField(auto_now_add=True)
     cantidad = models.IntegerField('Cantidad', blank=False, null=False)
     precio_galon = models.DecimalField('Precio del galón', max_digits=11, decimal_places=2)
@@ -255,15 +253,26 @@ class RecargaCombustible(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
     tipo_combustible = models.ForeignKey(TipoCombustible, on_delete=models.CASCADE)    
     gasolinera = models.ForeignKey(Gasolinera, on_delete=models.CASCADE, default = None)    
-    nota = models.TextField(blank=True, null=True)    
+    nota = models.TextField(blank=True, null=True)   
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['vehiculo'] = self.vehiculo.toJSON()
+        item['tipo_combustible'] = self.tipo_combustible.toJSON()
+        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
+        item['gasolinera'] = self.gasolinera.toJSON()
+        item['comprobante'] = self.get_imagen()
+        return item
+
+    def get_imagen(self):
+        if self.comprobante:
+            return '{}{}'.format(MEDIA_URL, self.comprobante)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     class Meta:
-        """Meta definition for RecargaCombustible."""
-
         verbose_name = 'Recarga de Combustible'
         verbose_name_plural = 'Recargas de Combustibles'
         ordering=['fecha']
 
-    def __str__(self):
-        """Unicode representation of RecargaCombustible."""
+    def __str__(self):    
         return f'Costo: {self.costo_total}, Fecha: {self.fecha}'

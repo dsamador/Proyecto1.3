@@ -207,3 +207,28 @@ class LavadoForm(ModelForm):
             }),
             'comprobante':FileInput()
         }
+
+class RecargaCombustibleForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control mb-2'
+            self.fields['cantidad'].widget.attrs['autofocus'] = True
+    
+    class Meta:
+        model = RecargaCombustible
+        exclude = ['fecha']
+        widgets = {
+            'cantidad' : NumberInput(),
+            'precio_galon' : NumberInput(),
+            'costo_total' : NumberInput(),
+            'comprobante':FileInput(),
+            'vehiculo': Select(),            
+            'tipo_combustible': Select(),
+            'gasolinera':Select(),
+            'nota':Textarea(attrs={
+                'rows': '3'
+            }),
+            
+        }
