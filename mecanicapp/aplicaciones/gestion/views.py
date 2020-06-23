@@ -60,14 +60,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 #     month = datetime.now().month    
 
     
-    def post(self, request, *args, **kwargs):             
+    def post(self, request, *args, **kwargs):   
+        data = {}          
         try:                         
             action = request.POST['action']                      
             if action == 'searchdata':
 
                 total_lavados = Lavado.objects.all().aggregate(Sum('valor')) 
-                flotante = float(total_lavados.get('valor__sum'))               
-                lavados = json.dumps(flotante)
+                flotante1 = float(total_lavados.get('valor__sum'))               
+                lavados = json.dumps(flotante1)
 
                 total_mantenimientos = Mantenimiento.objects.all().aggregate(Sum('valor')) 
                 flotante2 = float(total_mantenimientos.get('valor__sum'))               
@@ -76,15 +77,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 total_recargas = RecargaCombustible.objects.all().aggregate(Sum('costo_total')) 
                 flotante3 = float(total_recargas.get('costo_total__sum'))                          
                 recargas = json.dumps(flotante3)
+                
+                total_todo = flotante1+flotante2+flotante3
 
                 datos = {
                         'lavados':[{'numero':lavados}],
                         'mantenimientos':[{'numero':mantenimientos}],
                         'recargas':[{'numero':recargas}],
+                        'total_todo':[{'numero':total_todo}],
                 }
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(datos, safe = False)    
+        return JsonResponse(datos, safe = False)     
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

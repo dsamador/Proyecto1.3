@@ -16,8 +16,9 @@
         <div class="card-header" id="headingTwo">
         <h2 class="mb-0">
             <button id="btnVer" class="btn btn-success collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Ver totales
+                Ver totales <i class="fas fa-angle-down"></i>
             </button>
+            <button class="btn btn-primary" id="btnActualizar"><i class="fas fa-sync"></i> Actualizar</button>
         </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -121,14 +122,16 @@
     
 </div>
 
-<script type="application/javascript">
+<script >
 
     let lavados = document.getElementById('lavados');      
     let recargas = document.getElementById('recargas');      
     let mantenimientos = document.getElementById('mantenimientos'); 
+    let totalTodo = document.getElementById('totalTodo'); 
     let btnVer = document.getElementById('btnVer');
+    let btnActualizar = document.getElementById('btnActualizar');
 
-    btnVer.addEventListener('click', ()=>{        
+    function datosSumados(){
         $.ajax({
         url: window.location.pathname,
         type: 'POST',
@@ -142,9 +145,17 @@
                 lavados.innerHTML='$' + coso['lavados'][0].numero;                
                 mantenimientos.innerHTML='$' + coso['mantenimientos'][0].numero;              
                 recargas.innerHTML='$' + coso['recargas'][0].numero;                                
+                totalTodo.innerHTML='$' + coso['total_todo'][0].numero; 
                 return false;
             }                             
-        })        
+        })  
+    }
+
+    btnVer.addEventListener('click', ()=>{        
+        datosSumados();     
+    })
+    btnActualizar.addEventListener('click', ()=>{
+        datosSumados();     
     })
 
 
