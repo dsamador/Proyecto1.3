@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'aplicaciones.user',
     'aplicaciones.homepage',
     #Mis librerias
-    'django_userforeignkey',
+    'django_userforeignkey',    
 ]
 
 MIDDLEWARE = [

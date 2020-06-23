@@ -33,7 +33,7 @@
                         <p>Dinero gastado en lavados</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-bag"></i>
+                        <i class="fas fa-tint"></i>  
                     </div>
                     <a href="{% url 'gestion:lavado' %}" class="small-box-footer">Ir a lavados <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -50,7 +50,7 @@
                         <p>Dinero gastado en mantenimientos</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
+                        <i class="fas fa-oil-can"></i>
                     </div>
                     <a href="{% url 'gestion:mantenimiento' %}" class="small-box-footer">Ir a mantenimientos <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -67,7 +67,7 @@
                         <p>Dinero gastado en recargas</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-person-add"></i>
+                        <i class="fas fa-gas-pump"></i>
                     </div>
                     <a href="{% url 'gestion:recarga' %}" class="small-box-footer">Ir a recargas <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -84,7 +84,7 @@
                         <p>Dinero gastado en todo lo anterior</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
                     <a href="https://www.mercadolibre.com.co/" target="blank" class="small-box-footer">Vender el vehículo <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
@@ -142,10 +142,15 @@
         }).done(function (data){                        
             if(!data.hasOwnProperty('error')){  
                 let coso = data;                
-                lavados.innerHTML='$' + coso['lavados'][0].numero;                
-                mantenimientos.innerHTML='$' + coso['mantenimientos'][0].numero;              
-                recargas.innerHTML='$' + coso['recargas'][0].numero;                                
-                totalTodo.innerHTML='$' + coso['total_todo'][0].numero; 
+                
+                lavados.innerHTML='$' + new Intl.NumberFormat().format(coso['lavados'][0].numero);                
+                
+                mantenimientos.innerHTML='$' + new Intl.NumberFormat().format(coso['mantenimientos'][0].numero);              
+                
+                recargas.innerHTML='$' + new Intl.NumberFormat().format(coso['recargas'][0].numero);   
+                
+                totalTodo.innerHTML = '$' + new Intl.NumberFormat().format(coso['total_todo'][0].numero);
+                
                 return false;
             }                             
         })  
