@@ -7,7 +7,8 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 from django.db.models.functions import Coalesce
 from django.db.models import Sum
-
+from django.forms import model_to_dict
+import json
 from .models import *
 from .forms import *
 from datetime import datetime
@@ -15,6 +16,10 @@ from django.http import JsonResponse
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_reporte_lavados(self):
         data = []
@@ -50,11 +55,36 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return data
     
 #    def get_reporte_por_vehiculo(self):
- #       data = []
-  #      year = datetime.now().year
-   #     month = datetime.now().month
-        
+#       data = []
+#      year = datetime.now().year
+#     month = datetime.now().month    
 
+    
+    def post(self, request, *args, **kwargs):             
+        try:                         
+            action = request.POST['action']                      
+            if action == 'searchdata':
+
+                total_lavados = Lavado.objects.all().aggregate(Sum('valor')) 
+                flotante = float(total_lavados.get('valor__sum'))               
+                lavados = json.dumps(flotante)
+
+                total_mantenimientos = Mantenimiento.objects.all().aggregate(Sum('valor')) 
+                flotante2 = float(total_mantenimientos.get('valor__sum'))               
+                mantenimientos = json.dumps(flotante2)
+
+                total_recargas = RecargaCombustible.objects.all().aggregate(Sum('costo_total')) 
+                flotante3 = float(total_recargas.get('costo_total__sum'))                          
+                recargas = json.dumps(flotante3)
+
+                datos = {
+                        'lavados':[{'numero':lavados}],
+                        'mantenimientos':[{'numero':mantenimientos}],
+                        'recargas':[{'numero':recargas}],
+                }
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(datos, safe = False)    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +92,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['entity'] = 'Dashboard'
         context['reporte_lavados'] = self.get_reporte_lavados()
         context['reporte_mantenimientos'] = self.get_reporte_mantenimientos()
-        context['reporte_recargas'] = self.get_reporte_recargas()
+        context['reporte_recargas'] = self.get_reporte_recargas()    
         return context
 
 
