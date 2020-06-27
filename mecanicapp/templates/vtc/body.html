@@ -25,10 +25,10 @@
             </div>
             <div class="content">
                 <div class="container-fluid" >
-                    <a href="#" class="back-to-top" style="display: inline; "><i class="icofont-simple-up"></i></a>
+                    
                     {% block content %}
                     
-                    {% endblock content %}
+                    {% endblock content %}                    
                 </div>
             </div>
         </div>
@@ -71,17 +71,17 @@
             });
         {% endif %}
         /* Modal de cerrar sesión */
-function abrir_modal(url)
-    {
-        $("#popup").load(url, function(){
-            $(this).modal({
-                backdrop:'static',
-                keyboard: false
-            })
-            $(this).modal('show');
-        });
-        return false;
-    }  
+    function abrir_modal(url)
+        {
+            $("#popup").load(url, function(){
+                $(this).modal({
+                    backdrop:'static',
+                    keyboard: false
+                })
+                $(this).modal('show');
+            });
+            return false;
+        }      
     </script>
-    </body>
+</body>
 {% endblock %}

@@ -16,7 +16,7 @@
         <div class="card-header" id="headingTwo">
         <h2 class="mb-0">
             <button id="btnVer" class="btn btn-success collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Ver totales <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-double-down"></i> Ver totales 
             </button>
             <button class="btn btn-primary" id="btnActualizar"><i class="fas fa-sync"></i> Actualizar</button>
         </h2>
@@ -24,11 +24,11 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-6">
                     <!-- small box -->
                     <div class="small-box bg-info">
                     <div class="inner">
-                        <h3 id="lavados" >$</h3>
+                        <h3 id="lavados" ></h3>
                 
                         <p>Dinero gastado en lavados</p>
                     </div>
@@ -38,10 +38,8 @@
                     <a href="{% url 'gestion:lavado' %}" class="small-box-footer">Ir a lavados <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <!-- ./col -->
-                <div class="col-lg-12">
+                <div class="col-md-6">
                     <!-- small box -->
                     <div class="small-box bg-success">
                     <div class="inner">
@@ -56,9 +54,10 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row">
                 <!-- ./col -->
-                <div class="col-lg-12">
+                <div class="col-md-6">
                     <!-- small box -->
                     <div class="small-box bg-warning">
                     <div class="inner">
@@ -72,10 +71,8 @@
                     <a href="{% url 'gestion:recarga' %}" class="small-box-footer">Ir a recargas <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <!-- ./col -->
-                <div class="col-lg-12">
+                <div class="col-md-6">
                     <!-- small box -->
                     <div class="small-box bg-danger">
                     <div class="inner">
@@ -89,7 +86,7 @@
                     <a href="https://www.mercadolibre.com.co/" target="blank" class="small-box-footer">Vender el vehículo <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-            </div>
+            </div>            
             </div>
         </div>
     </div>
@@ -156,9 +153,10 @@
         })  
     }
 
-    btnVer.addEventListener('click', ()=>{        
-        datosSumados();     
-    })
+    $('#btnVer').one(datosSumados());
+
+    
+
     btnActualizar.addEventListener('click', ()=>{
         datosSumados();     
     })

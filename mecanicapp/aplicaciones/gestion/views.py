@@ -54,10 +54,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             pass
         return data
     
-#    def get_reporte_por_vehiculo(self):
-#       data = []
-#      year = datetime.now().year
-#     month = datetime.now().month    
+    def get_reporte_por_vehiculo(self):
+        data = []
+        year = datetime.now().year
+        month = datetime.now().month    
 
     
     def post(self, request, *args, **kwargs):   
@@ -86,6 +86,15 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                         'recargas':[{'numero':recargas}],
                         'total_todo':[{'numero':total_todo}],
                 }
+            
+            #el algoritmo es el siguiente:
+            """
+                Primero mando el listado de los vehículos a un combobox con busqueda,
+                al seleccionar un vehiculo mando el id del vehículo por ajax,
+                luego pido los datos de los gastos del vehículo y los presento en el gráfico.
+                Con lo anterior termino el programa.
+            """
+
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(datos, safe = False)     

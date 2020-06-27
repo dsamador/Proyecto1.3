@@ -157,10 +157,7 @@ class VehiculoForm(ModelForm):
             }),
             'marca' : Select(attrs={                
                 'placeholder':'marca'                         
-            }),   
-            'imagen' : FileInput(attrs={
-                'placeholder':'imágen'
-            }),
+            }),               
         }        
 
 
@@ -182,8 +179,7 @@ class MantenimientoForm(ModelForm):
             'tipo_mantenimiento': Select(),
             'nota':Textarea(attrs={
                 'rows': '3'
-            }),
-            'comprobante':FileInput()
+            }),            
         }
 
 class LavadoForm(ModelForm):
@@ -204,8 +200,7 @@ class LavadoForm(ModelForm):
             'tipo_lavado': Select(),
             'nota':Textarea(attrs={
                 'rows': '3'
-            }),
-            'comprobante':FileInput()
+            }),            
         }
 
 class RecargaCombustibleForm(ModelForm):
@@ -222,8 +217,7 @@ class RecargaCombustibleForm(ModelForm):
         widgets = {
             'cantidad' : NumberInput(),
             'precio_galon' : NumberInput(),
-            'costo_total' : NumberInput(),
-            'comprobante':FileInput(),
+            'costo_total' : NumberInput(),            
             'vehiculo': Select(),            
             'tipo_combustible': Select(),
             'gasolinera':Select(),
