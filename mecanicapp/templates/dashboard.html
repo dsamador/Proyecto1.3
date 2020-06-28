@@ -35,7 +35,7 @@
                     <div class="icon">
                         <i class="fas fa-tint"></i>  
                     </div>
-                    <a href="{% url 'gestion:lavado' %}" class="small-box-footer">Ir a lavados <i class="fas fa-arrow-circle-right"></i></a>
+                    <a target="_blank" href="{% url 'gestion:lavado' %}" class="small-box-footer">Ir a lavados <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -50,7 +50,7 @@
                     <div class="icon">
                         <i class="fas fa-oil-can"></i>
                     </div>
-                    <a href="{% url 'gestion:mantenimiento' %}" class="small-box-footer">Ir a mantenimientos <i class="fas fa-arrow-circle-right"></i></a>
+                    <a target="_blank" href="{% url 'gestion:mantenimiento' %}" class="small-box-footer">Ir a mantenimientos <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                     <div class="icon">
                         <i class="fas fa-gas-pump"></i>
                     </div>
-                    <a href="{% url 'gestion:recarga' %}" class="small-box-footer">Ir a recargas <i class="fas fa-arrow-circle-right"></i></a>
+                    <a target="_blank" href="{% url 'gestion:recarga' %}" class="small-box-footer">Ir a recargas <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -94,11 +94,6 @@
 
 
 
-
-
-
-
-
 <div class="container-fluid">
     
     <div class="row">
@@ -121,12 +116,12 @@
 
 <script >
 
-    let lavados = document.getElementById('lavados');      
-    let recargas = document.getElementById('recargas');      
-    let mantenimientos = document.getElementById('mantenimientos'); 
-    let totalTodo = document.getElementById('totalTodo'); 
-    let btnVer = document.getElementById('btnVer');
-    let btnActualizar = document.getElementById('btnActualizar');
+    const lavados = document.getElementById('lavados'),      
+        recargas = document.getElementById('recargas'),
+        mantenimientos = document.getElementById('mantenimientos'),
+        totalTodo = document.getElementById('totalTodo'),
+        btnVer = document.getElementById('btnVer'),
+        btnActualizar = document.getElementById('btnActualizar');
 
     function datosSumados(){
         $.ajax({
@@ -140,29 +135,26 @@
             if(!data.hasOwnProperty('error')){  
                 let coso = data;                
                 
-                lavados.innerHTML='$' + new Intl.NumberFormat().format(coso['lavados'][0].numero);                
+                const formato = new Intl.NumberFormat();
+
+                lavados.innerHTML='$' + formato.format(coso['lavados'][0].numero);                
                 
-                mantenimientos.innerHTML='$' + new Intl.NumberFormat().format(coso['mantenimientos'][0].numero);              
+                mantenimientos.innerHTML='$' + formato.format(coso['mantenimientos'][0].numero);              
                 
-                recargas.innerHTML='$' + new Intl.NumberFormat().format(coso['recargas'][0].numero);   
+                recargas.innerHTML='$' + formato.format(coso['recargas'][0].numero);   
                 
-                totalTodo.innerHTML = '$' + new Intl.NumberFormat().format(coso['total_todo'][0].numero);
+                totalTodo.innerHTML = '$' + formato.format(coso['total_todo'][0].numero);
                 
                 return false;
             }                             
         })  
     }
 
-    $('#btnVer').one(datosSumados());
-
-    
+    $('#btnVer').one(datosSumados());    
 
     btnActualizar.addEventListener('click', ()=>{
         datosSumados();     
     })
-
-
-
 
     Highcharts.chart('container', {
         chart: {
