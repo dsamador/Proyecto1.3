@@ -77,26 +77,26 @@
     });
     
     $('#data tbody')
-    .on('click', 'a[rel="edit"]', function(){
-      modal_title.find('span').html('Edición de un odómetro');
-      modal_title.find('i').removeClass().addClass('fas fa-edit');
-      var tr = miTabla.cell($(this).closest('td, li')).index();
-      var data = miTabla.row(tr.row).data();
-      $('input[name="action"]').val('edit');
-      $('input[name="id"]').val(data.id);
-      $('input[name="distancia"]').val(data.distancia);
-      $('input[name="vehiculo"]').val(data.vehiculo);         
-      $('#crear_registro').modal('show');
-    })
-    .on('click', 'a[rel="delete"]', function () {
+      .on('click', 'a[rel="edit"]', function(){
+        modal_title.find('span').html('Edición de un odómetro');
+        modal_title.find('i').removeClass().addClass('fas fa-edit');
         var tr = miTabla.cell($(this).closest('td, li')).index();
         var data = miTabla.row(tr.row).data();
-        var parameters = new FormData();
-        parameters.append('action', 'delete');
-        parameters.append('id', data.id);    
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {
-          miTabla.ajax.reload();
-        });
+        $('input[name="action"]').val('edit');
+        $('input[name="id"]').val(data.id);
+        $('input[name="distancia"]').val(data.distancia);
+        $('input[name="vehiculo"]').val(data.vehiculo.nombre);         
+        $('#crear_registro').modal('show');
+      })
+      .on('click', 'a[rel="delete"]', function () {
+          var tr = miTabla.cell($(this).closest('td, li')).index();
+          var data = miTabla.row(tr.row).data();
+          var parameters = new FormData();
+          parameters.append('action', 'delete');
+          parameters.append('id', data.id);    
+          submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {
+            miTabla.ajax.reload();
+      });
     });
     
     
@@ -111,17 +111,17 @@
           dataType: 'json'
         }).done(function (data){                        
             if(!data.hasOwnProperty('error')){               
-                $('#crear_registro').modal('hide');
-                console.log(data)
+                $('#crear_registro').modal('hide');                
                 miTabla.ajax.reload();
                 toastr.success('Acción realizada correctamente', 'Excelente!',{
                   "progressBar": true,
                   "positionClass": "toast-bottom-right"
                 });
                 return false;
-            }                             
+            }                 
+            
         }).fail(function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus + ': ' + errorThrown);            
+            alert(textStatus + ': ' + errorThrown);            
         });
       });
     });

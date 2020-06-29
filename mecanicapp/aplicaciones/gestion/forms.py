@@ -226,3 +226,8 @@ class RecargaCombustibleForm(ModelForm):
             }),
             
         }
+
+class SelectForm(Form):
+    vehiculos = ModelChoiceField(queryset=Vehiculo.objects.all(), widget=Select(attrs={
+        'class':'form-control'
+    }))

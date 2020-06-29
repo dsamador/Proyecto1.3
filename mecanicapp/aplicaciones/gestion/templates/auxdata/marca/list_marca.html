@@ -106,7 +106,7 @@
           dataType: 'json'
         }).done(function (data){                        
             if(!data.hasOwnProperty('error')){               
-                $('#crear_registro').modal('hide');
+                $('#crear_registro').modal('hide');                
                 miTabla.ajax.reload();
                 toastr.success('Acción realizada correctamente', 'Excelente!',{
                   "progressBar": true,

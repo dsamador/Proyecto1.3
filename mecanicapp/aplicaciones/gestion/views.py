@@ -6,13 +6,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, ListView
 from django.db.models.functions import Coalesce
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.forms import model_to_dict
 import json
 from .models import *
 from .forms import *
 from datetime import datetime
 from django.http import JsonResponse
+
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
@@ -54,12 +55,57 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             pass
         return data
     
-    def get_reporte_por_vehiculo(self):
+    def get_gastos_mes_actual_mant(self):
         data = []
         year = datetime.now().year
-        month = datetime.now().month    
+        month = datetime.now().month
+        try:
+            for i in Vehiculo.objects.all():
+                total = Mantenimiento.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
+                    r=Coalesce(Sum('valor'), 0)).get('r')
+                if total >0:
+                    data.append({
+                        'name': i.nombre,
+                        'y':float(total)
+                    })
+        except expression as identifier:
+            pass
+        return data
 
-    
+    def get_gastos_mes_actual_reca(self):
+        data = []
+        year = datetime.now().year
+        month = datetime.now().month
+        try:
+            for i in Vehiculo.objects.all():
+                total = RecargaCombustible.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
+                    r=Coalesce(Sum('costo_total'), 0)).get('r')
+                if total >0:
+                    data.append({
+                        'name': i.nombre,
+                        'y':float(total)
+                    })
+        except expression as identifier:
+            pass
+        return data
+
+    def get_gastos_mes_actual_lava(self):
+        data = []
+        year = datetime.now().year
+        month = datetime.now().month
+        try:
+            for i in Vehiculo.objects.all():
+                total = Lavado.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
+                    r=Coalesce(Sum('valor'), 0)).get('r')
+                if total >0:
+                    data.append({
+                        'name': i.nombre,
+                        'y':float(total)
+                    })
+        except expression as identifier:
+            pass
+        return data
+
     def post(self, request, *args, **kwargs):   
         data = {}          
         try:                         
@@ -78,26 +124,56 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 flotante3 = float(total_recargas.get('costo_total__sum'))                          
                 recargas = json.dumps(flotante3)
                 
-                total_todo = flotante1+flotante2+flotante3
+                total_todo = flotante1+flotante2+flotante3                
 
                 datos = {
-                        'lavados':[{'numero':lavados}],
-                        'mantenimientos':[{'numero':mantenimientos}],
-                        'recargas':[{'numero':recargas}],
-                        'total_todo':[{'numero':total_todo}],
-                }
+                    'lavados':[{'numero':lavados}],
+                    'mantenimientos':[{'numero':mantenimientos}],
+                    'recargas':[{'numero':recargas}],
+                    'total_todo':[{'numero':total_todo}],                    
+                }           
+                return JsonResponse(datos, safe = False)
+
+            elif action == 'carga': 
+                total_gasolineras = RecargaCombustible.objects.values('gasolinera').distinct().count() 
+                total_vehiculos = Vehiculo.objects.all().count()
+                km = Odometro.objects.all().aggregate(Sum('distancia')) 
+                total_combustible = RecargaCombustible.objects.all().aggregate(Sum('cantidad'))
+                datos = {                    
+                    'gas':[{'numero':total_gasolineras}],
+                    'vehiculos':[{'numero':total_vehiculos}],
+                    'km':[km],
+                    'total_combustible':[total_combustible],
+                }           
+                return JsonResponse(datos, safe = False) 
             
-            #el algoritmo es el siguiente:
-            """
-                Primero mando el listado de los vehículos a un combobox con busqueda,
-                al seleccionar un vehiculo mando el id del vehículo por ajax,
-                luego pido los datos de los gastos del vehículo y los presento en el gráfico.
-                Con lo anterior termino el programa.
-            """
+            elif action ==  'get_gastos_mes_actual_mant':
+                data = {
+                    'name':'Porcentaje',
+                    'colorByPoint':True,
+                    'data':self.get_gastos_mes_actual_mant(),
+                }
+                return JsonResponse(data, safe = False)
+                
+            elif action ==  'get_gastos_mes_actual_reca':
+                data = {
+                    'name':'Porcentaje',
+                    'colorByPoint':True,
+                    'data':self.get_gastos_mes_actual_reca(),
+                }
+                return JsonResponse(data, safe = False)  
+
+            elif action ==  'get_gastos_mes_actual_lava':
+                data = {
+                    'name':'Porcentaje',
+                    'colorByPoint':True,
+                    'data':self.get_gastos_mes_actual_lava(),
+                }
+                return JsonResponse(data, safe = False)  
 
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(datos, safe = False)     
+            
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,7 +181,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['entity'] = 'Dashboard'
         context['reporte_lavados'] = self.get_reporte_lavados()
         context['reporte_mantenimientos'] = self.get_reporte_mantenimientos()
-        context['reporte_recargas'] = self.get_reporte_recargas()    
+        context['reporte_recargas'] = self.get_reporte_recargas()   
+        context['form']  = SelectForm()
+        context['title'] = 'Dashboard'
         return context
 
 
@@ -392,7 +470,8 @@ class LocalView(LoginRequiredMixin, TemplateView):
 
 class OdometroView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/odometro/list_odometro.html'    
-    
+    form_class = OdometroForm
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)  
@@ -406,12 +485,13 @@ class OdometroView(LoginRequiredMixin, TemplateView):
                 data = []
                 for i in Odometro.objects.all():
                     data.append(i.toJSON())
-            elif action == 'add':
-                m = Odometro()
-                m.distancia = request.POST['distancia']
-                m.vehiculo = request.POST['vehiculo']                
-                m.fecha = request.POST['fecha']
-                m.save()
+            
+            elif action == 'add': #esto va de acuerdo con un input hidden en el html
+                form = self.get_form() #obtiene el formulario con los datos que contiene
+                if form.is_valid(): 
+                    form.save()
+                return JsonResponse(data)                                
+
             elif action == 'edit':
                 m = Odometro.objects.get(pk=request.POST['id'])
                 m.distancia = request.POST['distancia']

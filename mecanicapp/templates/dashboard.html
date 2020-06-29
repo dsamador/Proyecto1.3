@@ -10,6 +10,67 @@
 
 
 {% block content %}
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box">
+        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-charging-station"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Gasolineras visitadas</span>
+          <span id="gasolineras" class="info-box-number">
+                        
+          </span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-biking"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Vehiculos</span>
+          <span id="vehiculos" class="info-box-number"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-road"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Km recorridos</span>
+          <span id="km" class="info-box-number"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="info-box mb-3">
+        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-fire-alt"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Combustible consumido</span>
+          <span id="consumido" class="info-box-number"></span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+  </div>
+
 
 <div class="accordion" id="accordionExample">    
     <div class="card">
@@ -106,13 +167,26 @@
 
         <div class="col-lg-6">
             <div class="card">
-                <div id="container-pie"></div>
+                <div id="tortaMantenimiento"></div>
             </div>            
         </div>
         
+        <div class="col-lg-6">
+            <div class="card">
+                <div id="tortaRecarga"></div>
+            </div>            
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div id="tortaLavado"></div>
+            </div>            
+        </div>
+
     </div>
     
 </div>
+
 
 <script >
 
@@ -121,8 +195,42 @@
         mantenimientos = document.getElementById('mantenimientos'),
         totalTodo = document.getElementById('totalTodo'),
         btnVer = document.getElementById('btnVer'),
-        btnActualizar = document.getElementById('btnActualizar');
+        btnActualizar = document.getElementById('btnActualizar'),
+        gasolineras = document.getElementById('gasolineras'),
+        vehiculos = document.getElementById('vehiculos'),
+        km = document.getElementById('km'),
+        consumido = document.getElementById('consumido');
+    
+    const formato = new Intl.NumberFormat();
 
+    //Esto carga los datos del INFOBOX
+    document.addEventListener('DOMContentLoaded', ()=>{
+        $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: {
+            'action': 'carga'
+        },
+        dataType: 'json'
+        }).done(function (data){                        
+            if(!data.hasOwnProperty('error')){  
+
+                const coso = data;                                                                
+
+                gasolineras.innerHTML = formato.format(coso['gas'][0].numero);
+                
+                vehiculos.innerHTML = formato.format(coso['vehiculos'][0].numero);
+                
+                km.innerHTML = formato.format(coso['km'][0].distancia__sum);
+
+                consumido.innerHTML = formato.format(coso['total_combustible'][0].cantidad__sum) + ' gal';
+                
+                return false;
+            }   
+        })  
+    });
+    
+    //Esta función carga los datos del deplegable
     function datosSumados(){
         $.ajax({
         url: window.location.pathname,
@@ -133,29 +241,31 @@
         dataType: 'json'
         }).done(function (data){                        
             if(!data.hasOwnProperty('error')){  
-                let coso = data;                
-                
-                const formato = new Intl.NumberFormat();
 
-                lavados.innerHTML='$' + formato.format(coso['lavados'][0].numero);                
+                const coso = data;    
+                const sign = '$';                                            
+
+                lavados.innerHTML= sign + formato.format(coso['lavados'][0].numero);                
                 
-                mantenimientos.innerHTML='$' + formato.format(coso['mantenimientos'][0].numero);              
+                mantenimientos.innerHTML= sign + formato.format(coso['mantenimientos'][0].numero);              
                 
-                recargas.innerHTML='$' + formato.format(coso['recargas'][0].numero);   
+                recargas.innerHTML= sign + formato.format(coso['recargas'][0].numero);   
                 
-                totalTodo.innerHTML = '$' + formato.format(coso['total_todo'][0].numero);
-                
+                totalTodo.innerHTML = sign + formato.format(coso['total_todo'][0].numero);
+
                 return false;
-            }                             
+            }   
         })  
     }
 
     $('#btnVer').one(datosSumados());    
 
+    //Esta función actualiza el desplegable
     btnActualizar.addEventListener('click', ()=>{
         datosSumados();     
     })
 
+    //Este es el gráfico de barras y funciona sin AJAX
     Highcharts.chart('container', {
         chart: {
             type: 'column'
@@ -223,7 +333,8 @@
         }]
     });
 
-    Highcharts.chart('container-pie', {
+    //Este es el gráfico de torta por mantenimientos
+    let tortaMantenimiento = Highcharts.chart('tortaMantenimiento', {        
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -231,7 +342,7 @@
             type: 'pie'
         },
         title: {
-            text: 'Browser market shares in January, 2018'
+            text: 'Gastos por el mes actual por mantenimientos'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -250,42 +361,119 @@
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                 }
             }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: [{
-                name: 'Chrome',
-                y: 61.41,
-                sliced: true,
-                selected: true
-            }, {
-                name: 'Internet Explorer',
-                y: 11.84
-            }, {
-                name: 'Firefox',
-                y: 10.85
-            }, {
-                name: 'Edge',
-                y: 4.67
-            }, {
-                name: 'Safari',
-                y: 4.18
-            }, {
-                name: 'Sogou Explorer',
-                y: 1.64
-            }, {
-                name: 'Opera',
-                y: 1.6
-            }, {
-                name: 'QQ',
-                y: 1.2
-            }, {
-                name: 'Other',
-                y: 2.61
-            }]
-        }]
+        },        
     });
+    
+    //Este es el gráfico de torta por recargas de combustibles
+    let tortaRecarga = Highcharts.chart('tortaRecarga', {        
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Gastos por el mes actual por recargas'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },        
+    });
+    
+    //Este es el gráfico de torta por lavados
+    let tortaLavado = Highcharts.chart('tortaLavado', {        
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Gastos por el mes actual por lavados'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        accessibility: {
+            point: {
+                valueSuffix: '%'
+            }
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },        
+    });
+
+    function get_gastos_mes_actual_mant(){
+        $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: {'action': 'get_gastos_mes_actual_mant'},
+        dataType: 'json'
+        }).done(function (data){                        
+            if(!data.hasOwnProperty('error')){  
+                tortaMantenimiento.addSeries(data);                
+                return false;
+            }   
+        }) 
+    }
+
+    function get_gastos_mes_actual_reca(){
+        $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: {'action': 'get_gastos_mes_actual_reca'},
+        dataType: 'json'
+        }).done(function (data){                        
+            if(!data.hasOwnProperty('error')){  
+                tortaRecarga.addSeries(data);                
+                return false;
+            }   
+        }) 
+    }
+
+    function get_gastos_mes_actual_lava(){
+        $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: {'action': 'get_gastos_mes_actual_lava'},
+        dataType: 'json'
+        }).done(function (data){                        
+            if(!data.hasOwnProperty('error')){  
+                tortaLavado.addSeries(data);                
+                return false;
+            }   
+        }) 
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+        get_gastos_mes_actual_mant();
+        get_gastos_mes_actual_reca();
+        get_gastos_mes_actual_lava();
+    });
+    
 </script>
 
 {% endblock content %}
