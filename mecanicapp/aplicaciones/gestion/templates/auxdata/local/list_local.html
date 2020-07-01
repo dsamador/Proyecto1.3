@@ -47,7 +47,7 @@
                     class: 'text-center',
                     orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                     render: function (data, type, row) {
-                        var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+                        var buttons = '<a href="/app/update_local/'+ row.id+'/" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
                         buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
                         return buttons;
                     }
@@ -57,7 +57,9 @@
               /*Esto se ejecuta cuando se ha cargado la tabla*/
               toastr.success('Tabla cargada completamente', 'Excelente!',{
                 "progressBar": true,
-                "positionClass": "toast-bottom-right"
+                "positionClass": "toast-bottom-right",
+                "showDuration": "200",
+                "timeOut": "500",
               });
             }
         });
@@ -76,23 +78,11 @@
       $('#crear_registro').modal('show');
     });
     
-    $('#data tbody')
-    .on('click', 'a[rel="edit"]', function(){      
-      modal_title.find('span').html('Edición de un local');
-      modal_title.find('i').removeClass().addClass('fas fa-edit');
-      var tr = miTabla.cell($(this).closest('td, li')).index();
-      var data = miTabla.row(tr.row).data();
-      $('input[name="action"]').val('edit');
-      $('input[name="id"]').val(data.id);
-      $('input[name="nombre"]').val(data.nombre);
-      $('input[name="descripcion"]').val(data.descripcion);
-      $('input[name="direccion"]').val(data.direccion);
-      $('#crear_registro').modal('show');
-    })
+    $('#data tbody')    
     .on('click', 'a[rel="delete"]', function () {
-        var tr = miTabla.cell($(this).closest('td, li')).index();
-        var data = miTabla.row(tr.row).data();
-        var parameters = new FormData();
+        let tr = miTabla.cell($(this).closest('td, li')).index();
+        let data = miTabla.row(tr.row).data();
+        let parameters = new FormData();
         parameters.append('action', 'delete');
         parameters.append('id', data.id);    
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {

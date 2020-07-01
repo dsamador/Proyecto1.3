@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, UpdateView
 from django.db.models.functions import Coalesce
 from django.db.models import Sum, Count
 from django.forms import model_to_dict
@@ -442,13 +442,7 @@ class LocalView(LoginRequiredMixin, TemplateView):
                 m.nombre = request.POST['nombre']
                 m.direccion = request.POST['direccion']
                 m.descripcion = request.POST['descripcion']
-                m.save()
-            elif action == 'edit':
-                m = Local.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
-                m.direccion = request.POST['direccion']
-                m.descripcion = request.POST['descripcion']
-                m.save()
+                m.save()            
             elif action == 'delete':
                 m = Local.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -462,8 +456,47 @@ class LocalView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de locales'                
         context['entity'] = 'Local'
-        context['form'] = LocalForm()
+        context['form'] = LocalForm
         return context 
+
+class LocalUpdateView(LoginRequiredMixin, UpdateView):
+    model =  Local
+    form_class = LocalForm
+    template_name = 'auxdata/local/updt_local.html'
+    success_url = reverse_lazy('gestion:local')    
+    
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        print('Entró al post')
+        data = {}
+        try:
+            print('Entró al try')
+            action = request.POST['action'] 
+            print('Entró al action', action)           
+            if action == 'edit':
+                form = self.get_form()
+                data = form.save()
+                print(data)
+            else:
+                print('Entró al error')
+                data['error'] = form.errors           
+                print('Errores', data)
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Editar Local: {self.object}'                
+        context['entity'] = 'Locales'
+        context['list_url'] = reverse_lazy('gestion:local')
+        context['action'] = 'edit'
+        return context 
+
 """
     Vistas de los odometros
 """
@@ -553,7 +586,4 @@ class TipoCombustibleView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de combustibles'                
         context['entity'] = 'Tipos de combustibles'
         context['form'] = TipoCombustibleForm()
-        return context 
-
-
-
+        return context

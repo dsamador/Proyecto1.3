@@ -23,6 +23,7 @@ urlpatterns = [
     path('list_tipocombustible/',     TipoCombustibleView.as_view(),   name = 'tipocombustible'),
 
     path('list_local/',               LocalView.as_view(),             name = 'local'),
+    path('update_local/<int:pk>/',    LocalUpdateView.as_view(),       name = 'update_local'),
 
     path('list_gasolinera/',          GasolineraView.as_view(),        name = 'gasolinera'),
 
