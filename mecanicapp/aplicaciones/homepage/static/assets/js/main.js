@@ -208,3 +208,9 @@
   aos_init();
 
 })(jQuery);
+
+const cuenta = document.getElementById('cuenta');
+
+cuenta.addEventListener('click', ()=>{
+  alert('Esta funcionalidad estará disponible pronto');
+})

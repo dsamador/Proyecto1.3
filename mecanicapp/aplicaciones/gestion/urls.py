@@ -17,8 +17,10 @@ urlpatterns = [
     path('list_tipovehiculo/',        TipoVehiculoView.as_view(),      name = 'tipovehiculo'), 
 
     path('list_tipomantenimiento/',   TipoMantenimientoView.as_view(), name = 'tipomantenimiento'),
+    path('update_tipomantenimiento/<int:pk>/',   TipoMantenimientoUpdateView.as_view(), name = 'update_tipomantenimiento'),
 
     path('list_tipolavado/',          TipoLavadoView.as_view(),        name = 'tipolavado'),
+    path('update_tipolavado/<int:pk>/',          TipoLavadoUpdateView.as_view(),        name = 'update_tipolavado'),
 
     path('list_tipocombustible/',     TipoCombustibleView.as_view(),   name = 'tipocombustible'),
 

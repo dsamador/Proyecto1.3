@@ -100,3 +100,4 @@ function alert_action(title, content, callback) {
     }, 1500, 'easeInOutExpo');
     return false;
 }
+

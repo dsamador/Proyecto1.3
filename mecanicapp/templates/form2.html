@@ -48,46 +48,5 @@
                 </a>
             </div>
         </div>
-    </form>
-    <script>
-        {% if form.errors %}
-            var errors = '';
-            {% for field in form %}
-                {% for error in field.errors %}
-                    errors += '{{ error }}\n';
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                errors += '{{ error }}\n';
-            {% endfor %}
-            Swal.fire({
-                title: 'Error!',
-                text: errors,
-                icon: 'error'
-            });
-        {% endif %}
-
-        $('form').on('submit', (e)=>{            
-            e.preventDefault();
-            var parameters =$(this).serializeArray();
-            $.ajax({
-                url: window.location.pathname,
-                type:'POST',
-                data:parameters,
-                dataType:'json',
-                data: {'action': 'edit'}
-            }).done((data)=>{
-                console.log('Si llega');
-                if(!data.hasOwnProperty('error')){
-                    console.log('No llega');
-                    location.href= '{{list_url}}';
-                    return false;
-                }
-                console.log(data);
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert(textStatus + ': ' + errorThrown);
-                alert('Falla')
-            })
-        })
-    </script>
+    </form>  
 {% endblock content %}

@@ -45,7 +45,7 @@ function getData(){
             class: 'text-center',
             orderable: false,/*Esta columna de botones no es necesario que se ordene*/
             render: function (data, type, row) {
-              var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+              var buttons = '<a href="/app/update_tipolavado/'+ row.id+'/" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
               buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
               return buttons;
             }

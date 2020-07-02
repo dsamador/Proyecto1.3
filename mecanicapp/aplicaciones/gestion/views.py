@@ -301,12 +301,7 @@ class TipoLavadoView(LoginRequiredMixin, TemplateView):
                 m = TipoLavado()
                 m.nombre = request.POST['nombre']
                 m.descripcion = request.POST['descripcion']
-                m.save()
-            elif action == 'edit':
-                m = TipoLavado.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
-                m.descripcion = request.POST['descripcion']
-                m.save()
+                m.save()            
             elif action == 'delete':
                 m = TipoLavado.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -321,6 +316,19 @@ class TipoLavadoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de lavados'                
         context['entity'] = 'Tipos de Lavados'
         context['form'] = TipoLavadoForm()
+        return context
+
+class TipoLavadoUpdateView(LoginRequiredMixin, UpdateView):
+    model =  TipoLavado
+    form_class = TipoLavadoForm
+    template_name = 'auxdata/tipolavado/updt_tipolavado.html'
+    success_url = reverse_lazy('gestion:tipolavado')        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Editar Tipo de Lavado: {self.object}'                
+        context['entity'] = 'Tipos de Lavados'
+        context['list_url'] = self.success_url     
         return context
         
 """
@@ -347,12 +355,7 @@ class TipoMantenimientoView(LoginRequiredMixin, TemplateView):
                 m = TipoMantenimiento()
                 m.nombre = request.POST['nombre']
                 m.descripcion = request.POST['descripcion']
-                m.save()
-            elif action == 'edit':
-                m = TipoMantenimiento.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
-                m.descripcion = request.POST['descripcion']
-                m.save()
+                m.save()            
             elif action == 'delete':
                 m = TipoMantenimiento.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -367,6 +370,19 @@ class TipoMantenimientoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de mantenimientos'                
         context['entity'] = 'Tipos de Mantenimientos'
         context['form'] = TipoMantenimientoForm()
+        return context 
+
+class TipoMantenimientoUpdateView(LoginRequiredMixin, UpdateView):
+    model =  TipoMantenimiento
+    form_class = TipoMantenimientoForm
+    template_name = 'auxdata/tipomantenimiento/updt_tipomantenimiento.html'
+    success_url = reverse_lazy('gestion:tipomantenimiento')        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Editar Tipo de Mantenimiento: {self.object}'                
+        context['entity'] = 'Tipos de Mantenimientos'
+        context['list_url'] = self.success_url     
         return context 
 """
     Vistas de las Gasolineras
@@ -463,38 +479,13 @@ class LocalUpdateView(LoginRequiredMixin, UpdateView):
     model =  Local
     form_class = LocalForm
     template_name = 'auxdata/local/updt_local.html'
-    success_url = reverse_lazy('gestion:local')    
-    
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        print('Entró al post')
-        data = {}
-        try:
-            print('Entró al try')
-            action = request.POST['action'] 
-            print('Entró al action', action)           
-            if action == 'edit':
-                form = self.get_form()
-                data = form.save()
-                print(data)
-            else:
-                print('Entró al error')
-                data['error'] = form.errors           
-                print('Errores', data)
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
+    success_url = reverse_lazy('gestion:local')        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Editar Local: {self.object}'                
         context['entity'] = 'Locales'
-        context['list_url'] = reverse_lazy('gestion:local')
-        context['action'] = 'edit'
+        context['list_url'] = self.success_url         
         return context 
 
 """
