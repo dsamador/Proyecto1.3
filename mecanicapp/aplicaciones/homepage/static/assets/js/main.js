@@ -209,8 +209,9 @@
 
 })(jQuery);
 
-const cuenta = document.getElementById('cuenta');
-
-cuenta.addEventListener('click', ()=>{
-  alert('Esta funcionalidad estará disponible pronto');
-})
+    const todaviaNo = document.getElementsByClassName('todaviaNo');
+    for(let i=0; i < todaviaNo.length; i++){
+        todaviaNo[i].addEventListener('click', ()=>{
+            alert('Esta característica se agregará pronto');
+        });
+    }
