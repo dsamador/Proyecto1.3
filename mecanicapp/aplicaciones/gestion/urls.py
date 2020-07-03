@@ -28,8 +28,10 @@ urlpatterns = [
     path('update_local/<int:pk>/',    LocalUpdateView.as_view(),       name = 'update_local'),
 
     path('list_gasolinera/',          GasolineraView.as_view(),        name = 'gasolinera'),
+    path('update_gasolinera/<int:pk>/',          GasolineraUpdateView.as_view(),        name = 'update_gasolinera'),
 
     path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
+    path('update_odometro/<int:pk>/',            OdometroUpdateView.as_view(),          name = 'update_odometro'),
 
 
     #********************************PATHS DE VEHÍCULO*******************************************

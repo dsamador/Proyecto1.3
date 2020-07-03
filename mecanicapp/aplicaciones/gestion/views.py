@@ -410,13 +410,7 @@ class GasolineraView(LoginRequiredMixin, TemplateView):
                 m.nombre = request.POST['nombre']
                 m.descripcion = request.POST['descripcion']
                 m.direccion = request.POST['direccion']
-                m.save()
-            elif action == 'edit':
-                m = Gasolinera.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
-                m.descripcion = request.POST['descripcion']
-                m.direccion = request.POST['direccion']
-                m.save()
+                m.save()           
             elif action == 'delete':
                 m = Gasolinera.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -431,6 +425,19 @@ class GasolineraView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de gasolineras'                
         context['entity'] = 'Gasolinera'
         context['form'] = GasolineraForm()
+        return context 
+
+class GasolineraUpdateView(LoginRequiredMixin, UpdateView):
+    model =  Gasolinera
+    form_class = GasolineraForm
+    template_name = 'auxdata/gasolinera/updt_gasolinera.html'
+    success_url = reverse_lazy('gestion:gasolinera')        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Editar Gasolinera: {self.object}'                
+        context['entity'] = 'Gasolineras'
+        context['list_url'] = self.success_url         
         return context 
 
 """
@@ -508,20 +515,12 @@ class OdometroView(LoginRequiredMixin, TemplateView):
                 print('Buscando los datos')
                 data = []
                 for i in Odometro.objects.all():
-                    data.append(i.toJSON())
-            
+                    data.append(i.toJSON())            
             elif action == 'add': #esto va de acuerdo con un input hidden en el html
                 form = self.get_form() #obtiene el formulario con los datos que contiene
                 if form.is_valid(): 
                     form.save()
                 return JsonResponse(data)                                
-
-            elif action == 'edit':
-                m = Odometro.objects.get(pk=request.POST['id'])
-                m.distancia = request.POST['distancia']
-                m.vehiculo = request.POST['vehiculo']
-                m.fecha = request.POST['fecha']
-                m.save()
             elif action == 'delete':
                 m = Odometro.objects.get(pk=request.POST['id'])
                 m.delete()
@@ -538,6 +537,18 @@ class OdometroView(LoginRequiredMixin, TemplateView):
         context['form'] = OdometroForm()
         return context 
 
+class OdometroUpdateView(LoginRequiredMixin, UpdateView):
+    model =  Odometro
+    form_class = OdometroForm
+    template_name = 'auxdata/odometro/updt_odometro.html'
+    success_url = reverse_lazy('gestion:odometro')        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Editar Odometro: {self.object}'                
+        context['entity'] = 'Odometros'
+        context['list_url'] = self.success_url         
+        return context 
 
 class TipoCombustibleView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipocombustible/list_tipocombustible.html'    

@@ -47,7 +47,7 @@
                     class: 'text-center',
                     orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                     render: function (data, type, row) {
-                        var buttons = '<a href="#" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+                        var buttons = '<a href="/app/update_odometro/'+ row.id+'/" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
                         buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
                         return buttons;
                     }
@@ -76,18 +76,7 @@
       $('#crear_registro').modal('show');
     });
     
-    $('#data tbody')
-      .on('click', 'a[rel="edit"]', function(){
-        modal_title.find('span').html('Edición de un odómetro');
-        modal_title.find('i').removeClass().addClass('fas fa-edit');
-        var tr = miTabla.cell($(this).closest('td, li')).index();
-        var data = miTabla.row(tr.row).data();
-        $('input[name="action"]').val('edit');
-        $('input[name="id"]').val(data.id);
-        $('input[name="distancia"]').val(data.distancia);
-        $('input[name="vehiculo"]').val(data.vehiculo.nombre);         
-        $('#crear_registro').modal('show');
-      })
+    $('#data tbody')      
       .on('click', 'a[rel="delete"]', function () {
           var tr = miTabla.cell($(this).closest('td, li')).index();
           var data = miTabla.row(tr.row).data();
