@@ -31,6 +31,7 @@ urlpatterns = [
     path('update_gasolinera/<int:pk>/',          GasolineraUpdateView.as_view(),        name = 'update_gasolinera'),
 
     path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
+    path('create_odometro/',            OdometroCreateView.as_view(),          name = 'create_odometro'),
     path('update_odometro/<int:pk>/',            OdometroUpdateView.as_view(),          name = 'update_odometro'),
 
 

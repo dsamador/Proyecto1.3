@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView, UpdateView
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView
 from django.db.models.functions import Coalesce
 from django.db.models import Sum, Count
 from django.forms import model_to_dict
@@ -182,11 +182,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['reporte_lavados'] = self.get_reporte_lavados()
         context['reporte_mantenimientos'] = self.get_reporte_mantenimientos()
         context['reporte_recargas'] = self.get_reporte_recargas()   
-        context['form']  = SelectForm()
+        #context['form']  = SelectForm() Todavía no
         context['title'] = 'Dashboard'
         return context
-
-
 
 
 """
@@ -500,8 +498,7 @@ class LocalUpdateView(LoginRequiredMixin, UpdateView):
 """
 
 class OdometroView(LoginRequiredMixin, TemplateView):    
-    template_name = 'auxdata/odometro/list_odometro.html'    
-    form_class = OdometroForm
+    template_name = 'auxdata/odometro/list_odometro.html'        
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -511,21 +508,16 @@ class OdometroView(LoginRequiredMixin, TemplateView):
         data = {}
         try:                         
             action = request.POST['action']                      
-            if action == 'searchdata':
-                print('Buscando los datos')
+            if action == 'searchdata':                
                 data = []
                 for i in Odometro.objects.all():
-                    data.append(i.toJSON())            
-            elif action == 'add': #esto va de acuerdo con un input hidden en el html
-                form = self.get_form() #obtiene el formulario con los datos que contiene
-                if form.is_valid(): 
-                    form.save()
-                return JsonResponse(data)                                
+                    data.append(i.toJSON())                                         
             elif action == 'delete':
                 m = Odometro.objects.get(pk=request.POST['id'])
                 m.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
+                print(data)
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe = False)
@@ -534,13 +526,27 @@ class OdometroView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Listado de odómetros'                
         context['entity'] = 'Odometro'
+        context['create_url'] = reverse_lazy('gestion:create_odometro')
         context['form'] = OdometroForm()
+        return context 
+
+class OdometroCreateView(LoginRequiredMixin,CreateView):
+    model =  Odometro
+    form_class = OdometroForm
+    template_name = 'auxdata/odometro/create_odometro.html'
+    success_url = reverse_lazy('gestion:odometro')        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Crear Odometro'                 
+        context['entity'] = 'Odometros'
+        context['list_url'] = self.success_url         
         return context 
 
 class OdometroUpdateView(LoginRequiredMixin, UpdateView):
     model =  Odometro
     form_class = OdometroForm
-    template_name = 'auxdata/odometro/updt_odometro.html'
+    template_name = 'auxdata/odometro/create_odometro.html'
     success_url = reverse_lazy('gestion:odometro')        
 
     def get_context_data(self, **kwargs):
