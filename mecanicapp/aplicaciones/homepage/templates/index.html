@@ -54,7 +54,7 @@
               <li class="active"><a href="index.html">Inicio</a></li>
               <li><a href="#about">La App</a></li>
               <li><a href="#features">Características</a></li>                                      
-              <li><a href="#team">Nosotros</a></li>              
+              <li><a href="#team">Sobre mi</a></li>              
               <li><a href="#contact">Contacto</a></li>
               {% if request.user.is_authenticated %}
                 <li><a href="{% url 'gestion:dashboard' %}">{{request.user.username}}</a></li>
@@ -151,7 +151,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Caracterísitcas</h2>
+          <h2>Características</h2>
           <p>Mecanicapp está desarrollada principalmente con la ayuda del framework de desarrollo web Django el cual está basado en el lenguaje de programación Python, además de muchas librerías.</p>
         </div>
 
@@ -165,7 +165,7 @@
             <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="200">
               <i class='bx bxs-dashboard'></i>
               <h4>Observe información relevante en el dashboard</h4>
-              <p>Gracias a nuestro dashboard usted puede observar la información que realmente importa y tomar decisiones basada en ella.</p>
+              <p>Gracias a nuestro dashboard usted puede observar la información que realmente importa y tomar decisiones basada en ella</p>
             </div>
             <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="300">
               <i class="bx bx-images"></i>
@@ -175,7 +175,7 @@
             <div class="icon-box mt-5" data-aos="fade-up" data-aos-delay="400">
               <i class="bx bx-shield"></i>
               <h4>Seguridad</h4>
-              <p>Puede estar tranquilo por la seguridad sus datos pues la seguridad es nuestra prioridad</p>
+              <p>Puede estar tranquilo por sus datos pues la seguridad es nuestra prioridad</p>
             </div>
           </div>
           <div class="image col-lg-6 order-1 order-lg-2 " data-aos="zoom-in" data-aos-delay="100">
@@ -185,141 +185,63 @@
 
       </div>
     </section><!-- End Features Section -->
-    
 
-    <!-- ======= Frequently Asked Questions Section ======= -->
-    <section id="faq" class="faq">
+    <!-- ======= Testimonials Section ======= -->
+    <section id="team" class="testimonials section-bg">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Frequently Asked Questions</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <div class="faq-list">
-          <ul>
-            <li data-aos="fade-up" data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" class="collapse" href="#faq-list-1">Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-1" class="collapse show" data-parent=".faq-list">
-                <p>
-                  Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-2" class="collapsed">Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-2" class="collapse" data-parent=".faq-list">
-                <p>
-                  Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-3" class="collapsed">Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-3" class="collapse" data-parent=".faq-list">
-                <p>
-                  Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="400">
-              <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-4" class="collapsed">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-4" class="collapse" data-parent=".faq-list">
-                <p>
-                  Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="500">
-              <i class="bx bx-help-circle icon-help"></i> <a data-toggle="collapse" href="#faq-list-5" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-5" class="collapse" data-parent=".faq-list">
-                <p>
-                  Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                </p>
-              </div>
-            </li>
-
-          </ul>
-        </div>
+          <h2>Sobre mi</h2>
+          <p>Mi nombre es David Amador y soy un estudiante de desarrollo de software de la Corporación Bolivariana del Norte</p>
+        </div>                          
 
       </div>
-    </section><!-- End Frequently Asked Questions Section -->
+    </section><!-- End Testimonials Section -->
+
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact section-bg">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Contact</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Contacto</h2>
+          <p>Puedes encontrarme en clases en la Corporación Bolivariana del Norte</p>
         </div>
 
         <div class="row">
           <div class="col-lg-6">
             <div class="info-box mb-4">
               <i class="bx bx-map"></i>
-              <h3>Our Address</h3>
-              <p>A108 Adam Street, New York, NY 535022</p>
+              <h3>Dirección</h3>
+              <p>Av. El Libertador ##13-45, Santa Marta, Magdalena</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="info-box  mb-4">
               <i class="bx bx-envelope"></i>
-              <h3>Email Us</h3>
-              <p>contact@example.com</p>
+              <h3>Email</h3>
+              <p>info@cbn.edu.co</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="info-box  mb-4">
               <i class="bx bx-phone-call"></i>
-              <h3>Call Us</h3>
-              <p>+1 5589 55488 55</p>
+              <h3>Teléfono</h3>
+              <p>300 471 4060</p>
             </div>
           </div>
 
         </div>
-
+        
         <div class="row">
 
-          <div class="col-lg-6 ">
-            <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+          <div class="col-lg-12">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1508.7589907479976!2d-74.20214528303039!3d11.243992235835861!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sco!4v1593809942584!5m2!1ses-419!2sco" width="100%" height="380px" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            
           </div>
-
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="form-row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                  <div class="validate"></div>
-                </div>
-                <div class="col-md-6 form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                  <div class="validate"></div>
-                </div>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="mb-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
-            </form>
-          </div>
-
+          
         </div>
 
       </div>
@@ -334,38 +256,28 @@
       <div class="container">
         <div class="row">
 
-          <div class="col-lg-3 col-md-6 footer-contact">
+          <div class="col-lg-6 col-md-12 footer-contact">
             <h3>Mecanicapp</h3>
             <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
+              Av. El Libertador ##13-45<br>
+              Santa Marta, Magdalena<br>
+              Colombia <br><br>
+              <strong>Teléfono:</strong> 300 471 4060<br>
+              <strong>Email:</strong> info@cbn.edu.co<br>
             </p>
           </div>
 
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Useful Links</h4>
+          <div class="col-lg-4 col-md-8 footer-links">
+            <h4></h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html">Inicio</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#about">La app</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#features">Características</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#team">Sobre mi</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contacto</a></li>
             </ul>
           </div>
-
           
-
-          <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Join Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-          </div>
-
         </div>
       </div>
     </div>
@@ -375,13 +287,10 @@
       <div class="copyright-wrap d-md-flex py-4">
         <div class="mr-md-auto text-center text-md-left">
           <div class="copyright">
-            &copy; Copyright <strong><span>Techie</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Mecanicapp</span></strong>. Todos los derechos reservados
           </div>
           <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/techie-free-skin-bootstrap-3/ -->
+            
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
           </div>
         </div>
