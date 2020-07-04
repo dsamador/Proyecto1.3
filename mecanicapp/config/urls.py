@@ -20,11 +20,13 @@ from aplicaciones.login.views import *
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.config import settings
+from django.config.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('aplicaciones.gestion.urls')),
     path('login/', include('aplicaciones.login.urls')),
     path('', IndexView.as_view(), name = 'index'),
-]
+]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
