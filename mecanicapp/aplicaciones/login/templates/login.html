@@ -1,6 +1,10 @@
 {% extends 'baseLogin.html' %}
 
 {% block formUser %}    
+
+{% if 'register' in request.GET %}
+    <p style="color: green;">Usuario registrado correctamente, ya puedes iniciar sesión</p>
+{% endif %}
 <form action="." method="post">
     <input type="hidden" name="next" value="{{ next }}">
     {% csrf_token %}
@@ -32,7 +36,7 @@
             <p>¿Olvidáste tu contraseña? <a class="todaviaNo" href="#">Recuperar contraseña</a> </p>
         </div>
         <div class="col-lg-12 m-2">
-            <p>¿Aún no tienes cuenta? <a class="todaviaNo" href="#">Crear una cuenta</a> </p>
+            <p>¿Aún no tienes cuenta? <a href="{%url 'signup'%}">Crear una cuenta</a> </p>
         </div>                    
     </div>
 </form>

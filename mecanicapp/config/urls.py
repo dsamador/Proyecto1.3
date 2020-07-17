@@ -24,7 +24,14 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('aplicaciones.gestion.urls')),
-    path('login/', include('aplicaciones.login.urls')),
+    path('cuentas/', include('aplicaciones.login.urls')),
     path('', IndexView.as_view(), name = 'index'),
+<<<<<<< HEAD
+    
+    #path('accounts/', include('aplicaciones.registration.urls')),    
+
+]
+=======
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+>>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

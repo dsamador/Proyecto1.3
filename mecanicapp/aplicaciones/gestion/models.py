@@ -1,3 +1,5 @@
+""" HOLA PROFESOR CESAR PERALTA, ESTA ES LA BASE DE DATOS, ESTOY ATENTO A SUS OBSERVACIONES """
+
 from django.db import models
 from django.conf import settings
 from django_userforeignkey.models.fields import UserForeignKey
@@ -16,7 +18,7 @@ class Comunes(models.Model):
         return item
 
     class Meta:
-        abstract = True
+        abstract = True 
 
 class TipoLavado(Comunes):   
 

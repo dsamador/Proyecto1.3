@@ -31,13 +31,18 @@ ALLOWED_HOSTS = [
     '192.168.0.49',
     '192.168.0.17',
     '127.0.0.1',
+<<<<<<< HEAD
+    'mecanicapplication.herokuapp.com'
+=======
     '*'
+>>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'aplicaciones.login',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Mis apps
-    'aplicaciones.login',
+    
     'aplicaciones.gestion',
     'aplicaciones.user',
     'aplicaciones.homepage',
@@ -86,10 +91,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 """ DATABASES = {
+<<<<<<< HEAD
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd2seutse6rncl7',
+        'USER':'uvllmrzpzxizlj',
+        'PASSWORD':'e79d2108a2b48cfbdb830cd399ebe22506c96128503bfc4ab5f6b1f28021743a',
+        'HOST':'ec2-52-200-48-116.compute-1.amazonaws.com',
+        'PORT':5432,
+    }
+}
+"""
+
+DATABASES = {
+=======
+>>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
