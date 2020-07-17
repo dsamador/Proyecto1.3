@@ -22,8 +22,16 @@ class CustomUserCreationForm(UserCreationForm):
         model = User        
         fields = ['username', 'email', 'password1', 'password2']
     
+    #email único
     def clean_email(self):
         email = self.cleaned_data.get("email")
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("El email ya está registrado, prueba con otro")
         return email
+
+    #username único
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("El username ya está registrado, prueba con otro")
+        return username

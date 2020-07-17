@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cu-x@g)yw(2q18w6prl7tp@9lqa_wb%-y8_x!5%#u#+*8_ry40'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '192.168.0.18',
@@ -169,6 +169,14 @@ AUTH_USER_MODEL = 'user.User'
 
 LOGIN_REDIRECT_URL = '/app/dashboard/'
 
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/cuentas/login/'
 
 LOGIN_URL = '/login/'#Reemplaza al accounts/login/
+
+#Email
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend' #Esto es un backend para los emails basado en ficheros
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+else:
+    #Aquí hay que configurar un email real para producción
+    pass

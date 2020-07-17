@@ -50,6 +50,13 @@ class SingUpView(CreateView):
         form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control mb-2', 'placeholder':'Email'})
         form.fields['password1'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Digita aquí tu contraseña'})
         form.fields['password2'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Repite la contraseña'})
+
+        #Borrar los campos de ayuda
+        form.fields['username'].help_text = None
+        form.fields['email'].help_text = None
+        form.fields['password1'].help_text = None
+        form.fields['password2'].help_text = None
+
         return form 
 
     def get_context_data(self, **kwargs):
