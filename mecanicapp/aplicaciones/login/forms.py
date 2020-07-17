@@ -1,7 +1,7 @@
 from django.forms import *
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm #Formulario que trae django por defecto
-from aplicaciones.user.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -35,3 +35,14 @@ class CustomUserCreationForm(UserCreationForm):
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("El username ya está registrado, prueba con otro")
         return username
+
+
+class PerfilForm(ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['bio', 'link', 'avatar']
+        widgets = {
+            'avatar': ClearableFileInput(attrs={'class':'form-control-file mt-3'}),
+            'bio': Textarea(attrs={'class':'form-control mt-3 mb-3', 'rows':3, 'placeholder':'Biografía'}),
+            'link': URLInput(attrs={'class':'form-control mb-3', 'placeholder':'Enlace'}),
+        }

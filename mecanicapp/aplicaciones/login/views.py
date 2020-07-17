@@ -4,8 +4,8 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, RedirectView
-from .forms import FormularioLogin
+from django.views.generic import FormView, RedirectView, UpdateView
+from .forms import *
 import config.settings as setting
 
 
@@ -30,6 +30,9 @@ class LogoutView(RedirectView):
         logout(request)
         return super().dispatch(request, *args, **kwargs)
 
+"""
+    VISTA PARA REGISTRO DE USUARIOS
+"""
 
 from .forms import CustomUserCreationForm
 from django.views.generic import CreateView
@@ -62,4 +65,25 @@ class SingUpView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Crear una cuenta'
+        return context
+
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from .models import Perfil
+
+@method_decorator(login_required, name='dispatch')
+class PerfilView(UpdateView):
+    form_class = PerfilForm    
+    success_url = reverse_lazy('perfil')
+    template_name = 'registration/profile_form.html'    
+
+    def get_object(self):
+        #Recuperar el objeto que se va a editar
+        perfil, created = Perfil.objects.get_or_create(user=self.request.user)
+        return perfil
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        context['entity'] = 'Perfil'
+        context['title'] = 'Perfil'
         return context

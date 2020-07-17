@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     #Mis apps
     
     'aplicaciones.gestion',
-    'aplicaciones.user',
+    #'aplicaciones.user',
     'aplicaciones.homepage',
     #Mis librerias
     'django_userforeignkey',    
@@ -164,8 +164,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
-
-AUTH_USER_MODEL = 'user.User'
 
 LOGIN_REDIRECT_URL = '/app/dashboard/'
 

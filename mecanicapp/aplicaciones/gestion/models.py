@@ -1,9 +1,7 @@
-""" HOLA PROFESOR CESAR PERALTA, ESTA ES LA BASE DE DATOS, ESTOY ATENTO A SUS OBSERVACIONES """
-
 from django.db import models
 from django.conf import settings
 from django_userforeignkey.models.fields import UserForeignKey
-from aplicaciones.user.models import User
+#from aplicaciones.user.models import User
 from django.forms import model_to_dict
 from config.settings import MEDIA_URL, STATIC_URL
 
