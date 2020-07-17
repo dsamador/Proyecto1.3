@@ -31,11 +31,7 @@ ALLOWED_HOSTS = [
     '192.168.0.49',
     '192.168.0.17',
     '127.0.0.1',
-<<<<<<< HEAD
-    'mecanicapplication.herokuapp.com'
-=======
-    '*'
->>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
+    'mecanicapplication.herokuapp.com',
 ]
 
 
@@ -96,7 +92,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 """ DATABASES = {
-<<<<<<< HEAD
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'd2seutse6rncl7',
@@ -109,8 +104,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 """
 
 DATABASES = {
-=======
->>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -177,5 +170,3 @@ LOGIN_REDIRECT_URL = '/app/dashboard/'
 LOGOUT_REDIRECT_URL = '/login/'
 
 LOGIN_URL = '/login/'#Reemplaza al accounts/login/
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

@@ -14,6 +14,7 @@ class FormularioLogin(AuthenticationForm):
         self.fields['password'].widget.attrs['placeholder'] = 'Contraseña'
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required = True, help_text = "Requerido, 254 caracteres como máximo y debe ser válido") 
     class Meta(UserCreationForm):
         model = User        
-        fields = ['username', 'password1','password2']
+        fields = ['username', 'email', 'password1', 'password2']
