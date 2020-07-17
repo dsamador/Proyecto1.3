@@ -2,11 +2,12 @@
 
 
 {% block formUser %}
-<style>label{display: none;}</style>
+<style>label{display: none;}  </style>
     <form action="" method="post">{% csrf_token %}    
-            {{form.as_p}}
+            {{form}}
         <input type="submit" class="btn btn-primary btn-block" value="Crear cuenta">
         <a class="btn btn-warning  btn-block"  href="{% url 'index' %}" >Regresar</a>
   </form>
 {% endblock formUser %}
+
     
