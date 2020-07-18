@@ -87,3 +87,25 @@ class PerfilView(UpdateView):
         context['entity'] = 'Perfil'
         context['title'] = 'Perfil'
         return context
+
+
+@method_decorator(login_required, name = 'dispatch')
+class EmailUpdate(UpdateView):
+    form_class = EmailForm    
+    success_url = reverse_lazy('perfil')
+    template_name = 'registration/profile_email_form.html'
+
+    def get_object(self):                
+        return self.request.user
+
+    def get_form(self, form_class=None):
+        form = super(EmailUpdate, self).get_form()
+        #Modificar el form en tiempo real
+        form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control mb-2', 'placeholder':'Email'})
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        context['entity'] = 'Cambiar email'
+        context['title'] = 'Cambiar email'
+        return context        

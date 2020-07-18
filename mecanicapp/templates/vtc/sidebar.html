@@ -14,10 +14,9 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 {% if request.user.perfil.avatar %}
-                  <img src="{{request.user.perfil.avatar.url}}" class="img-fluid">
-                  <p class="mt-1">¿Borrar? <input type="checkbox" id="avatar-clear" name="avatar-clear" /></p>
+                  <img src="{{request.user.perfil.avatar.url}}" class="img-circle">                  
                 {%else%}
-                  <img src="{%static 'img/llave.svg'%}" class="img-fluid" alt="Se supone que debe ir una imágen">
+                  <img src="{%static 'img/llave.svg'%}" class="img-circle" alt="Se supone que debe ir una imágen">
                 {% endif %}
             </div>
             <div class="info">
