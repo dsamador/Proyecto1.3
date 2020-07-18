@@ -44,6 +44,7 @@ class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
         context['create_url'] = reverse_lazy('gestion:create_vehiculo')
         context['entity'] = 'Vehiculo'
         context['form'] = VehiculoForm
+        context['desc'] = 'Vehículos'
         return context
 
 
@@ -79,6 +80,7 @@ class VehiculoCreateView(LoginRequiredMixin, CreateView):
         context['list_url'] = self.success_url       
         context['action'] = 'add'        
         context['entity'] = 'Crear Vehiculo'
+        context['desc'] = 'Vehículos'
         return context         
 
 class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
@@ -93,6 +95,7 @@ class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
         context['list_url'] = self.success_url       
         context['action'] = 'edit'        
         context['entity'] = 'Editar Vehiculo'
+        context['desc'] = 'Vehículos'
         return context    
 
 """
@@ -133,6 +136,7 @@ class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funcion
         context['create_url'] = reverse_lazy('gestion:create_mantenimiento')
         context['entity'] = 'Mantenimiento'
         context['form'] = MantenimientoForm
+        context['desc'] = 'Mantenimientos y Reparaciones'
         return context
 
 class MantenimientoCreateView(LoginRequiredMixin, CreateView):
@@ -167,6 +171,7 @@ class MantenimientoCreateView(LoginRequiredMixin, CreateView):
         context['list_url'] = self.success_url       
         context['action'] = 'add'        
         context['entity'] = 'Crear mantenimiento'
+        context['desc'] = 'Mantenimientos y Reparaciones'
         return context              
 
 class MantenimientoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
@@ -181,6 +186,7 @@ class MantenimientoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene aj
         context['list_url'] = self.success_url       
         context['action'] = 'edit'        
         context['entity'] = 'Editar Mantenimiento'
+        context['desc'] = 'Mantenimientos y Reparaciones'
         return context  
 
 
@@ -222,6 +228,7 @@ class LavadoListView(LoginRequiredMixin, ListView): #Este código funciona
         context['create_url'] = reverse_lazy('gestion:create_lavado')
         context['entity'] = 'Lavado'
         context['form'] = LavadoForm
+        context['desc'] = 'Lavados'
         return context
 
 class LavadoCreateView(LoginRequiredMixin, CreateView):
@@ -256,6 +263,7 @@ class LavadoCreateView(LoginRequiredMixin, CreateView):
         context['list_url'] = self.success_url       
         context['action'] = 'add'        
         context['entity'] = 'Crear lavado'
+        context['desc'] = 'Lavados'
         return context              
 
 class LavadoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
@@ -270,6 +278,7 @@ class LavadoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
         context['list_url'] = self.success_url       
         context['action'] = 'edit'        
         context['entity'] = 'Editar Lavado'
+        context['desc'] = 'Lavados'
         return context  
 
 
@@ -311,6 +320,7 @@ class RecargaCombustibleListView(LoginRequiredMixin, ListView): #Este código fu
         context['create_url'] = reverse_lazy('gestion:create_recarga')
         context['entity'] = 'Recarga'
         context['form'] = RecargaCombustibleForm
+        context['desc'] = 'Recargas de combustible'
         return context
 
 class RecargaCombustibleCreateView(LoginRequiredMixin, CreateView):
@@ -345,6 +355,7 @@ class RecargaCombustibleCreateView(LoginRequiredMixin, CreateView):
         context['list_url'] = self.success_url       
         context['action'] = 'add'        
         context['entity'] = 'Crear Recarga de Combustible'
+        context['desc'] = 'Recargas de combustible'
         return context              
 
 class RecargaCombustibleUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
@@ -359,4 +370,5 @@ class RecargaCombustibleUpdateView(LoginRequiredMixin, UpdateView):# Este no tie
         context['list_url'] = self.success_url       
         context['action'] = 'edit'        
         context['entity'] = 'Editar Recarga de Combustible'
+        context['desc'] = 'Recargas de combustible'
         return context  

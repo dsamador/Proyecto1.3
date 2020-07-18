@@ -23,9 +23,8 @@ class Perfil(models.Model):
     def __str__(self):        
         return f'Usuario: {self.user}'
 
-#Creación de señal
+#Creación de señal, sirve para crear el perfil apenas se crea el usuario
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):
     if kwargs.get('created', False):
-        Perfil.objects.get_or_create(user=instance)
-        print("Se acaba de crear un usuario y su perfil enlazado")
+        Perfil.objects.get_or_create(user=instance)        

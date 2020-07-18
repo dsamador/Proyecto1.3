@@ -86,6 +86,7 @@ class PerfilView(UpdateView):
         context = super().get_context_data(**kwargs)        
         context['entity'] = 'Perfil'
         context['title'] = 'Perfil'
+        context['desc'] = 'Perfil de usuario'
         return context
 
 
@@ -108,4 +109,5 @@ class EmailUpdate(UpdateView):
         context = super().get_context_data(**kwargs)        
         context['entity'] = 'Cambiar email'
         context['title'] = 'Cambiar email'
+        context['desc'] = 'Cambio de email'
         return context        
