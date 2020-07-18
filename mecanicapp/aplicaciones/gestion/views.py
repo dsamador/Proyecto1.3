@@ -184,6 +184,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['reporte_recargas'] = self.get_reporte_recargas()   
         #context['form']  = SelectForm() Todavía no
         context['title'] = 'Dashboard'
+        context['desc'] = 'Dashboard'        
         return context
 
 
