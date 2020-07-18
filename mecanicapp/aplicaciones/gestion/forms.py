@@ -127,7 +127,7 @@ class VehiculoForm(ModelForm):
         exclude = ['usuario']
         widgets = {
             'nombre' : TextInput(attrs={                
-                'placeholder':'nombre del carro'
+                'placeholder':'nombre del vehículo'
             }),
             'modelo' : TextInput(attrs={                  
                 'placeholder':'modelo'            

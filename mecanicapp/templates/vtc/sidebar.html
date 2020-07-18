@@ -16,7 +16,7 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
                 {% if request.user.perfil.avatar %}
                   <img src="{{request.user.perfil.avatar.url}}" class="img-circle">                  
                 {%else%}
-                  <img src="{%static 'img/llave.svg'%}" class="img-circle" alt="Se supone que debe ir una imágen">
+                  <img src="{% static 'img/llave.svg' %}" class="img-circle" alt="Se supone que debe ir una imágen">
                 {% endif %}
             </div>
             <div class="info">

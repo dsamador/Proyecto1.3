@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'aplicaciones.homepage',
     #Mis librerias
     'django_userforeignkey',    
+    'django_cleanup.apps.CleanupConfig',#Permite borrar imágenes subidas
 ]
 
 MIDDLEWARE = [
