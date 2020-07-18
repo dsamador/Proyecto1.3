@@ -24,15 +24,18 @@ urlpatterns = [
 
     path('list_tipocombustible/',     TipoCombustibleView.as_view(),   name = 'tipocombustible'),
 
-    path('list_local/',               LocalView.as_view(),             name = 'local'),
-    path('update_local/<int:pk>/',    LocalUpdateView.as_view(),       name = 'update_local'),
+    path('list_lavadero/',               LavaderoView.as_view(),             name = 'lavadero'),
+    path('update_lavadero/<int:pk>/',    LavaderoUpdateView.as_view(),       name = 'update_lavadero'),
+    
+    path('list_taller/',               TallerView.as_view(),             name = 'taller'),
+    path('update_taller/<int:pk>/',    TallerUpdateView.as_view(),       name = 'update_taller'),
 
     path('list_gasolinera/',          GasolineraView.as_view(),        name = 'gasolinera'),
     path('update_gasolinera/<int:pk>/',          GasolineraUpdateView.as_view(),        name = 'update_gasolinera'),
 
-    path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
-    path('create_odometro/',            OdometroCreateView.as_view(),          name = 'create_odometro'),
-    path('update_odometro/<int:pk>/',            OdometroUpdateView.as_view(),          name = 'update_odometro'),
+    #path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
+    #path('create_odometro/',            OdometroCreateView.as_view(),          name = 'create_odometro'),
+    #path('update_odometro/<int:pk>/',            OdometroUpdateView.as_view(),          name = 'update_odometro'),
 
 
     #********************************PATHS DE VEHÍCULO*******************************************

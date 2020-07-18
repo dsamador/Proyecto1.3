@@ -6,10 +6,12 @@
 
 {% block columns %}
     <tr>        
-        <th scope="col" style="width: 20%;">Nombre</th>
-        <th scope="col" style="width: 30%;">Dirección</th>
-        <th scope="col" style="width: 30%;">Descripción</th>
-        <th scope="col" style="width: 20%;">Opciones</th>
+      <th scope="col" style="width: 20%;">Nombre</th>
+      <th scope="col" style="width: 20%;">Dirección</th>
+      <th scope="col" style="width: 20%;">Descripción</th>
+      <th scope="col" style="width: 11%;">Correo</th>
+      <th scope="col" style="width: 21%;">Tel</th>
+      <th scope="col" style="width: 8%;">Opciones</th>
     </tr>
 {% endblock %}
 
@@ -39,6 +41,8 @@
                 {"data": "nombre"},              
                 {"data": "direccion"},              
                 {"data": "descripcion"},              
+                {"data": "correo"},              
+                {"data": "telefono"},              
                 {"data": "anio"},/*Esta se repite para poder tener la columna de los botones*/
             ],          
             columnDefs: [
@@ -47,7 +51,7 @@
                     class: 'text-center',
                     orderable: false,/*Esta columna de botones no es necesario que se ordene*/
                     render: function (data, type, row) {
-                        var buttons = '<a href="/app/update_local/'+ row.id+'/" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
+                        var buttons = '<a href="/app/update_lavadero/'+ row.id+'/" rel="edit" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a> ';
                         buttons += '<a href="#" rel="delete" type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>';
                         return buttons;
                     }
@@ -72,7 +76,7 @@
     
     $('.btnAdd').on('click', function(){
       $('input[name = "action"]').val('add');
-      modal_title.find('span').html('Creación de un local');
+      modal_title.find('span').html('Creación de un lavadero');
       modal_title.find('i').removeClass().addClass('fas fa-plus')      
       $('form')[0].reset();
       $('#crear_registro').modal('show');

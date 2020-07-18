@@ -23,11 +23,11 @@
                     </div>    
                     <div class="row " >
                         <div class="col-8">
-                            {{form.local.label}}
-                            {{form.local}}
+                            {{form.taller.label}}
+                            {{form.taller}}
                         </div>
                         <div class="col-4 mt-4">
-                            <a href="{% url 'gestion:local' %}" target="blank" class="btn btn-outline-primary">Crear local</a>
+                            <a href="{% url 'gestion:taller' %}" target="blank" class="btn btn-outline-primary">Crear local</a>
                         </div>                        
                     </div>    
                     <div class="row " >
@@ -41,6 +41,8 @@
                     </div>                                                                             
                     {{form.comprobante.label}}                                          
                     {{form.comprobante}}
+                    {{form.razon.label}}
+                    {{form.razon}}
                     {{form.nota.label}}
                     {{form.nota}}
                 </div>

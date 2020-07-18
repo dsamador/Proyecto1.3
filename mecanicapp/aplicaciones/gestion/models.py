@@ -1,15 +1,14 @@
 from django.db import models
 from django.conf import settings
 from django_userforeignkey.models.fields import UserForeignKey
-#from aplicaciones.user.models import User
 from django.forms import model_to_dict
 from config.settings import MEDIA_URL, STATIC_URL
 
 # Create your models here
 
 class Comunes(models.Model):
-    nombre = models.CharField('Nombre (obligatorio)',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
-    descripcion = models.TextField('Descripción (opcional)',blank=True, null=True)
+    nombre = models.CharField('Nombre *',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
+    descripcion = models.TextField('Descripción',blank=True, null=True)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -17,6 +16,7 @@ class Comunes(models.Model):
 
     class Meta:
         abstract = True 
+
 
 class TipoLavado(Comunes):   
 
@@ -28,6 +28,7 @@ class TipoLavado(Comunes):
     def __str__(self):
         return self.nombre
 
+
 class TipoMantenimiento(Comunes):    
     
     class Meta:
@@ -38,9 +39,9 @@ class TipoMantenimiento(Comunes):
     def __str__(self):
         return self.nombre
 
-class Gasolinera(Comunes):
-    
-    direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)
+
+class Gasolinera(Comunes):    
+    direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)
 
     class Meta:        
         verbose_name = 'Gasolinera'
@@ -50,15 +51,31 @@ class Gasolinera(Comunes):
         return self.nombre
 
 
-class Local(Comunes):    
-    direccion = models.CharField('Dirección (opcional)', max_length=250, blank=True, null=True)    
+class Lavadero(Comunes):    
+    direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)    
+    correo = models.CharField('Correo', max_length=100, blank=True, null=True)    
+    telefono = models.CharField('Telefono', max_length=15, blank=True, null=True)    
 
     class Meta:        
-        verbose_name = 'Local'
-        verbose_name_plural = 'Locales'
+        verbose_name = 'Lavadero'
+        verbose_name_plural = 'Lavaderos'
 
     def __str__(self):        
         return self.nombre
+
+
+class Taller(Comunes):    
+    direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)    
+    correo = models.CharField('Correo', max_length=100, blank=True, null=True)    
+    telefono = models.CharField('Telefono', max_length=15, blank=True, null=True)    
+
+    class Meta:        
+        verbose_name = 'Taller'
+        verbose_name_plural = 'Talleres'
+
+    def __str__(self):        
+        return self.nombre
+
 
 class TipoCombustible(models.Model):
     """Model definition for TipoCombustible."""
@@ -134,7 +151,7 @@ class Vehiculo(models.Model):
     tipo = models.ForeignKey(TipoVehiculo, on_delete = models.CASCADE)
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Dueño")
-    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos/%Y/%m/%d', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -155,7 +172,7 @@ class Vehiculo(models.Model):
     def __str__(self):        
         return self.nombre
 
-class Odometro(models.Model):    
+""" class Odometro(models.Model):    
     distancia = models.PositiveIntegerField(blank=False, null=False)
     vehiculo = models.ForeignKey(Vehiculo, on_delete = models.CASCADE, default=None)
     fecha = models.DateTimeField('Fecha',auto_now=True)
@@ -172,14 +189,13 @@ class Odometro(models.Model):
         #unique_together = ('vehiculo', 'distancia') Me da problemas
 
     def __str__(self):        
-        return f'Vehículo : {self.vehiculo}, distancia : {self.distancia}, fecha : {self.fecha}'
+        return f'Vehículo : {self.vehiculo}, distancia : {self.distancia}, fecha : {self.fecha}' """
 
 
 class Servicio(models.Model):
     fecha = models.DateTimeField('Fecha de servicio',auto_now_add=True)
     valor = models.DecimalField('Valor', max_digits=11, decimal_places=2, blank=False, null=False)    
-    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
-    local = models.ForeignKey(Local, on_delete=models.CASCADE, blank=False, null=False)
+    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)    
     nota = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -190,13 +206,14 @@ class Lavado(Servicio):
     """Model definition for Lavado."""
     tipo_lavado = models.ForeignKey(TipoLavado, on_delete=models.CASCADE)
     comprobante = models.ImageField(upload_to="recibos_lavados/%Y/%m/%d", null=True, blank=True)   
+    lavadero = models.ForeignKey(Lavadero, on_delete=models.CASCADE, blank=False, null=False)
 
     def toJSON(self):
         item = model_to_dict(self)
         item['vehiculo'] = self.vehiculo.toJSON()
         item['tipo_lavado'] = self.tipo_lavado.toJSON()
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        item['local'] = self.local.toJSON()
+        item['lavadero'] = self.lavadero.toJSON()
         item['comprobante'] = self.get_imagen()
         return item
 
@@ -217,16 +234,24 @@ class Lavado(Servicio):
         return f'{self.tipo_lavado}, Fecha: {self.fecha}'
 
 
-class Mantenimiento(Servicio):    
+class Mantenimiento(Servicio):  
+    PREVEN='Preventivo'
+    CORREC='Correctivo'
+    RAZON_MANTENIMIENTO = [
+        (PREVEN,'Preventivo'),
+        (CORREC,'Correctivo')
+    ]  
     tipo_mantenimiento = models.ForeignKey(TipoMantenimiento, on_delete=models.CASCADE)    
-    comprobante = models.ImageField(upload_to="recibos_matenimientos/%Y/%m/%d", null=True, blank=True)     
+    comprobante = models.ImageField(upload_to="recibos_matenimientos/%Y/%m/%d", null=True, blank=True)  
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, blank=False, null=False) 
+    razon = models.CharField(max_length=11, choices=RAZON_MANTENIMIENTO, default=CORREC)  
 
     def toJSON(self):
         item = model_to_dict(self)
         item['vehiculo'] = self.vehiculo.toJSON()
         item['tipo_mantenimiento'] = self.tipo_mantenimiento.toJSON()
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        item['local'] = self.local.toJSON()
+        item['taller'] = self.taller.toJSON()
         item['comprobante'] = self.get_imagen()
         return item
 
@@ -251,6 +276,7 @@ class RecargaCombustible(models.Model):
     costo_total = models.DecimalField('Costo del servicio', max_digits=11, decimal_places=2)
     comprobante = models.ImageField(upload_to="recibos_recargas/%Y/%m/%d", null=True, blank=True)
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)
+    kilometraje = models.IntegerField('Kilometraje', blank=False, null=False)
     tipo_combustible = models.ForeignKey(TipoCombustible, on_delete=models.CASCADE)    
     gasolinera = models.ForeignKey(Gasolinera, on_delete=models.CASCADE, default = None)    
     nota = models.TextField(blank=True, null=True)   

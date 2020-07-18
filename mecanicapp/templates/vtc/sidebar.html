@@ -62,7 +62,7 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
                     <a href="{% url 'gestion:mantenimiento' %}" class="nav-link">
                         <i class="fas fa-oil-can"></i>
                         <p>
-                            Mantenimientos
+                            Mant... y Repar...
                         </p>
                     </a>
                 </li>
@@ -75,9 +75,15 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
                     </a>
                     <ul class="nav nav-treeview" style="display: none;"> 
                         <li class="nav-item">
-                            <a href="{% url 'gestion:local' %}" class="nav-link">
+                            <a href="{% url 'gestion:taller' %}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Locales</p>
+                                <p>Talleres</p>
+                            </a>
+                        </li>                                                
+                        <li class="nav-item">
+                            <a href="{% url 'gestion:lavadero' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lavaderos</p>
                             </a>
                         </li>                                                
                         <li class="nav-item">
@@ -103,13 +109,7 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Marcas</p>
                             </a>
-                        </li>                        
-                        <li class="nav-item">
-                        <a href="{% url 'gestion:odometro' %}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Odómetros</p>
-                        </a>
-                        </li>                        
+                        </li>                                                                        
                         <li class="nav-item">
                         <a href="{% url 'gestion:gasolinera' %}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>

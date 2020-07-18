@@ -88,13 +88,20 @@ class GasolineraForm(Establecimiento):
     class Meta(Establecimiento.Meta):
         model = Gasolinera
 
-class LocalForm(Establecimiento):                
+
+class LavaderoForm(Establecimiento):                
     
     class Meta(Establecimiento.Meta):
-        model = Local
+        model = Lavadero
 
 
-class OdometroForm(ModelForm):
+class TallerForm(Establecimiento):                
+    
+    class Meta(Establecimiento.Meta):
+        model = Taller
+
+
+""" class OdometroForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -113,13 +120,13 @@ class OdometroForm(ModelForm):
                 'placeholder':'Vehiculo'                
             }),
         }
-
+ """
 class VehiculoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control mb-2 bg-dark'
+            form.field.widget.attrs['class'] = 'form-control mb-2'
         self.fields['nombre'].widget.attrs['autofocus'] = True
 
     class Meta:
@@ -180,7 +187,8 @@ class MantenimientoForm(ModelForm):
             'tipo_mantenimiento': Select(),
             'nota':Textarea(attrs={
                 'rows': '3'
-            }),            
+            }), 
+            'razon':Select(),
         }
 
 class LavadoForm(ModelForm):
@@ -225,7 +233,7 @@ class RecargaCombustibleForm(ModelForm):
             'nota':Textarea(attrs={
                 'rows': '3'
             }),
-            
+            'kilometraje' : NumberInput(),            
         }
 
 class SelectForm(Form):

@@ -137,12 +137,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             elif action == 'carga': 
                 total_gasolineras = RecargaCombustible.objects.values('gasolinera').distinct().count() 
                 total_vehiculos = Vehiculo.objects.all().count()
-                km = Odometro.objects.all().aggregate(Sum('distancia')) 
+                #km = Odometro.objects.all().aggregate(Sum('distancia')) 
                 total_combustible = RecargaCombustible.objects.all().aggregate(Sum('cantidad'))
                 datos = {                    
                     'gas':[{'numero':total_gasolineras}],
                     'vehiculos':[{'numero':total_vehiculos}],
-                    'km':[km],
+                    #'km':[km],
                     'total_combustible':[total_combustible],
                 }           
                 return JsonResponse(datos, safe = False) 
@@ -439,11 +439,11 @@ class GasolineraUpdateView(LoginRequiredMixin, UpdateView):
         return context 
 
 """
-    Vistas de los locales
+    Vistas de los Lavaderos
 """
 
-class LocalView(LoginRequiredMixin, TemplateView):    
-    template_name = 'auxdata/local/list_local.html'    
+class LavaderoView(LoginRequiredMixin, TemplateView):    
+    template_name = 'auxdata/lavadero/list_lavadero.html'    
     
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -456,16 +456,18 @@ class LocalView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in Local.objects.all():
+                for i in Lavadero.objects.all():
                     data.append(i.toJSON())
             elif action == 'add':
-                m = Local()
+                m = Lavadero()
                 m.nombre = request.POST['nombre']
                 m.direccion = request.POST['direccion']
                 m.descripcion = request.POST['descripcion']
+                m.correo = request.POST['correo']
+                m.telefono = request.POST['telefono']
                 m.save()            
             elif action == 'delete':
-                m = Local.objects.get(pk=request.POST['id'])
+                m = Lavadero.objects.get(pk=request.POST['id'])
                 m.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
@@ -475,31 +477,31 @@ class LocalView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de locales'                
-        context['entity'] = 'Local'
-        context['form'] = LocalForm
+        context['title'] = 'Listado de lavaderos'                
+        context['entity'] = 'Lavadero'
+        context['form'] = LavaderoForm
         return context 
 
-class LocalUpdateView(LoginRequiredMixin, UpdateView):
-    model =  Local
-    form_class = LocalForm
-    template_name = 'auxdata/local/updt_local.html'
-    success_url = reverse_lazy('gestion:local')        
+class LavaderoUpdateView(LoginRequiredMixin, UpdateView):
+    model =  Lavadero
+    form_class = LavaderoForm
+    template_name = 'auxdata/lavadero/updt_local.html'
+    success_url = reverse_lazy('gestion:lavadero')        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = f'Editar Local: {self.object}'                
-        context['entity'] = 'Locales'
+        context['title'] = f'Editar Lavadero: {self.object}'                
+        context['entity'] = 'Lavaderos'
         context['list_url'] = self.success_url         
         return context 
 
 """
-    Vistas de los odometros
+    Vistas de los Talleres
 """
 
-class OdometroView(LoginRequiredMixin, TemplateView):    
-    template_name = 'auxdata/odometro/list_odometro.html'        
-
+class TallerView(LoginRequiredMixin, TemplateView):    
+    template_name = 'auxdata/taller/list_taller.html'    
+    
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)  
@@ -508,53 +510,49 @@ class OdometroView(LoginRequiredMixin, TemplateView):
         data = {}
         try:                         
             action = request.POST['action']                      
-            if action == 'searchdata':                
+            if action == 'searchdata':
+                print('Buscando los datos')
                 data = []
-                for i in Odometro.objects.all():
-                    data.append(i.toJSON())                                         
+                for i in Taller.objects.all():
+                    data.append(i.toJSON())
+            elif action == 'add':
+                m = Taller()
+                m.nombre = request.POST['nombre']
+                m.direccion = request.POST['direccion']
+                m.descripcion = request.POST['descripcion']
+                m.correo = request.POST['correo']
+                m.telefono = request.POST['telefono']
+                m.save()            
             elif action == 'delete':
-                m = Odometro.objects.get(pk=request.POST['id'])
+                m = Taller.objects.get(pk=request.POST['id'])
                 m.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
-                print(data)
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe = False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de odómetros'                
-        context['entity'] = 'Odometro'
-        context['create_url'] = reverse_lazy('gestion:create_odometro')
-        context['form'] = OdometroForm()
+        context['title'] = 'Listado de Talleres'                
+        context['entity'] = 'Taller'
+        context['form'] = TallerForm
         return context 
 
-class OdometroCreateView(LoginRequiredMixin,CreateView):
-    model =  Odometro
-    form_class = OdometroForm
-    template_name = 'auxdata/odometro/create_odometro.html'
-    success_url = reverse_lazy('gestion:odometro')        
+class TallerUpdateView(LoginRequiredMixin, UpdateView):
+    model =  Taller
+    form_class = TallerForm
+    template_name = 'auxdata/taller/updt_taller.html'
+    success_url = reverse_lazy('gestion:lavadero')        
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = f'Crear Odometro'                 
-        context['entity'] = 'Odometros'
+        context['title'] = f'Editar Taller: {self.object}'                
+        context['entity'] = 'Talleres'
         context['list_url'] = self.success_url         
         return context 
 
-class OdometroUpdateView(LoginRequiredMixin, UpdateView):
-    model =  Odometro
-    form_class = OdometroForm
-    template_name = 'auxdata/odometro/create_odometro.html'
-    success_url = reverse_lazy('gestion:odometro')        
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = f'Editar Odometro: {self.object}'                
-        context['entity'] = 'Odometros'
-        context['list_url'] = self.success_url         
-        return context 
+        
 
 class TipoCombustibleView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/tipocombustible/list_tipocombustible.html'    
