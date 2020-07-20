@@ -18,29 +18,32 @@
 
 <!-- ESTE ES EL MODAL PARA CREAR Y EDITAR -->
 <div class="modal fade" id="crear_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<form action="." method="POST" enctype="multipart/form-data">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">
-            <b><i class="fas fa-search"></i> <span></span></b>
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <form action="." method="POST" enctype="multipart/form-data">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!--Título del modal-->
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <b><i class="fas fa-search"></i> <span></span></b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!--Formulario-->
+                <div class="modal-body">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="id" value="0" id="id">
+                    {{form}}
+                </div>
+                <!--Botonera-->
+                <div class="modal-footer">        
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-        <input type="hidden" name="action" value="add">
-        <input type="hidden" name="id" value="0" id="id">
-        {{form}}
-        </div>
-        <div class="modal-footer">        
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-    </div>
-    </div>
-</form>
+    </form>
 </div>
 
 
@@ -73,9 +76,9 @@
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>            
             {% else %}  
-            <a class="btn btn-primary btnAdd">
-                <i class="fas fa-plus"></i> Nuevo registro
-            </a>
+                <a class="btn btn-primary btnAdd">
+                    <i class="fas fa-plus"></i> Nuevo registro
+                </a>
             {% endif %}
             <a class="btn btn-success " id="actualizar">
                 <i class="fas fa-sync"></i> Actualizar

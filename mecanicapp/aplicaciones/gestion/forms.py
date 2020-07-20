@@ -181,12 +181,15 @@ class MantenimientoForm(ModelForm):
         model = Mantenimiento
         exclude = ['fecha']
         widgets = {
-            'valor' : NumberInput(),
+            'valor' : NumberInput(attrs={                
+                'placeholder':'máximo 11 dígitos y 2 decimales'                         
+            }),
             'vehiculo': Select(),
             'local':Select(),
             'tipo_mantenimiento': Select(),
             'nota':Textarea(attrs={
-                'rows': '3'
+                'rows': '3',
+                'placeholder':'Describa cómo fue su experiencia'
             }), 
             'razon':Select(),
         }
@@ -203,12 +206,15 @@ class LavadoForm(ModelForm):
         model = Lavado
         exclude = ['fecha']
         widgets = {
-            'valor' : NumberInput(),
+            'valor' : NumberInput(attrs={                
+                'placeholder':'máximo 11 dígitos y 2 decimales'                         
+            }),
             'vehiculo': Select(),
             'local':Select(),
             'tipo_lavado': Select(),
             'nota':Textarea(attrs={
-                'rows': '3'
+                'rows': '3',
+                'placeholder':'Describa cómo fue su experiencia'
             }),            
         }
 
@@ -224,14 +230,21 @@ class RecargaCombustibleForm(ModelForm):
         model = RecargaCombustible
         exclude = ['fecha']
         widgets = {
-            'cantidad' : NumberInput(),
-            'precio_galon' : NumberInput(),
-            'costo_total' : NumberInput(),            
+            'cantidad' : NumberInput(attrs={                
+                'placeholder':'digite un número entero'                         
+            }),
+            'precio_galon' : NumberInput(attrs={                
+                'placeholder':'máximo 11 dígitos y 2 decimales'                         
+            }),
+            'costo_total' : NumberInput(attrs={                
+                'placeholder':'máximo 11 dígitos y 2 decimales'                         
+            }),            
             'vehiculo': Select(),            
             'tipo_combustible': Select(),
             'gasolinera':Select(),
             'nota':Textarea(attrs={
-                'rows': '3'
+                'rows': '3',
+                'placeholder':'Describa cómo fue su experiencia'
             }),
             'kilometraje' : NumberInput(),            
         }

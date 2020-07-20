@@ -230,6 +230,7 @@ class MarcaView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de marcas'                
         context['entity'] = 'Marcas'
         context['form'] = MarcaVehiculoForm()
+        context['desc'] = 'Marcas'   
         return context 
 
 """
@@ -274,6 +275,7 @@ class TipoVehiculoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de vehiculos'                
         context['entity'] = 'Tipos de Vehiculos'
         context['form'] = TipoVehiculoForm()
+        context['desc'] = 'Tipos de vehículos'   
         return context 
 
 """
@@ -315,6 +317,7 @@ class TipoLavadoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de lavados'                
         context['entity'] = 'Tipos de Lavados'
         context['form'] = TipoLavadoForm()
+        context['desc'] = 'Tipos de lavados'
         return context
 
 class TipoLavadoUpdateView(LoginRequiredMixin, UpdateView):
@@ -328,6 +331,7 @@ class TipoLavadoUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = f'Editar Tipo de Lavado: {self.object}'                
         context['entity'] = 'Tipos de Lavados'
         context['list_url'] = self.success_url     
+        context['desc'] = 'Tipos de lavados'
         return context
         
 """
@@ -369,6 +373,7 @@ class TipoMantenimientoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de mantenimientos'                
         context['entity'] = 'Tipos de Mantenimientos'
         context['form'] = TipoMantenimientoForm()
+        context['desc'] = 'Tipos de matenimientos'
         return context 
 
 class TipoMantenimientoUpdateView(LoginRequiredMixin, UpdateView):
@@ -381,7 +386,8 @@ class TipoMantenimientoUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Editar Tipo de Mantenimiento: {self.object}'                
         context['entity'] = 'Tipos de Mantenimientos'
-        context['list_url'] = self.success_url     
+        context['list_url'] = self.success_url    
+        context['desc'] = 'Tipos de matenimientos' 
         return context 
 """
     Vistas de las Gasolineras
@@ -424,6 +430,7 @@ class GasolineraView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de gasolineras'                
         context['entity'] = 'Gasolinera'
         context['form'] = GasolineraForm()
+        context['desc'] = 'Gasolineras'
         return context 
 
 class GasolineraUpdateView(LoginRequiredMixin, UpdateView):
@@ -435,8 +442,9 @@ class GasolineraUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Editar Gasolinera: {self.object}'                
-        context['entity'] = 'Gasolineras'
+        context['entity'] = 'Gasolinera'
         context['list_url'] = self.success_url         
+        context['desc'] = 'Gasolineras'
         return context 
 
 """
@@ -481,6 +489,7 @@ class LavaderoView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de lavaderos'                
         context['entity'] = 'Lavadero'
         context['form'] = LavaderoForm
+        context['desc'] = 'Lavaderos'
         return context 
 
 class LavaderoUpdateView(LoginRequiredMixin, UpdateView):
@@ -492,8 +501,9 @@ class LavaderoUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Editar Lavadero: {self.object}'                
-        context['entity'] = 'Lavaderos'
-        context['list_url'] = self.success_url         
+        context['entity'] = 'Lavadero'
+        context['list_url'] = self.success_url   
+        context['desc'] = 'Lavaderos'      
         return context 
 
 """
@@ -538,6 +548,7 @@ class TallerView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de Talleres'                
         context['entity'] = 'Taller'
         context['form'] = TallerForm
+        context['desc'] = 'Talleres'
         return context 
 
 class TallerUpdateView(LoginRequiredMixin, UpdateView):
@@ -549,8 +560,9 @@ class TallerUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f'Editar Taller: {self.object}'                
-        context['entity'] = 'Talleres'
-        context['list_url'] = self.success_url         
+        context['entity'] = 'Taller'
+        context['list_url'] = self.success_url    
+        context['desc'] = 'Talleres'     
         return context 
 
         
@@ -593,4 +605,5 @@ class TipoCombustibleView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Listado de tipos de combustibles'                
         context['entity'] = 'Tipos de combustibles'
         context['form'] = TipoCombustibleForm()
+        context['desc'] = 'Tipos de combustibles'
         return context

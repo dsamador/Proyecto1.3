@@ -9,8 +9,9 @@
     <th>Fecha</th>
     <th>Valor</th>
     <th>Vehiculo</th>
-    <th>Local</th>
+    <th>Taller</th>
     <th>Tipo</th>
+    <th>Razón</th>
     <th>Comprobante</th>
     <th>Opciones</th>
 </tr>
@@ -36,8 +37,9 @@
                             <th>Valor</th>
                             <th>Vehiculo</th>
                             <th>Taller</th>
-                            <th>Tipo</th>
                             <th>Nota</th>
+                            <th>Tipo</th>
+                            <th>Razón</th>
                             <th>Comprobante</th>                            
                         </tr>
                     </thead>
@@ -79,6 +81,7 @@ function getData(){
             {"data": "vehiculo.nombre"},
             {"data": "taller.nombre"},            
             {"data": "tipo_mantenimiento.nombre"},
+            {"data": "razon"},
             {"data": "comprobante"},
             {"data": ""},/*Esta se repite para poder tener la columna de los botones*/
         ],          
@@ -134,8 +137,9 @@ function getData(){
                     {"data": "valor"},
                     {"data": "vehiculo.nombre"},
                     {"data": "taller.nombre"},            
-                    {"data": "tipo_mantenimiento.nombre"},
                     {"data" : "nota"},
+                    {"data": "tipo_mantenimiento.nombre"},
+                    {"data" : "razon"},
                     {"data": "comprobante"},                                                            
                 ],
                 columnDefs: [

@@ -5,11 +5,11 @@
 <div class="card-body ">
     <div class="row">
         <div class="col-lg-7">
-            <div class="card card-secondary">
+            <div class="card ">
                 <div class="card-header bg-danger">
                     <h3 class="card-title"><i class="fas fa-car"></i>  Campos obligatorios</h3>
                 </div>
-                <div class="card-body bg-gray">  
+                <div class="card-body ">  
                     {{form.nombre.label}}
                     {{form.nombre}}
                     {{form.modelo.label}}
@@ -28,7 +28,7 @@
                 <div class="card-header bg-warning">
                     <h3 class="card-title"><i class="fas fa-tachometer-alt"></i>  Campos no obligatorios</h3>
                 </div>
-                <div class="card-body bg-gray">
+                <div class="card-body ">
                     {{form.color.label}}
                     {{form.color}} 
                     {{form.num_chasis.label}}                                                                         
@@ -51,14 +51,14 @@
                 <div class="card-header bg-danger">
                     <h3 class="card-title"><i class="fas fa-car"></i>  Campos obligatorios</h3>
                 </div>
-                <div class="card-body bg-gray">     
+                <div class="card-body ">     
                     <div class="row">
                         <div class="col-6">
                             {{form.tipo.label}}
                             {{form.tipo}}                                                        
                         </div>
                         <div class="col-6">
-                            <a href="{% url 'gestion:tipovehiculo' %}" target="blank" class="btn btn-outline-primary ml-1 mt-4">Crear nuevo tipo</a>    
+                            <a href="{% url 'gestion:tipovehiculo' %}" target="blank" class="btn btn-primary ml-1 mt-4">Crear nuevo tipo</a>    
                         </div>
                     </div>                        
                     <div class="row">
@@ -67,7 +67,7 @@
                             {{form.marca}}
                         </div>
                         <div class="col-6">
-                            <a href="{% url 'gestion:marcas' %}" target="blank" class="btn btn-outline-primary mt-4">Crear nueva marca</a>    
+                            <a href="{% url 'gestion:marcas' %}" target="blank" class="btn btn-primary mt-4">Crear nueva marca</a>    
                         </div>
                     </div>
                 </div>
@@ -77,34 +77,3 @@
 </div>
 </div>
 {% endblock form %}
-
-{% block javascript %}
-<script>
-var $ = jQuery.noConflict();
-$('form').on('submit', function (e) {
-    e.preventDefault();
-    var parameters = new FormData(this);/* Toma los datos y los pasa a JSON y también toma los media */    
-    $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: parameters,
-        dataType: 'json',
-        processData: false,
-        contentType:false
-    }).done(function (data){                        
-        if(!data.hasOwnProperty('error')){ 
-            toastr.success('Acción realizada correctamente', 'Excelente!',{
-                "progressBar": true,
-                "positionClass": "toast-bottom-full-width",
-                "timeOut": "1500",
-            });
-            setTimeout(() => {location.href = '{{list_url}}'}, 1000);                
-            return false;                
-        }                
-        alert('Ya existe vehiculo con esa placa');        
-    }).fail(function(jqXHR, textStatus, errorThrown){            
-        alert(textStatus + ': ' + errorThrown);            
-    });
-});
-</script>    
-{% endblock javascript %}
