@@ -16,7 +16,7 @@ from django.http import JsonResponse
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'dashboard.html'
+    template_name = 'dashboard.html'    
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):

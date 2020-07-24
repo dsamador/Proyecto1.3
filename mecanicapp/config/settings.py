@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [    
+    'aplicaciones.login',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Mis apps
-    'aplicaciones.login',
     'aplicaciones.gestion',    
     'aplicaciones.homepage',
     #Mis librerias
@@ -169,7 +169,7 @@ LOGIN_REDIRECT_URL = '/app/dashboard/'
 
 LOGOUT_REDIRECT_URL = '/cuentas/login/'
 
-LOGIN_URL = '/login/'#Reemplaza al accounts/login/
+LOGIN_URL = '/cuentas/login/'#Reemplaza al accounts/login/
 
 #Email
 if DEBUG:
