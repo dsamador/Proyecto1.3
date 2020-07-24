@@ -37,8 +37,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-INSTALLED_APPS = [
-    'aplicaciones.login',
+INSTALLED_APPS = [    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,13 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Mis apps
-    
-    'aplicaciones.gestion',
-    #'aplicaciones.user',
+    'aplicaciones.login',
+    'aplicaciones.gestion',    
     'aplicaciones.homepage',
     #Mis librerias
     'django_userforeignkey',    
     'django_cleanup.apps.CleanupConfig',#Permite borrar imágenes subidas
+    'import_export',#Permite importar y exportar archivos a la base de datos desde el administrador
 ]
 
 MIDDLEWARE = [

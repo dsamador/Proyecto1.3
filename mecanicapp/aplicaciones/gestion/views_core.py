@@ -25,7 +25,7 @@ class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Vehiculo.objects.all():
+                for i in Vehiculo.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())     
             elif action == 'retrieveVhcl':
                 data = []                

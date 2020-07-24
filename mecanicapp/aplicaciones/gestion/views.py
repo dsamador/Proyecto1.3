@@ -136,7 +136,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
             elif action == 'carga': 
                 total_gasolineras = RecargaCombustible.objects.values('gasolinera').distinct().count() 
-                total_vehiculos = Vehiculo.objects.all().count()
+                total_vehiculos = Vehiculo.objects.filter(usuario=self.request.user).count()
                 #km = Odometro.objects.all().aggregate(Sum('distancia')) 
                 total_combustible = RecargaCombustible.objects.all().aggregate(Sum('cantidad'))
                 datos = {                    
@@ -194,7 +194,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 class MarcaView(LoginRequiredMixin, TemplateView):    
     template_name = 'auxdata/marca/list_marca.html'    
-    
+        
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)  
@@ -214,7 +214,7 @@ class MarcaView(LoginRequiredMixin, TemplateView):
                 m.save()
             elif action == 'edit':
                 m = MarcaVehiculo.objects.get(pk=request.POST['id'])
-                m.nombre = request.POST['nombre']
+                m.nombre = request.POST['nombre']                
                 m.save()
             elif action == 'delete':
                 m = MarcaVehiculo.objects.get(pk=request.POST['id'])
@@ -495,7 +495,7 @@ class LavaderoView(LoginRequiredMixin, TemplateView):
 class LavaderoUpdateView(LoginRequiredMixin, UpdateView):
     model =  Lavadero
     form_class = LavaderoForm
-    template_name = 'auxdata/lavadero/updt_local.html'
+    template_name = 'auxdata/lavadero/updt_lavadero.html'
     success_url = reverse_lazy('gestion:lavadero')        
 
     def get_context_data(self, **kwargs):
@@ -529,8 +529,8 @@ class TallerView(LoginRequiredMixin, TemplateView):
             elif action == 'add':
                 m = Taller()
                 m.nombre = request.POST['nombre']
-                m.direccion = request.POST['direccion']
                 m.descripcion = request.POST['descripcion']
+                m.direccion = request.POST['direccion']
                 m.correo = request.POST['correo']
                 m.telefono = request.POST['telefono']
                 m.save()            

@@ -54,7 +54,7 @@
               <li class="active"><a href="index.html">Inicio</a></li>
               <li><a href="#about">La App</a></li>
               <li><a href="#features">Características</a></li>                                      
-              <li><a href="#team">Sobre mi</a></li>              
+              <li><a href="#team">¿Quienes somos?</a></li>              
               <li><a href="#contact">Contacto</a></li>
               {% if request.user.is_authenticated %}
                 <li><a href="{% url 'gestion:dashboard' %}">{{request.user.username}}</a></li>
@@ -191,8 +191,10 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
-          <h2>Sobre mi</h2>
-          <p>Mi nombre es David Amador y soy un estudiante de desarrollo de software de la Corporación Bolivariana del Norte</p>
+          <h2>¿Quienes somos?</h2>
+          <p>Somos un grupo de estudiantes de la Corporación Bolivariana del Norte. </p>          
+          <p>Nuestros nombres son los siguientes:</p>
+          <p>Alejandro Espinosa, David Amador y Sergio Valverde</p>
         </div>                          
 
       </div>

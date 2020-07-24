@@ -69,7 +69,9 @@
       modal_title.find('span').html('Creación de una marca');
       modal_title.find('i').removeClass().addClass('fas fa-plus')      
       $('form')[0].reset();
-      $('#crear_registro').modal('show');
+      $('#crear_registro').modal('show');      
+      let btn = document.getElementById("id_nombre");
+      btn.focus();
     });
     
     $('#data tbody')
@@ -119,7 +121,12 @@
             alert(textStatus + ': ' + errorThrown);            
         });
       });
-    });
-            
+    });    
+
+    let next = document.getElementById("data_next");
+    next.addEventListener('click', ()=>{
+      alert('funciona');
+    })
+
     </script>
 {% endblock javascript %}

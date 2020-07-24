@@ -72,11 +72,11 @@
         {% block buttons_list %}
             
             {% if request.path == '/app/list_odometro/' or request.path == '/app/list_vehiculo/' or request.path == '/app/list_mantenimiento/' or request.path == '/app/list_lavado/' or request.path == '/app/list_recarga/'%}
-                <a href="{{create_url}}" class="btn btn-primary btnAdd">
+                <a id="btnA" href="{{create_url}}" class="btn btn-primary btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>            
             {% else %}  
-                <a class="btn btn-primary btnAdd">
+                <a id="btnA" class="btn btn-primary btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>
             {% endif %}
@@ -88,6 +88,7 @@
 </div>
 
 <script type="application/javascript">
+
 
 const btnActualizar = document.getElementById('actualizar');
 btnActualizar.addEventListener("click", () => {

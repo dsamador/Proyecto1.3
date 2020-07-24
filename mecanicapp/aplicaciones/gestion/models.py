@@ -8,7 +8,7 @@ from config.settings import MEDIA_URL, STATIC_URL
 
 class Comunes(models.Model):
     nombre = models.CharField('Nombre *',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
-    descripcion = models.TextField('Descripción',blank=True, null=True)
+    descripcion = models.TextField('Descripción',max_length=300,blank=True, null=True)
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -87,10 +87,13 @@ class TipoCombustible(models.Model):
 
     class Meta:
         """Meta definition for TipoCombustible."""
-
         verbose_name = 'Tipo de Combustible'
         verbose_name_plural = 'Tipos de Combustibles'
         ordering = ['nombre']
+
+    def save(self):        
+        self.nombre = self.nombre.upper()
+        super(TipoCombustible, self).save()        
 
     def __str__(self):
         """Unicode representation of TipoCombustible."""
@@ -100,17 +103,20 @@ class TipoCombustible(models.Model):
 class MarcaVehiculo(models.Model):
     """Model definition for MarcaVehiculo."""
     nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)
-
+    
     def toJSON(self):
-        item = model_to_dict(self)
-        return item
+        item = model_to_dict(self)    
+        return item    
 
     class Meta:
         """Meta definition for MarcaVehiculo."""
-
         verbose_name = 'Marca del Vehiculo'
         verbose_name_plural = 'Marcas de los Vehiculos'
         ordering = ['nombre']
+
+    def save(self):
+        self.nombre = self.nombre.upper()
+        super(MarcaVehiculo, self).save()
 
     def __str__(self):
         """Unicode representation of MarcaVehiculo."""
@@ -141,7 +147,7 @@ class Vehiculo(models.Model):
     """Model definition for Vehiculo."""
     nombre = models.CharField('Nombre del vehículo', max_length=100, blank=False, null=False)
     modelo = models.CharField('Modelo', max_length=100, blank=False, null=False)
-    placa = models.CharField('Placa', unique=True, max_length=15, blank=False, null=False)
+    placa = models.CharField('Placa', unique=True, max_length=10, blank=False, null=False)
     anio = models.CharField('Año', max_length=4, blank=False, null=False)    
     color = models.CharField('Color', max_length=40, blank=True, null=True)
     tanque = models.IntegerField('Capacidad Tanque', blank=False, null=False)
@@ -164,6 +170,11 @@ class Vehiculo(models.Model):
         if self.imagen:
             return '{}{}'.format(MEDIA_URL, self.imagen)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
+    
+    def save(self):
+        self.placa = self.placa.upper()
+        self.nombre = self.nombre.title()#Mayús a la 1ra letra de cada palabra
+        super(Vehiculo, self).save()        
 
     class Meta:        
         verbose_name = 'Vehiculo'
@@ -196,7 +207,7 @@ class Servicio(models.Model):
     fecha = models.DateTimeField('Fecha de servicio',auto_now_add=True)
     valor = models.DecimalField('Valor', max_digits=11, decimal_places=2, blank=False, null=False)    
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)    
-    nota = models.TextField(blank=True, null=True)
+    nota = models.TextField(max_length=300, blank=True, null=True)
 
     class Meta:
         abstract = True

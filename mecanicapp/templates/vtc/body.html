@@ -12,12 +12,26 @@
                 <div class="container-fluid card">                                    
                     <div class="row" style="background-color: #63D8F1;">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-white"> {{desc}} </h1>
+                            {% if request.path == '/cuentas/password_change/' %}
+                                <h1 class="m-0 text-white"> Cambiar contraseña </h1>
+                            
+                            {% elif request.path == '/cuentas/password_change/done/' %}
+                                <h1 class="m-0 text-white"> Cambio de contraseña exitoso </h1>                            
+                                
+                            {% else %}
+                                <h1 class="m-0 text-white"> {{desc}} </h1>
+                            {% endif %}
                         </div>                                                                                                   
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right ">
-                                <li class="breadcrumb-item"><a class="text-white" href="{% url 'gestion:dashboard' %}">Inicio</a></li>
-                                <li class="breadcrumb-item"><a class="text-white" href="{{ list_url }}">{{ entity }}</a></li>
+                                <li class="breadcrumb-item"><a class="text-white" href="{% url 'gestion:dashboard' %}">Inicio</a></li>                                
+                                {% if request.path == '/cuentas/password_change/' %}
+                                    <li class="breadcrumb-item"><a class="text-white" href="#">Cambiar contraseña</a></li>  
+                                {% elif request.path == '/cuentas/password_change/done/' %}                                  
+                                    <li class="breadcrumb-item"><a class="text-white" href="#">Cambio de contraseña exitoso</a></li>  
+                                {% else %}
+                                    <li class="breadcrumb-item"><a class="text-white" href="{{ list_url }}">{{ entity }}</a></li>
+                                {% endif %}
                             </ol>
                         </div>                        
                     </div>            
