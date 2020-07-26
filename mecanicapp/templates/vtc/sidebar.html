@@ -20,7 +20,7 @@ style="background: linear-gradient(to right, #8e9eab, #eef2f3);">
                 {% endif %}
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ request.user.username }}</a>
+                <a href="{% url 'perfil' %}" class="d-block">{{ request.user.username }}</a>
             </div>
         </div>
         <nav class="mt-2">

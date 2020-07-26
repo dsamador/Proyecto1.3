@@ -181,5 +181,5 @@ else:
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
-    EMAIL_HOST_USER = "aquí la dirección completa entre comillas de tu correo"
-    EMAIL_HOST_PASSWORD = "La clave de tu correo entre comillas"
+    EMAIL_HOST_USER = "***"
+    EMAIL_HOST_PASSWORD = "***"

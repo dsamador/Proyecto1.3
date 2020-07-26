@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 from .views_core import *
+from .views_pdf import *
 
 
 app_name = 'gestion'
@@ -31,12 +32,8 @@ urlpatterns = [
     path('update_taller/<int:pk>/',    TallerUpdateView.as_view(),       name = 'update_taller'),
 
     path('list_gasolinera/',          GasolineraView.as_view(),        name = 'gasolinera'),
-    path('update_gasolinera/<int:pk>/',          GasolineraUpdateView.as_view(),        name = 'update_gasolinera'),
-
-    #path('list_odometro/',            OdometroView.as_view(),          name = 'odometro'),
-    #path('create_odometro/',            OdometroCreateView.as_view(),          name = 'create_odometro'),
-    #path('update_odometro/<int:pk>/',            OdometroUpdateView.as_view(),          name = 'update_odometro'),
-
+    path('update_gasolinera/<int:pk>/',          GasolineraUpdateView.as_view(),        name = 'update_gasolinera'),    
+    
 
     #********************************PATHS DE VEHÍCULO*******************************************
 
@@ -72,4 +69,8 @@ urlpatterns = [
     path('create_recarga/',          RecargaCombustibleCreateView.as_view(), name = 'create_recarga'),
 
     path('update_recarga/<int:pk>/', RecargaCombustibleUpdateView.as_view(), name = 'update_recarga'),
+
+    
+    #**************************************PATHS DE PDF********************************************
+    path('vehiculos/pdf/<int:pk>/', AverPDF.as_view(), name = "vehiculos_pdf")
 ]
