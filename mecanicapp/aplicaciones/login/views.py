@@ -51,8 +51,8 @@ class SingUpView(CreateView):
         form = super(SingUpView, self).get_form()
         form.fields['username'].widget = forms.TextInput(attrs={'class':'form-control mb-2', 'placeholder':'Nombre de usuario'})
         form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control mb-2', 'placeholder':'Email'})
-        form.fields['password1'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Digita aquí tu contraseña'})
-        form.fields['password2'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Repite la contraseña'})
+        form.fields['password1'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Contraseña'})
+        form.fields['password2'].widget = forms.PasswordInput(attrs={'class':'form-control mb-2', 'placeholder':'Confirmación'})
 
         #Borrar los campos de ayuda
         form.fields['username'].help_text = None
@@ -64,7 +64,7 @@ class SingUpView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Crear una cuenta'
+        context['title'] = 'Crear una cuenta de mecanicapp'
         return context
 
 from django.utils.decorators import method_decorator

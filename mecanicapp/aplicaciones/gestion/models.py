@@ -182,26 +182,7 @@ class Vehiculo(models.Model):
 
     def __str__(self):        
         return self.nombre
-
-""" class Odometro(models.Model):    
-    distancia = models.PositiveIntegerField(blank=False, null=False)
-    vehiculo = models.ForeignKey(Vehiculo, on_delete = models.CASCADE, default=None)
-    fecha = models.DateTimeField('Fecha',auto_now=True)
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['vehiculo'] = self.vehiculo.toJSON()
-        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        return item
-
-    class Meta:        
-        verbose_name = 'Odómetro'
-        verbose_name_plural = 'Odómetros'
-        #unique_together = ('vehiculo', 'distancia') Me da problemas
-
-    def __str__(self):        
-        return f'Vehículo : {self.vehiculo}, distancia : {self.distancia}, fecha : {self.fecha}' """
-
+        
 
 class Servicio(models.Model):
     fecha = models.DateTimeField('Fecha de servicio',auto_now_add=True)

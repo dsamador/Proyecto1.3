@@ -72,5 +72,5 @@ urlpatterns = [
 
     
     #**************************************PATHS DE PDF********************************************
-    path('vehiculos/pdf/<int:pk>/', AverPDF.as_view(), name = "vehiculos_pdf")
+    path('lavados/pdf/<int:pk>/', AverPDF.as_view(), name = "vehiculos_pdf")
 ]
