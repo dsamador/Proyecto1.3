@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cu-x@g)yw(2q18w6prl7tp@9lqa_wb%-y8_x!5%#u#+*8_ry40'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '192.168.0.18',
@@ -181,5 +181,5 @@ else:
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
-    EMAIL_HOST_USER = "***"
-    EMAIL_HOST_PASSWORD = "***"
+    EMAIL_HOST_USER = "dsamador21@gmail.com"
+    EMAIL_HOST_PASSWORD = "ASRock1997-.-Gmail"
