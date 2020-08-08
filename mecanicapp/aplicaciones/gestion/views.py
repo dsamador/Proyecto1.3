@@ -27,8 +27,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             year = datetime.now().year
             for i in range(1,13):
-                total = Lavado.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')               
-                data.append(float(total))
+                total = Lavado.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')                               
+                data.append(float(total))                
         except:
             pass
         return data
@@ -169,6 +169,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                     'colorByPoint':True,
                     'data':self.get_gastos_mes_actual_lava(),
                 }
+                print(data)
                 return JsonResponse(data, safe = False)  
 
         except Exception as e:
@@ -251,7 +252,7 @@ class TipoVehiculoView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoVehiculo.objects.all():
+                for i in TipoVehiculo.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoVehiculo()
@@ -296,7 +297,7 @@ class TipoLavadoView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoLavado.objects.all():
+                for i in TipoLavado.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoLavado()
@@ -352,7 +353,7 @@ class TipoMantenimientoView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoMantenimiento.objects.all():
+                for i in TipoMantenimiento.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoMantenimiento()
@@ -408,7 +409,7 @@ class GasolineraView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in Gasolinera.objects.all():
+                for i in Gasolinera.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = Gasolinera()
@@ -465,7 +466,7 @@ class LavaderoView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in Lavadero.objects.all():
+                for i in Lavadero.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = Lavadero()
@@ -524,7 +525,7 @@ class TallerView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in Taller.objects.all():
+                for i in Taller.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = Taller()
@@ -581,7 +582,7 @@ class TipoCombustibleView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoCombustible.objects.all():
+                for i in TipoCombustible.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoCombustible()

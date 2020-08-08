@@ -9,6 +9,7 @@ from config.settings import MEDIA_URL, STATIC_URL
 class Comunes(models.Model):
     nombre = models.CharField('Nombre *',max_length=200, blank=False, null=False) # El verbose name se combierte en label en el html
     descripcion = models.TextField('Descripción',max_length=300,blank=True, null=True)
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -55,6 +56,7 @@ class Lavadero(Comunes):
     direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)    
     correo = models.CharField('Correo', max_length=100, blank=True, null=True)    
     telefono = models.CharField('Telefono', max_length=15, blank=True, null=True)    
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
 
     class Meta:        
         verbose_name = 'Lavadero'
@@ -68,6 +70,7 @@ class Taller(Comunes):
     direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)    
     correo = models.CharField('Correo', max_length=100, blank=True, null=True)    
     telefono = models.CharField('Telefono', max_length=15, blank=True, null=True)    
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
 
     class Meta:        
         verbose_name = 'Taller'
@@ -80,6 +83,7 @@ class Taller(Comunes):
 class TipoCombustible(models.Model):
     """Model definition for TipoCombustible."""
     nombre = models.CharField('Nombre', max_length=40, unique = True, blank=False, null=False)
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -103,6 +107,7 @@ class TipoCombustible(models.Model):
 class MarcaVehiculo(models.Model):
     """Model definition for MarcaVehiculo."""
     nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     
     def toJSON(self):
         item = model_to_dict(self)    
@@ -126,6 +131,7 @@ class MarcaVehiculo(models.Model):
 class TipoVehiculo(models.Model):
     """Model definition for TipoVehiculo."""
     nombre = models.CharField('Tipo de vehículo', unique = True, max_length=50, blank=False, null=False)
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     
     def toJSON(self):
         item = model_to_dict(self)
@@ -156,7 +162,7 @@ class Vehiculo(models.Model):
     matricula = models.CharField('Matrícula', unique=True, max_length=45, blank=True, null=True)
     tipo = models.ForeignKey(TipoVehiculo, on_delete = models.CASCADE)
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
-    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Dueño")
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos/%Y/%m/%d', height_field=None, width_field=None, max_length=None, blank=True, null=True)
     
     def toJSON(self):
@@ -189,6 +195,7 @@ class Servicio(models.Model):
     valor = models.DecimalField('Valor', max_digits=11, decimal_places=2, blank=False, null=False)    
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE)    
     nota = models.TextField(max_length=300, blank=True, null=True)
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
 
     class Meta:
         abstract = True
@@ -198,7 +205,7 @@ class Lavado(Servicio):
     """Model definition for Lavado."""
     tipo_lavado = models.ForeignKey(TipoLavado, on_delete=models.CASCADE)
     comprobante = models.ImageField(upload_to="recibos_lavados/%Y/%m/%d", null=True, blank=True)   
-    lavadero = models.ForeignKey(Lavadero, on_delete=models.CASCADE, blank=False, null=False)
+    lavadero = models.ForeignKey(Lavadero, on_delete=models.CASCADE, blank=False, null=False)    
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -272,7 +279,8 @@ class RecargaCombustible(models.Model):
     tipo_combustible = models.ForeignKey(TipoCombustible, on_delete=models.CASCADE)    
     gasolinera = models.ForeignKey(Gasolinera, on_delete=models.CASCADE, default = None)    
     nota = models.TextField(blank=True, null=True)   
-
+    usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
+    
     def toJSON(self):
         item = model_to_dict(self)
         item['vehiculo'] = self.vehiculo.toJSON()

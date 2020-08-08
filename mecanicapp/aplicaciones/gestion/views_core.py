@@ -25,6 +25,7 @@ class VehiculoListView(LoginRequiredMixin, ListView): #Este código funciona
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
+                #filter(usuario=self.request.user)
                 for i in Vehiculo.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())     
             elif action == 'retrieveVhcl':
@@ -209,7 +210,7 @@ class LavadoListView(LoginRequiredMixin, ListView): #Este código funciona
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Lavado.objects.all():
+                for i in Lavado.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())     
             elif action == 'retrieveLavado':
                 data = []                
@@ -301,7 +302,7 @@ class RecargaCombustibleListView(LoginRequiredMixin, ListView): #Este código fu
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in RecargaCombustible.objects.all():
+                for i in RecargaCombustible.objects.filter(usuario=self.request.user):
                     data.append(i.toJSON())     
             elif action == 'retrieveRecarga':
                 data = []                
