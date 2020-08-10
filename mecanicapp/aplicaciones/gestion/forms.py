@@ -103,11 +103,19 @@ class TallerForm(Establecimiento):
 
 class VehiculoForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(VehiculoForm, self).__init__(*args, **kwargs)
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb-2'
+        
         self.fields['nombre'].widget.attrs['autofocus'] = True
+
+        self.fields['tipo'].queryset = TipoVehiculo.objects.filter(usuario=request.user)
+        self.fields['marca'].queryset = MarcaVehiculo.objects.filter(usuario=request.user)        
+
+        self.fields['tipo'].empty_label = "Seleccione un tipo vehículo"
+        self.fields['marca'].empty_label = "Seleccione una marca"        
+
 
     class Meta:
         model = Vehiculo
@@ -139,23 +147,26 @@ class VehiculoForm(ModelForm):
             }),
             'matricula' : TextInput(attrs={                
                 'placeholder':'matricula'            
-            }),
-            'tipo' : Select(attrs={                           
-                'placeholder':'tipo de vehiculo'            
-            }),
-            'marca' : Select(attrs={                
-                'placeholder':'marca'                         
-            }),               
+            })                          
         }        
 
 
 class MantenimientoForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(MantenimientoForm, self).__init__(*args, **kwargs)
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb-2'
-            self.fields['valor'].widget.attrs['autofocus'] = True
+        
+        self.fields['valor'].widget.attrs['autofocus'] = True
+
+        self.fields['vehiculo'].queryset = Vehiculo.objects.filter(usuario=request.user)
+        self.fields['taller'].queryset = Taller.objects.filter(usuario=request.user)
+        self.fields['tipo_mantenimiento'].queryset = TipoMantenimiento.objects.filter(usuario=request.user)
+
+        self.fields['vehiculo'].empty_label = "Seleccione un vehículo"
+        self.fields['taller'].empty_label = "Seleccione un taller"
+        self.fields['tipo_mantenimiento'].empty_label = "Seleccione un tipo de lavado"
 
     class Meta:
         model = Mantenimiento
@@ -163,15 +174,11 @@ class MantenimientoForm(ModelForm):
         widgets = {
             'valor' : NumberInput(attrs={                
                 'placeholder':'máximo 11 dígitos y 2 decimales'                         
-            }),
-            'vehiculo': Select(),
-            'local':Select(),
-            'tipo_mantenimiento': Select(),
+            }),            
             'nota':Textarea(attrs={
                 'rows': '3',
                 'placeholder':'Describa cómo fue su experiencia'
-            }), 
-            'razon':Select(),
+            }),             
         }
 
 class LavadoForm(ModelForm):

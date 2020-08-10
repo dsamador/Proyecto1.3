@@ -59,6 +59,15 @@ class VehiculoCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
     
+    def get_form_kwargs(self):
+        kwargs = super(VehiculoCreateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(VehiculoCreateView, self).form_valid(form_class)
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
@@ -118,7 +127,7 @@ class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funcion
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Mantenimiento.objects.all():
+                for i in Mantenimiento.objects.filter(usuario = self.request.user):
                     data.append(i.toJSON())     
             elif action == 'retrieveMantenimiento':
                 data = []                
@@ -149,6 +158,15 @@ class MantenimientoCreateView(LoginRequiredMixin, CreateView):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
+
+    def get_form_kwargs(self):
+        kwargs = super(MantenimientoCreateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(MantenimientoCreateView, self).form_valid(form_class)
     
     def post(self, request, *args, **kwargs):
         data = {}

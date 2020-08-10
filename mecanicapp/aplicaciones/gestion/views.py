@@ -27,7 +27,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             year = datetime.now().year
             for i in range(1,13):
-                total = Lavado.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')                               
+                total = Lavado.objects.filter(usuario = self.request.user).filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')                               
                 data.append(float(total))                
         except:
             pass
@@ -38,7 +38,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             year = datetime.now().year
             for i in range(1,13):
-                total = Mantenimiento.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')
+                total = Mantenimiento.objects.filter(usuario = self.request.user).filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('valor'), 0)).get('r')
                 data.append(float(total))
         except:
             pass
@@ -49,7 +49,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         try:
             year = datetime.now().year
             for i in range(1,13):
-                total = RecargaCombustible.objects.filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('costo_total'), 0)).get('r')
+                total = RecargaCombustible.objects.filter(usuario = self.request.user).filter(fecha__year = year, fecha__month = i).aggregate(r=Coalesce(Sum('costo_total'), 0)).get('r')
                 data.append(float(total))
         except:
             pass
@@ -64,7 +64,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         year = datetime.now().year
         month = datetime.now().month
         try:
-            for i in Vehiculo.objects.all():
+            for i in Vehiculo.objects.filter(usuario = self.request.user):
                 total = Mantenimiento.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
                     r=Coalesce(Sum('valor'), 0)).get('r')
                 if total >0:
@@ -81,7 +81,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         year = datetime.now().year
         month = datetime.now().month
         try:
-            for i in Vehiculo.objects.all():
+            for i in Vehiculo.objects.filter(usuario = self.request.user):
                 total = RecargaCombustible.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
                     r=Coalesce(Sum('costo_total'), 0)).get('r')
                 if total >0:
@@ -98,7 +98,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         year = datetime.now().year
         month = datetime.now().month
         try:
-            for i in Vehiculo.objects.all():
+            for i in Vehiculo.objects.filter(usuario=self.request.user):
                 total = Lavado.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
                     r=Coalesce(Sum('valor'), 0)).get('r')
                 if total >0:
@@ -113,18 +113,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):   
         data = {}          
         try:                         
-            action = request.POST['action']                      
+            action = request.POST['action']  
+            usuario = self.request.user                    
             if action == 'searchdata':
 
-                total_lavados = Lavado.objects.all().aggregate(Sum('valor')) 
+                total_lavados = Lavado.objects.filter(usuario = self.request.user).aggregate(Sum('valor')) 
                 flotante1 = float(total_lavados.get('valor__sum'))               
                 lavados = json.dumps(flotante1)
 
-                total_mantenimientos = Mantenimiento.objects.all().aggregate(Sum('valor')) 
+                total_mantenimientos = Mantenimiento.objects.filter(usuario = self.request.user).aggregate(Sum('valor')) 
                 flotante2 = float(total_mantenimientos.get('valor__sum'))               
                 mantenimientos = json.dumps(flotante2)
 
-                total_recargas = RecargaCombustible.objects.all().aggregate(Sum('costo_total')) 
+                total_recargas = RecargaCombustible.objects.filter(usuario = self.request.user).aggregate(Sum('costo_total')) 
                 flotante3 = float(total_recargas.get('costo_total__sum'))                          
                 recargas = json.dumps(flotante3)
                 
@@ -139,10 +140,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 return JsonResponse(datos, safe = False)
 
             elif action == 'carga': 
-                total_gasolineras = RecargaCombustible.objects.values('gasolinera').distinct().count() 
+                total_gasolineras = RecargaCombustible.objects.filter(usuario = self.request.user).values('gasolinera').distinct().count() 
                 total_vehiculos = Vehiculo.objects.filter(usuario=self.request.user).count()
                 #km = Odometro.objects.all().aggregate(Sum('distancia')) 
-                total_combustible = RecargaCombustible.objects.all().aggregate(Sum('cantidad'))
+                total_combustible = RecargaCombustible.objects.filter(usuario = self.request.user).aggregate(Sum('cantidad'))
                 datos = {                    
                     'gas':[{'numero':total_gasolineras}],
                     'vehiculos':[{'numero':total_vehiculos}],
@@ -211,7 +212,7 @@ class MarcaView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in MarcaVehiculo.objects.all():
+                for i in MarcaVehiculo.objects.filter(usuario = self.request.user):
                     data.append(i.toJSON())
             elif action == 'add':
                 m = MarcaVehiculo()
@@ -586,7 +587,7 @@ class TipoCombustibleView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoCombustible.objects.filter(usuario=self.request.user):
+                for i in TipoCombustible.objects.all():
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoCombustible()
