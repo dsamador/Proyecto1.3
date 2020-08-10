@@ -101,26 +101,6 @@ class TallerForm(Establecimiento):
         model = Taller
 
 
-""" class OdometroForm(ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for form in self.visible_fields():
-            form.field.widget.attrs['class'] = 'form-control mb2'
-        self.fields['distancia'].widget.attrs['autofocus'] = True
-    
-    class Meta:
-        model = Odometro
-        fields = '__all__'
-        widgets = {
-            'distancia' : NumberInput(attrs={                
-                'placeholder':'Distancia',
-            }),
-            'vehiculo' : Select(attrs={                
-                'placeholder':'Vehiculo'                
-            }),
-        }
- """
 class VehiculoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -196,22 +176,28 @@ class MantenimientoForm(ModelForm):
 
 class LavadoForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(LavadoForm, self).__init__(*args, **kwargs)
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb-2'
-            self.fields['valor'].widget.attrs['autofocus'] = True
+        
+        self.fields['valor'].widget.attrs['autofocus'] = True
+
+        self.fields['vehiculo'].queryset = Vehiculo.objects.filter(usuario=request.user)
+        self.fields['lavadero'].queryset = Lavadero.objects.filter(usuario=request.user)
+        self.fields['tipo_lavado'].queryset = TipoLavado.objects.filter(usuario=request.user)
+
+        self.fields['vehiculo'].empty_label = "Seleccione un vehículo"
+        self.fields['lavadero'].empty_label = "Seleccione un lavadero"
+        self.fields['tipo_lavado'].empty_label = "Seleccione un tipo de lavado"
 
     class Meta:
         model = Lavado
-        exclude = ['fecha']
+        exclude = ['fecha', 'usuario']
         widgets = {
             'valor' : NumberInput(attrs={                
                 'placeholder':'máximo 11 dígitos y 2 decimales'                         
-            }),
-            'vehiculo': Select(),
-            'local':Select(),
-            'tipo_lavado': Select(),
+            }),                                    
             'nota':Textarea(attrs={
                 'rows': '3',
                 'placeholder':'Describa cómo fue su experiencia'

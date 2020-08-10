@@ -237,10 +237,19 @@ class LavadoCreateView(LoginRequiredMixin, CreateView):
     form_class = LavadoForm    
     template_name = 'lavado/create_lavado.html'
     success_url = reverse_lazy('gestion:lavado')
-    
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):        
-        return super().dispatch(request, *args, **kwargs)    
+        return super().dispatch(request, *args, **kwargs)   
+    
+    def get_form_kwargs(self):
+        kwargs = super(LavadoCreateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(LavadoCreateView, self).form_valid(form_class)     
     
     def post(self, request, *args, **kwargs):
         data = {}

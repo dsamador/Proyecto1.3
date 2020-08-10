@@ -55,6 +55,10 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             pass
         return data
     
+    """ 
+        FUNCIONES PARA LOS GRÁFICOS DE TORTA
+    """
+
     def get_gastos_mes_actual_mant(self):
         data = []
         year = datetime.now().year
