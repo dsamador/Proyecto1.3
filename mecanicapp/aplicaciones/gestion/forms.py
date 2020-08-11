@@ -166,7 +166,7 @@ class MantenimientoForm(ModelForm):
 
         self.fields['vehiculo'].empty_label = "Seleccione un vehículo"
         self.fields['taller'].empty_label = "Seleccione un taller"
-        self.fields['tipo_mantenimiento'].empty_label = "Seleccione un tipo de lavado"
+        self.fields['tipo_mantenimiento'].empty_label = "Seleccione un tipo de mantenimiento"
 
     class Meta:
         model = Mantenimiento
@@ -213,11 +213,20 @@ class LavadoForm(ModelForm):
 
 class RecargaCombustibleForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, request, *args, **kwargs):
+        super(RecargaCombustibleForm, self).__init__(*args, **kwargs)
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb-2'
-            self.fields['cantidad'].widget.attrs['autofocus'] = True
+        
+        self.fields['cantidad'].widget.attrs['autofocus'] = True
+
+        self.fields['vehiculo'].queryset = Vehiculo.objects.filter(usuario=request.user)
+        self.fields['gasolinera'].queryset = Gasolinera.objects.filter(usuario=request.user)
+        
+
+        self.fields['vehiculo'].empty_label = "Seleccione un vehículo"
+        self.fields['gasolinera'].empty_label = "Seleccione una gasolinera"
+        self.fields['tipo_combustible'].empty_label = "Seleccione un tipo de combustible"
     
     class Meta:
         model = RecargaCombustible
@@ -231,15 +240,14 @@ class RecargaCombustibleForm(ModelForm):
             }),
             'costo_total' : NumberInput(attrs={                
                 'placeholder':'máximo 11 dígitos y 2 decimales'                         
-            }),            
-            'vehiculo': Select(),            
-            'tipo_combustible': Select(),
-            'gasolinera':Select(),
+            }),                        
             'nota':Textarea(attrs={
                 'rows': '3',
                 'placeholder':'Describa cómo fue su experiencia'
             }),
-            'kilometraje' : NumberInput(),            
+            'kilometraje' : NumberInput(attrs={
+                'placeholder':'Digite su última lectura de odómetro'
+            }),            
         }
 
 class SelectForm(Form):

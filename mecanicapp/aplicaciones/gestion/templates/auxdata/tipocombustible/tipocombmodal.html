@@ -1,0 +1,24 @@
+{% load static %}
+<div class="modal-dialog modal-sm">
+  <div class="modal-content animated bounceIn">
+    <div class="modal-header">
+      <img src="{% static 'img/icono.svg' %}" alt="" width="20" height="auto"> 
+      <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+       </button>
+       <div class="col-md-12">
+       <h4 class="modal-title text-center">Añadir Categoria</h4>
+      </div>
+    </div>  
+    <form method="POST" data-url="{% url 'add_tipocombustible' %}" class="agregar">
+      {% csrf_token %}
+      <div class="modal-body">
+        {{form}}
+      </div> 
+      <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-default">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

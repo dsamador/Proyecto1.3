@@ -118,18 +118,18 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
 
                 total_lavados = Lavado.objects.filter(usuario = self.request.user).aggregate(Sum('valor')) 
-                flotante1 = float(total_lavados.get('valor__sum'))               
+                flotante1 = float(total_lavados.get('valor__sum'))                               
                 lavados = json.dumps(flotante1)
 
                 total_mantenimientos = Mantenimiento.objects.filter(usuario = self.request.user).aggregate(Sum('valor')) 
-                flotante2 = float(total_mantenimientos.get('valor__sum'))               
+                flotante2 = float(total_mantenimientos.get('valor__sum'))                               
                 mantenimientos = json.dumps(flotante2)
 
                 total_recargas = RecargaCombustible.objects.filter(usuario = self.request.user).aggregate(Sum('costo_total')) 
-                flotante3 = float(total_recargas.get('costo_total__sum'))                          
+                flotante3 = float(total_recargas.get('costo_total__sum'))                                          
                 recargas = json.dumps(flotante3)
                 
-                total_todo = flotante1+flotante2+flotante3                
+                total_todo = flotante1+flotante2+flotante3#Esto da error cuando no hay datos en los flotantes
 
                 datos = {
                     'lavados':[{'numero':lavados}],

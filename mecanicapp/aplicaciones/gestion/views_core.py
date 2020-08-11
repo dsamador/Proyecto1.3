@@ -321,7 +321,7 @@ class RecargaCombustibleListView(LoginRequiredMixin, ListView): #Este código fu
 
     @method_decorator(csrf_exempt)    
     def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)    
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -360,6 +360,15 @@ class RecargaCombustibleCreateView(LoginRequiredMixin, CreateView):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
+
+    def get_form_kwargs(self):
+        kwargs = super(RecargaCombustibleCreateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(RecargaCombustibleCreateView, self).form_valid(form_class)
     
     def post(self, request, *args, **kwargs):
         data = {}
