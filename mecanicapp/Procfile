@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-web: gunicorn config.wsgi
-=======
-web : gunicorn config.wsgi --log-file -
->>>>>>> 061ec24f5fdba82fac92079d5e217d6ce327fc98
+web: gunicorn mecanicapp.wsgi --log-file -

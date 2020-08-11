@@ -23,9 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cu-x@g)yw(2q18w6prl7tp@9lqa_wb%-y8_x!5%#u#+*8_ry40'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
+    '*',
     '192.168.0.18',
     '192.168.0.19',
     '192.168.0.49',
@@ -103,21 +104,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 }
 """
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-} 
+}  """
 
 
-""" import dj_database_url
+import dj_database_url
 from decouple import config
 DATABASES = {
     'default':dj_database_url.config(
         default = config('DATABASE_URL')
     )
-} """
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -161,6 +162,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #de codigofacilito no da problemas
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
@@ -170,6 +173,7 @@ LOGIN_REDIRECT_URL = '/app/dashboard/'
 LOGOUT_REDIRECT_URL = '/cuentas/login/'
 
 LOGIN_URL = '/cuentas/login/'#Reemplaza al accounts/login/
+
 
 #Email
 if DEBUG:
@@ -183,3 +187,5 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend' #Esto es un backend para los emails basado en ficheros
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'#de codigofacilito toca ponerlo simpre al final
