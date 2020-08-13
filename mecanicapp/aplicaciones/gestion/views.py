@@ -212,7 +212,7 @@ class MarcaView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in MarcaVehiculo.objects.filter(usuario = self.request.user):
+                for i in MarcaVehiculo.objects.all():
                     data.append(i.toJSON())
             elif action == 'add':
                 m = MarcaVehiculo()

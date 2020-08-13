@@ -301,4 +301,4 @@ class RecargaCombustible(models.Model):
         ordering=['fecha']
 
     def __str__(self):    
-        return f'Costo: {self.costo_total}, Fecha: {self.fecha}'
+        return f'Costo: {self.costo_total}, Fecha: {self.fecha}'       

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'cu-x@g)yw(2q18w6prl7tp@9lqa_wb%-y8_x!5%#u#+*8_ry40'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*',
@@ -104,21 +104,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 }
 """
 
-""" DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}  """
+} 
 
 
-import dj_database_url
+""" import dj_database_url
 from decouple import config
 DATABASES = {
     'default':dj_database_url.config(
         default = config('DATABASE_URL')
     )
-}
+} """
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

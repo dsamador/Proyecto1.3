@@ -111,8 +111,7 @@ class VehiculoForm(ModelForm):
         self.fields['nombre'].widget.attrs['autofocus'] = True
 
         self.fields['tipo'].queryset = TipoVehiculo.objects.filter(usuario=request.user)
-        self.fields['marca'].queryset = MarcaVehiculo.objects.filter(usuario=request.user)        
-
+              
         self.fields['tipo'].empty_label = "Seleccione un tipo vehículo"
         self.fields['marca'].empty_label = "Seleccione una marca"        
 
