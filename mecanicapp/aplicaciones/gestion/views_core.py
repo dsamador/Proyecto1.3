@@ -97,7 +97,16 @@ class VehiculoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
     model = Vehiculo
     form_class = VehiculoForm    
     template_name = 'vehiculo/update.html'
-    success_url = reverse_lazy('gestion:vehiculo')          
+    success_url = reverse_lazy('gestion:vehiculo')      
+
+    def get_form_kwargs(self):
+        kwargs = super(VehiculoUpdateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(VehiculoUpdateView, self).form_valid(form_class)    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,6 +207,15 @@ class MantenimientoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene aj
     form_class = MantenimientoForm    
     template_name = 'mantenimiento/update_mantenimiento.html'
     success_url = reverse_lazy('gestion:mantenimiento')        
+    
+    def get_form_kwargs(self):
+        kwargs = super(MantenimientoUpdateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(MantenimientoUpdateView, self).form_valid(form_class)        
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -300,6 +318,15 @@ class LavadoUpdateView(LoginRequiredMixin, UpdateView):# Este no tiene ajax
     template_name = 'lavado/update_lavado.html'
     success_url = reverse_lazy('gestion:lavado')        
     
+    def get_form_kwargs(self):
+        kwargs = super(LavadoUpdateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(LavadoUpdateView, self).form_valid(form_class)    
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edición de un lavado'        
@@ -400,6 +427,15 @@ class RecargaCombustibleUpdateView(LoginRequiredMixin, UpdateView):# Este no tie
     form_class = RecargaCombustibleForm    
     template_name = 'recarga/update_recarga.html'
     success_url = reverse_lazy('gestion:recarga')        
+    
+    def get_form_kwargs(self):
+        kwargs = super(RecargaCombustibleUpdateView, self).get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
+    def form_valid(self, form_class):
+        form_class.instance.user_id = self.request.user.id
+        return super(RecargaCombustibleUpdateView, self).form_valid(form_class)    
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

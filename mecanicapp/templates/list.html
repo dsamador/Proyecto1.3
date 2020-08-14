@@ -54,8 +54,8 @@
             {{ title }}
         </h3>
     </div>
-    <div class="card-body animated fadeIn fast">
-        <table class="table table-sm table-bordered table-striped table-hover" id="data">
+    <div class="card-body ">
+        <table class="animated fadeIn fast  table table-sm table-bordered table-striped table-hover" id="data">
             <thead class="animated fadeIn" style="background: linear-gradient(to bottom, #02aab0, #00cdac);">
             {% block columns %}
 
@@ -72,15 +72,15 @@
         {% block buttons_list %}
             
             {% if request.path == '/app/list_odometro/' or request.path == '/app/list_vehiculo/' or request.path == '/app/list_mantenimiento/' or request.path == '/app/list_lavado/' or request.path == '/app/list_recarga/'%}
-                <a id="btnA" href="{{create_url}}" class="btn btn-primary btnAdd">
+                <a id="btnA" href="{{create_url}}" class="btn btn-primary animated fadeIn btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>            
             {% else %}  
-                <a id="btnA" class="btn btn-primary btnAdd">
+                <a id="btnA" class="btn btn-primary animated fadeIn btnAdd">
                     <i class="fas fa-plus"></i> Nuevo registro
                 </a>
             {% endif %}
-            <a class="btn btn-success " id="actualizar">
+            <a class="btn btn-success animated fadeIn" id="actualizar">
                 <i class="fas fa-sync"></i> Actualizar
             </a>
         {% endblock buttons_list %}

@@ -88,7 +88,7 @@ $('#data tbody')
     var parameters = new FormData();
     parameters.append('action', 'delete');
     parameters.append('id', data.id);    
-    submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar eliminar el siguiente registro?', parameters, function () {
+    submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
     miTabla.ajax.reload();
     });
 });        
