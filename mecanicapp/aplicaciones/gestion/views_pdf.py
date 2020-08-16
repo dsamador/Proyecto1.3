@@ -19,7 +19,7 @@ class AverPDF(View):
         try:            
             template = get_template('reports/r_vhcl.html')
             context = {
-                'lavados': Lavados.objects.all(),
+                'lavados': Lavado.objects.all(),
                 'persona': {'nombre':'David'}
                 #'lavados': Lavado.objects.filter(vehiculo__id=request.GET.get())
             }
