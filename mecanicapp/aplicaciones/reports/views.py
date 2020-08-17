@@ -21,7 +21,7 @@ class Report(TemplateView):
                 data = []                            
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')
-                search = Mantenimiento.objects.all()
+                search = Mantenimiento.objects.filter(usuario = self.request.user)
                 if len(start_date) and len(end_date):
                     search = search.filter(fecha__range=[start_date, end_date])
                 
