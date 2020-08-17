@@ -75,14 +75,17 @@
 {% block javascript %}
 <script>
     var $ = jQuery.noConflict();
+    
 $('form').on('submit', function (e) {
     e.preventDefault();
     var parameters = new FormData(this);/* Toma los datos y los pasa a JSON y también toma los media */
+    csrfToken = $("input[name=csrfmiddlewaretoken]").val();
     console.log(parameters);
     $.ajax({
         url: window.location.pathname,
-        type: 'POST',
+        type: 'POST',        
         data: parameters,
+        csrfmiddlewaretoken: csrfToken,
         dataType: 'json',
         processData: false,
         contentType:false

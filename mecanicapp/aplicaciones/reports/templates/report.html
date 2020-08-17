@@ -30,7 +30,13 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="form-group">
-                    <label for="">Rango de fechas</label>
+                    <label>Escoja una tabla</label>
+                    {{form.tabla}}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label>Rango de fechas</label>
                     {{form.date_range}}
                 </div>
             </div>
@@ -67,8 +73,18 @@ btnActualizar.addEventListener("click", () => {
     miTabla.ajax.reload();    
 })
 
+const select = document.getElementById('id_tabla');
 
-    
+select.addEventListener("change",()=>{    
+    let id = select.value
+    $.ajax({
+        data:{'id':id},
+        url:window.location.pathname,
+        type:'post'
+    })
+})
+
+
 </script>
 
 {% endblock content %}

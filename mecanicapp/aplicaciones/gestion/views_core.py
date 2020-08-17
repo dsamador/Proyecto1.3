@@ -126,7 +126,7 @@ class MantenimientoListView(LoginRequiredMixin, ListView): #Este código funcion
     model = Mantenimiento
     template_name = 'mantenimiento/list_mantenimiento.html'
 
-    @method_decorator(csrf_exempt)    
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -164,7 +164,7 @@ class MantenimientoCreateView(LoginRequiredMixin, CreateView):
     template_name = 'mantenimiento/create_mantenimiento.html'
     success_url = reverse_lazy('gestion:mantenimiento')
     
-    @method_decorator(csrf_exempt)
+    
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
 
@@ -274,7 +274,7 @@ class LavadoCreateView(LoginRequiredMixin, CreateView):
     template_name = 'lavado/create_lavado.html'
     success_url = reverse_lazy('gestion:lavado')
 
-    @method_decorator(csrf_exempt)
+    
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)   
     
@@ -383,8 +383,7 @@ class RecargaCombustibleCreateView(LoginRequiredMixin, CreateView):
     form_class = RecargaCombustibleForm    
     template_name = 'recarga/create_recarga.html'
     success_url = reverse_lazy('gestion:recarga')
-    
-    @method_decorator(csrf_exempt)
+        
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
 

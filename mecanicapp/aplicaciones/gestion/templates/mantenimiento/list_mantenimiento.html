@@ -59,10 +59,8 @@ var miTabla;
 let modal_title;
 
 function getData(){
-    
-    $(function () {        
-
-    miTabla = $('#data').DataTable({                
+    $(function () {            
+    miTabla = $('#data').DataTable({                        
         responsive: true,
         autoWidth: false,
         destroy: true,
@@ -71,8 +69,8 @@ function getData(){
             url: window.location.pathname,
             type: 'POST',
             data: {
-                'action': 'searchdata'
-            },
+                'action': 'searchdata'                
+            },                        
             dataSrc: "" /*Para identificar todos los datos con un nombre de variable*/
         },
         columns: [

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ReportForm
+from .forms import *
 from django.http import JsonResponse
 from aplicaciones.gestion.models import Mantenimiento
 
@@ -15,6 +15,7 @@ class Report(TemplateView):
 
     def post(self, request, *args, **kwargs):
         data = {}
+        tabla = request.POST.get('id')        
         try:                         
             action = request.POST['action']                      
             if action == 'search_report':                
@@ -48,5 +49,6 @@ class Report(TemplateView):
         context['entity'] = 'Reportes'
         context['list_url'] = reverse_lazy('reporte_mantenimientos')
         context['form'] = ReportForm()
+        
         return context
     
