@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #Mis apps
     'aplicaciones.gestion',    
     'aplicaciones.homepage',
+    'aplicaciones.reports',
     #Mis librerias
     'django_userforeignkey',    
     'django_cleanup.apps.CleanupConfig',#Permite borrar imágenes subidas
