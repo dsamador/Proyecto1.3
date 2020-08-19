@@ -62,53 +62,14 @@ function getData(){
 }
     
 $(function () {
-  modal_title = $('.modal-title');
-  getData();
-    
+  modal_title = $('.modal-title');      
   $('.btnAdd').on('click', function(){
     $('input[name = "action"]').val('add');
     modal_title.find('span').html('Creación de un tipo de mantenimiento');
     modal_title.find('i').removeClass().addClass('fas fa-plus')      
     $('form')[0].reset();
     $('#crear_registro').modal('show');
-  });
-    
-  $('#data tbody')
-  .on('click', 'a[rel="delete"]', function () {
-      var tr = miTabla.cell($(this).closest('td, li')).index();
-      var data = miTabla.row(tr.row).data();
-      var parameters = new FormData();
-      parameters.append('action', 'delete');
-      parameters.append('id', data.id);    
-      submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
-        miTabla.ajax.reload();
-      });
   });        
-
-  $('form').on('submit', function (e) {
-    e.preventDefault();
-    var parameters = $(this).serializeArray(); 
-    console.log(parameters);
-    $.ajax({
-      url: window.location.pathname,
-      type: 'POST',
-      data: parameters,
-      dataType: 'json'
-    }).done(function (data){                        
-      if(!data.hasOwnProperty('error')){               
-        $('#crear_registro').modal('hide');
-        miTabla.ajax.reload();
-        toastr.success('Acción realizada correctamente', 'Excelente!',{
-          "progressBar": true,
-          "positionClass": "toast-bottom-right"
-        });
-        return false;
-      }                 
-      alert('Ese dato ya está almacenado')      
-    }).fail(function(jqXHR, textStatus, errorThrown){
-      alert(textStatus + ': ' + errorThrown);            
-    });
-  });
 });
 </script>
 {% endblock javascript %}

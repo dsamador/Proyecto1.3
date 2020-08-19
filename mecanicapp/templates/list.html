@@ -172,6 +172,31 @@ $(function () {
         });
     }); 
 });
+
+$('form').on('submit', function (e) {
+    e.preventDefault();
+    var parameters = $(this).serializeArray(); 
+    console.log(parameters);
+    $.ajax({
+      url: window.location.pathname,
+      type: 'POST',
+      data: parameters,
+      dataType: 'json'
+    }).done(function (data){                        
+      if(!data.hasOwnProperty('error')){               
+        $('#crear_registro').modal('hide');
+        miTabla.ajax.reload();
+        toastr.success('Acción realizada correctamente', 'Excelente!',{
+          "progressBar": true,
+          "positionClass": "toast-bottom-right"
+        });
+        return false;
+      }                 
+      alert('Ese dato ya está almacenado')      
+    }).fail(function(jqXHR, textStatus, errorThrown){
+      alert(textStatus + ': ' + errorThrown);            
+    });
+  });
 </script>
     
 {% endblock content %}
