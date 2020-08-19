@@ -23,9 +23,8 @@ class ReportMantenimiento(TemplateView):
                 data = []                            
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                
-                search = Mantenimiento.objects.filter(usuario = self.request.user)
                 if len(start_date) and len(end_date):
-                    search = search.filter(fecha__range=[start_date, end_date])            
+                    search = Mantenimiento.objects.filter(usuario = self.request.user).filter(fecha__range=[start_date, end_date])                                
 
                 for s in search:                                        
                     data.append([                        
@@ -73,9 +72,8 @@ class ReportMantenimiento(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Reporte de los mantenimientos'
         context['entity'] = 'Reportes'
-        context['list_url'] = reverse_lazy('reporte_mantenimientos')
-        context['form'] = ReportForm()
-        
+        context['list_url'] = reverse_lazy('reporte_mantenimientos')        
+        context['form'] = ReportForm()        
         return context
 
 

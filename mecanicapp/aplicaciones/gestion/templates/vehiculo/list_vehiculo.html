@@ -174,20 +174,6 @@ function getData(){
 
     });
 }
-$(function () {
-    getData();
-    modal_title = $('.modal-title');
-    $('#data tbody')    
-    .on('click', 'a[rel="delete"]', function () {
-        var tr = miTabla.cell($(this).closest('td, li')).index();
-        var data = miTabla.row(tr.row).data();
-        var parameters = new FormData();
-        parameters.append('action', 'delete');
-        parameters.append('id', data.id);    
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
-            miTabla.ajax.reload();
-        });
-    }); 
-});
+
 </script>
 {% endblock javascript %}

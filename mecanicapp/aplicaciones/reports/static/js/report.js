@@ -104,7 +104,7 @@ function generate_report() {
             },
         ],
         initComplete: function (settings, json) {
-
+            
         }
     });
 }

@@ -66,7 +66,7 @@
     
     $(function () {
       modal_title = $('.modal-title');
-      getData();
+      
     
     $('.btnAdd').on('click', function(){
       $('input[name = "action"]').val('add');
@@ -88,17 +88,7 @@
       $('input[name="descripcion"]').val(data.descripcion);
       $('input[name="direccion"]').val(data.direccion);
       $('#crear_registro').modal('show');
-    })
-    .on('click', 'a[rel="delete"]', function () {
-        var tr = miTabla.cell($(this).closest('td, li')).index();
-        var data = miTabla.row(tr.row).data();
-        var parameters = new FormData();
-        parameters.append('action', 'delete');
-        parameters.append('id', data.id);    
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el siguiente registro?', parameters, function () {
-          miTabla.ajax.reload();
-        });
-    });             
+    })              
     
     $('form').on('submit', function (e) {
       e.preventDefault();

@@ -139,10 +139,13 @@ class TipoVehiculo(models.Model):
         
     class Meta:
         """Meta definition for TipoVehiculo."""
-
         verbose_name = 'Tipo de Vehiculo'
         verbose_name_plural = 'Tipos de Vehiculos'
         ordering = ['nombre']
+        constraints = [
+            models.UniqueConstraint(fields=['nombre','usuario'], name='tipo_vehiculo_por_usuario')
+        ]
+        
 
     def __str__(self):
         """Unicode representation of TipoVehiculo."""

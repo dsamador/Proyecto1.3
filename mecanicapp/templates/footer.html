@@ -1,4 +1,9 @@
 <!-- Main Footer -->
 <footer class="main-footer text-center text-white" style="background: linear-gradient(to bottom, #24c6dc, #514a9d);">
-    <strong>Copyright &copy; 2020-2021 Mecanicapp.</strong> Todos los derechos reservados.    
+    <strong id="coso"></strong> Todos los derechos reservados.    
 </footer>
+
+<script>
+    var anio = new Date().getFullYear();
+    document.getElementById('coso').innerHTML="Copyright &copy; " + anio + " Mecanicapp";
+</script>
