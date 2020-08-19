@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 from django.http import JsonResponse
 from aplicaciones.gestion.models import Mantenimiento, Lavado, RecargaCombustible
+from django.db.models.functions import Coalesce
+from django.db.models import Sum, Count
 
 class ReportMantenimiento(TemplateView):
     template_name = 'report_mant.html'
@@ -25,7 +27,7 @@ class ReportMantenimiento(TemplateView):
                 if len(start_date) and len(end_date):
                     search = search.filter(fecha__range=[start_date, end_date])            
 
-                for s in search:                    
+                for s in search:                                        
                     data.append([                        
                         s.fecha.strftime('%Y-%m-%d'),
                         s.vehiculo.nombre,
@@ -33,8 +35,34 @@ class ReportMantenimiento(TemplateView):
                         s.taller.nombre,
                         s.razon,
                         s.valor
-                    ])                    
-                         
+                    ]) 
+                
+                total = search.aggregate(r=Coalesce(Sum('valor'),0)).get('r')
+                cant = search.aggregate(r=Coalesce(Count('valor'),0)).get('r')
+                
+                if total and cant != 0:
+                    promedio = total/cant
+                else:
+                    promedio = 0
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',
+                    '---',
+                    'Total',
+                    format(total, '.2f'),
+                ], )
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',
+                    '---',
+                    'Promedio',
+                    format(promedio, '.2f'),
+                ])
+#coordinar avances, programar tareas.        
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
