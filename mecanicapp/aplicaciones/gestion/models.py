@@ -80,8 +80,7 @@ class Taller(Comunes):
         return self.nombre
 
 
-class TipoCombustible(models.Model):
-    """Model definition for TipoCombustible."""
+class TipoCombustible(models.Model):    
     nombre = models.CharField('Nombre', max_length=40, unique = True, blank=False, null=False)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     
@@ -99,13 +98,11 @@ class TipoCombustible(models.Model):
         self.nombre = self.nombre.upper()
         super(TipoCombustible, self).save()        
 
-    def __str__(self):
-        """Unicode representation of TipoCombustible."""
+    def __str__(self):        
         return self.nombre
 
 
-class MarcaVehiculo(models.Model):
-    """Model definition for MarcaVehiculo."""
+class MarcaVehiculo(models.Model):    
     nombre = models.CharField('Nombre de la marca', unique = True, max_length=40, blank=False, null=False)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     
@@ -113,8 +110,7 @@ class MarcaVehiculo(models.Model):
         item = model_to_dict(self)    
         return item    
 
-    class Meta:
-        """Meta definition for MarcaVehiculo."""
+    class Meta:        
         verbose_name = 'Marca del Vehiculo'
         verbose_name_plural = 'Marcas de los Vehiculos'
         ordering = ['nombre']
@@ -123,8 +119,7 @@ class MarcaVehiculo(models.Model):
         self.nombre = self.nombre.upper()
         super(MarcaVehiculo, self).save()
 
-    def __str__(self):
-        """Unicode representation of MarcaVehiculo."""
+    def __str__(self):        
         return self.nombre
         
 
@@ -146,7 +141,6 @@ class TipoVehiculo(models.Model):
             models.UniqueConstraint(fields=['nombre','usuario'], name='tipo_vehiculo_por_usuario')
         ]
         
-
     def __str__(self):
         """Unicode representation of TipoVehiculo."""
         return self.nombre
@@ -167,6 +161,7 @@ class Vehiculo(models.Model):
     marca = models.ForeignKey(MarcaVehiculo, on_delete = models.CASCADE)
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
     imagen = models.ImageField('Imagen del vehiculo', upload_to='vehiculos/%Y/%m/%d', height_field=None, width_field=None, max_length=None, blank=True, null=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     
     def toJSON(self):
         item = model_to_dict(self)

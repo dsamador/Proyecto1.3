@@ -11,22 +11,22 @@
 
 {% block content %}
 <div class="row animated fadeIn">
-    <div class="col-12 col-sm-6 col-md-4">
+
+    <div class="col-12 col-sm-6 col-md-3">
       <div class="info-box">
         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-charging-station"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Gasolineras visitadas</span>
-          <span id="gasolineras" class="info-box-number">
-                        
-          </span>
+          <span id="gasolineras" class="info-box-number"></span>
         </div>
         <!-- /.info-box-content -->
       </div>
       <!-- /.info-box -->
     </div>
+
     <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-4">
+    <div class="col-12 col-sm-6 col-md-3">
       <div class="info-box mb-3">
         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-biking"></i></span>
 
@@ -38,15 +38,30 @@
       </div>
       <!-- /.info-box -->
     </div>
+
     <!-- /.col -->
 
     <!-- fix for small devices only -->
     <div class="clearfix hidden-md-up"></div>
-
     
     <!-- /.col -->
-    <div class="col-12 col-sm-6 col-md-4">
-      <div class="info-box mb-3">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-fire-alt"></i></span>
+
+        <div class="info-box-content" >
+            <span class="info-box-text" >Kilómetros recorridos</span>
+            <span id="km" class="info-box-number"></span>
+        </div>
+        <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-fire-alt"></i></span>
 
         <div class="info-box-content" >
@@ -54,11 +69,14 @@
           <span id="consumido" class="info-box-number"></span>
         </div>
         <!-- /.info-box-content -->
-      </div>
+        </div>
       <!-- /.info-box -->
-    </div>
+        </div>
     <!-- /.col -->
-  </div>
+    </div>
+
+    
+</div>
 
 
 <div class="accordion animated fadeIn" id="accordionExample">    
@@ -187,7 +205,7 @@
         btnActualizar = document.getElementById('btnActualizar'),
         gasolineras = document.getElementById('gasolineras'),
         vehiculos = document.getElementById('vehiculos'),
-        //km = document.getElementById('km'),
+        km = document.getElementById('km'),
         consumido = document.getElementById('consumido'),
         actTodo = document.getElementById('actTodo');
     
@@ -211,7 +229,7 @@
                 
                 vehiculos.innerHTML = formato.format(coso['vehiculos'][0].numero);
                 
-                //km.innerHTML = formato.format(coso['km'][0].distancia__sum);
+                km.innerHTML = formato.format(coso['km'][0].kilometraje__sum);
 
                 consumido.innerHTML = formato.format(coso['total_combustible'][0].cantidad__sum) + ' gal';
                 

@@ -24,7 +24,7 @@ class ReportMantenimiento(TemplateView):
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                
                 if len(start_date) and len(end_date):
-                    search = Mantenimiento.objects.filter(usuario = self.request.user).filter(fecha__range=[start_date, end_date])                                
+                    search = Mantenimiento.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)
 
                 for s in search:                                        
                     data.append([                        
@@ -61,7 +61,7 @@ class ReportMantenimiento(TemplateView):
                     'Promedio',
                     format(promedio, '.2f'),
                 ])
-#coordinar avances, programar tareas.        
+
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -91,10 +91,9 @@ class ReportRecarga(TemplateView):
             if action == 'search_report':                
                 data = []                            
                 start_date = request.POST.get('start_date', '')
-                end_date = request.POST.get('end_date', '')                
-                search = RecargaCombustible.objects.filter(usuario = self.request.user)
+                end_date = request.POST.get('end_date', '')                                
                 if len(start_date) and len(end_date):
-                    search = search.filter(fecha__range=[start_date, end_date])            
+                    search = RecargaCombustible.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)            
 
                 for s in search:                    
                     data.append([                        
@@ -105,7 +104,36 @@ class ReportRecarga(TemplateView):
                         s.tipo_combustible.nombre,
                         s.gasolinera.nombre,
                         s.costo_total
-                    ])                                                     
+                    ])                  
+
+                total = search.aggregate(r=Coalesce(Sum('costo_total'),0)).get('r')
+                cant = search.aggregate(r=Coalesce(Count('costo_total'),0)).get('r')
+                
+                if total and cant != 0:
+                    promedio = total/cant
+                else:
+                    promedio = 0
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',
+                    '---',
+                    '---',                    
+                    'Total',
+                    format(total, '.2f'),
+                ], )
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',
+                    '---',
+                    '---',
+                    'Promedio',
+                    format(promedio, '.2f'),
+                ])
+                                   
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -135,10 +163,10 @@ class ReportLavado(TemplateView):
             if action == 'search_report':                
                 data = []                            
                 start_date = request.POST.get('start_date', '')
-                end_date = request.POST.get('end_date', '')                
-                search = Lavado.objects.filter(usuario = self.request.user)
+                end_date = request.POST.get('end_date', '')                                
                 if len(start_date) and len(end_date):
-                    search = search.filter(fecha__range=[start_date, end_date])            
+                    search = Lavado.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)
+                    print(search)            
 
                 for s in search:                    
                     data.append([                        
@@ -147,7 +175,31 @@ class ReportLavado(TemplateView):
                         s.tipo_lavado.nombre,                        
                         s.lavadero.nombre,                        
                         s.valor
-                    ])                    
+                    ])
+                    
+                total = search.aggregate(r=Coalesce(Sum('valor'),0)).get('r')
+                cant = search.aggregate(r=Coalesce(Count('valor'),0)).get('r')
+                
+                if total and cant != 0:
+                    promedio = total/cant
+                else:
+                    promedio = 0
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',                    
+                    'Total',
+                    format(total, '.2f'),
+                ], )
+
+                data.append([
+                    '---',
+                    '---',
+                    '---',                    
+                    'Promedio',
+                    format(promedio, '.2f'),
+                ])                    
                          
             else:
                 data['error'] = 'Ha ocurrido un error'

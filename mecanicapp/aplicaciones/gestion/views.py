@@ -15,6 +15,7 @@ from datetime import datetime
 from django.http import JsonResponse
 
 
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'    
 
@@ -67,11 +68,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             for i in Vehiculo.objects.filter(usuario = self.request.user):
                 total = Mantenimiento.objects.filter(fecha__year = year, fecha__month = month, vehiculo_id=i.id).aggregate(
                     r=Coalesce(Sum('valor'), 0)).get('r')
-                if total >0:
+                if total > 0:
                     data.append({
                         'name': i.nombre,
                         'y':float(total)
                     })
+                else:
+                    total = 0
+
         except expression as identifier:
             pass
         return data
@@ -143,11 +147,12 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 total_gasolineras = RecargaCombustible.objects.filter(usuario = self.request.user).values('gasolinera').distinct().count() 
                 total_vehiculos = Vehiculo.objects.filter(usuario=self.request.user).count()
                 #km = Odometro.objects.all().aggregate(Sum('distancia')) 
+                km = RecargaCombustible.objects.filter(usuario=self.request.user).aggregate(Sum('kilometraje')) 
                 total_combustible = RecargaCombustible.objects.filter(usuario = self.request.user).aggregate(Sum('cantidad'))
                 datos = {                    
                     'gas':[{'numero':total_gasolineras}],
                     'vehiculos':[{'numero':total_vehiculos}],
-                    #'km':[km],
+                    'km':[km],
                     'total_combustible':[total_combustible],
                 }           
                 return JsonResponse(datos, safe = False) 
