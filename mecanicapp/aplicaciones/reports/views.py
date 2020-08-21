@@ -7,8 +7,9 @@ from django.http import JsonResponse
 from aplicaciones.gestion.models import Mantenimiento, Lavado, RecargaCombustible
 from django.db.models.functions import Coalesce
 from django.db.models import Sum, Count
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ReportMantenimiento(TemplateView):
+class ReportMantenimiento(LoginRequiredMixin, TemplateView):
     template_name = 'report_mant.html'
 
     @method_decorator(csrf_exempt)
@@ -77,7 +78,7 @@ class ReportMantenimiento(TemplateView):
         return context
 
 
-class ReportRecarga(TemplateView):
+class ReportRecarga(LoginRequiredMixin, TemplateView):
     template_name = 'report_recar.html'
 
     @method_decorator(csrf_exempt)
@@ -149,7 +150,7 @@ class ReportRecarga(TemplateView):
         return context        
 
 
-class ReportLavado(TemplateView):
+class ReportLavado(LoginRequiredMixin, TemplateView):
     template_name = 'report_lav.html'
 
     @method_decorator(csrf_exempt)
