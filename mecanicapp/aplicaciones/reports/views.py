@@ -9,6 +9,7 @@ from django.db.models.functions import Coalesce
 from django.db.models import Sum, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 class ReportMantenimiento(LoginRequiredMixin, TemplateView):
     template_name = 'report_mant.html'
 
@@ -25,8 +26,9 @@ class ReportMantenimiento(LoginRequiredMixin, TemplateView):
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                
                 if len(start_date) and len(end_date):
-                    search = Mantenimiento.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)
-
+                    search = Mantenimiento.objects.only('fecha','vehiculo','tipo_mantenimiento','taller','razon','valor').filter(fecha__range=[start_date, end_date], usuario = self.request.user)
+                    print(search)
+                print('Fin search',search)
                 for s in search:                                        
                     data.append([                        
                         s.fecha.strftime('%Y-%m-%d'),
@@ -36,6 +38,7 @@ class ReportMantenimiento(LoginRequiredMixin, TemplateView):
                         s.razon,
                         s.valor
                     ]) 
+                    print(data)
                 
                 total = search.aggregate(r=Coalesce(Sum('valor'),0)).get('r')
                 cant = search.aggregate(r=Coalesce(Count('valor'),0)).get('r')
