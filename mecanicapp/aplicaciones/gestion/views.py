@@ -618,3 +618,5 @@ class TipoCombustibleView(LoginRequiredMixin, TemplateView):
         context['form'] = TipoCombustibleForm()
         context['desc'] = 'Tipos de combustibles'
         return context
+
+

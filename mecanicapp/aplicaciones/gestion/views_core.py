@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 
+
 from .models import Vehiculo, Mantenimiento, Lavado, RecargaCombustible
 from .forms import VehiculoForm, MantenimientoForm, LavadoForm, RecargaCombustibleForm
 
@@ -55,15 +56,17 @@ class VehiculoCreateView(LoginRequiredMixin, CreateView):
     template_name = 'vehiculo/create_vehiculo.html'
     success_url = reverse_lazy('gestion:vehiculo')
     
-    @method_decorator(csrf_exempt)
+    
     def dispatch(self, request, *args, **kwargs):        
         return super().dispatch(request, *args, **kwargs)    
     
+    #Esto es para personalizar el combo box de TipoVehiculo
     def get_form_kwargs(self):
         kwargs = super(VehiculoCreateView, self).get_form_kwargs()
         kwargs.update({'request': self.request})
         return kwargs
-
+    
+    #Esto es para personalizar el combo box de TipoVehiculo
     def form_valid(self, form_class):
         form_class.instance.user_id = self.request.user.id
         return super(VehiculoCreateView, self).form_valid(form_class)

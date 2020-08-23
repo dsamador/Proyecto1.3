@@ -26,9 +26,11 @@ class ReportMantenimiento(LoginRequiredMixin, TemplateView):
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                
                 if len(start_date) and len(end_date):
-                    search = Mantenimiento.objects.only('fecha','vehiculo','tipo_mantenimiento','taller','razon','valor').filter(fecha__range=[start_date, end_date], usuario = self.request.user)
-                    print(search)
-                print('Fin search',search)
+                    search = Mantenimiento.objects.only('fecha','vehiculo','tipo_mantenimiento',
+                                                        'taller','razon','valor').filter(
+                                                        fecha__range=[start_date, end_date],
+                                                        usuario = self.request.user)                
+                
                 for s in search:                                        
                     data.append([                        
                         s.fecha.strftime('%Y-%m-%d'),
@@ -38,7 +40,7 @@ class ReportMantenimiento(LoginRequiredMixin, TemplateView):
                         s.razon,
                         s.valor
                     ]) 
-                    print(data)
+                    
                 
                 total = search.aggregate(r=Coalesce(Sum('valor'),0)).get('r')
                 cant = search.aggregate(r=Coalesce(Count('valor'),0)).get('r')
@@ -97,7 +99,10 @@ class ReportRecarga(LoginRequiredMixin, TemplateView):
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                                
                 if len(start_date) and len(end_date):
-                    search = RecargaCombustible.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)            
+                    search = RecargaCombustible.objects.only('fecha','cantidad','vehiculo',
+                                                        'kilometraje','tipo_combustible','gasolinera','costo_total').filter(
+                                                        fecha__range=[start_date, end_date],
+                                                        usuario = self.request.user)          
 
                 for s in search:                    
                     data.append([                        
@@ -169,7 +174,10 @@ class ReportLavado(LoginRequiredMixin, TemplateView):
                 start_date = request.POST.get('start_date', '')
                 end_date = request.POST.get('end_date', '')                                
                 if len(start_date) and len(end_date):
-                    search = Lavado.objects.filter(fecha__range=[start_date, end_date], usuario = self.request.user)
+                    search = Lavado.objects.only('fecha','vehiculo','tipo_lavado',
+                                                        'lavadero','valor').filter(
+                                                        fecha__range=[start_date, end_date],
+                                                        usuario = self.request.user)   
                     print(search)            
 
                 for s in search:                    
