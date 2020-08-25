@@ -177,8 +177,7 @@ class ReportLavado(LoginRequiredMixin, TemplateView):
                     search = Lavado.objects.only('fecha','vehiculo','tipo_lavado',
                                                         'lavadero','valor').filter(
                                                         fecha__range=[start_date, end_date],
-                                                        usuario = self.request.user)   
-                    print(search)            
+                                                        usuario = self.request.user)                       
 
                 for s in search:                    
                     data.append([                        
@@ -226,4 +225,3 @@ class ReportLavado(LoginRequiredMixin, TemplateView):
         context['list_url'] = reverse_lazy('reporte_lavados')
         context['form'] = ReportForm()        
         return context
-    
