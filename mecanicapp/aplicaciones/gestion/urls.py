@@ -16,6 +16,7 @@ urlpatterns = [
     path('list_marca/',               MarcaView.as_view(),             name = 'marcas'),
 
     path('list_tipovehiculo/',        TipoVehiculoView.as_view(),      name = 'tipovehiculo'), 
+    path('add_tipovehiculo/',        TipoVehiculoCreateView.as_view(),      name = 'tipovehiculo_add'), 
 
     path('list_tipomantenimiento/',   TipoMantenimientoView.as_view(), name = 'tipomantenimiento'),
     path('update_tipomantenimiento/<int:pk>/',   TipoMantenimientoUpdateView.as_view(), name = 'update_tipomantenimiento'),

@@ -10,7 +10,7 @@ def custom_upload_to(instance, filename):
     return 'profiles/' + filename
 
 class Perfil(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.PROTECT)#Este es el usuario por defecto que trae Django
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
     link = models.URLField(max_length=200, null=  True, blank = True)

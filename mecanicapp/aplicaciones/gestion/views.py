@@ -262,7 +262,7 @@ class TipoVehiculoView(LoginRequiredMixin, TemplateView):
             if action == 'searchdata':
                 print('Buscando los datos')
                 data = []
-                for i in TipoVehiculo.objects.filter(usuario=self.request.user):
+                for i in TipoVehiculo.objects.all():
                     data.append(i.toJSON())
             elif action == 'add':
                 m = TipoVehiculo()
@@ -288,6 +288,32 @@ class TipoVehiculoView(LoginRequiredMixin, TemplateView):
         context['form'] = TipoVehiculoForm()
         context['desc'] = 'Tipos de vehículos'   
         return context 
+
+class TipoVehiculoCreateView(LoginRequiredMixin, CreateView):
+    model = TipoVehiculo
+    form_class = TipoVehiculoForm
+    template_name = 'auxdata/tipovehiculo/tipo_vehiculo_modal.html'
+    success_url = reverse_lazy('gestion:vehiculo')
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add': #esto va de acuerdo con un input hidden en el html
+                form = self.get_form() #obtiene el formulario con los datos que contiene
+                if form.is_valid(): 
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado a ninguna opción'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
 
 """
     Vistas de tipos de lavados

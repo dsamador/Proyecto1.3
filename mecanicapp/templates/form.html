@@ -104,5 +104,24 @@ $('form').on('submit', function (e) {
         alert(textStatus + ': ' + errorThrown);            
     });
 });
+
+
+let btnAdd = document.getElementById('btnAdd').addEventListener('click',()=>{
+    //
+    
+})
+
+
+ function modal() {
+    let modal_title = $('.modal-title');      
+    
+    $('.btnAdd').on('click', function(){  
+      $('input[name = "action"]').val('add');
+      modal_title.find('span').html('Creación de un tipo de vehiculo');
+      modal_title.find('i').removeClass().addClass('fas fa-plus')      
+      $('form')[0].reset();
+      $('#crear_registro').modal('show');
+    });         
+  } 
 </script>    
 {% endblock javascript %}

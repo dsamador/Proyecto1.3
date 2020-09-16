@@ -103,8 +103,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
         'PORT':5432,
     }
 }
-"""
-
+ """
+#LA 3.0
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

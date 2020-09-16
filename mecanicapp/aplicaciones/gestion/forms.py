@@ -108,9 +108,7 @@ class VehiculoForm(ModelForm):
         for form in self.visible_fields():
             form.field.widget.attrs['class'] = 'form-control mb-2'
         
-        self.fields['nombre'].widget.attrs['autofocus'] = True
-
-        self.fields['tipo'].queryset = TipoVehiculo.objects.filter(usuario=request.user)
+        self.fields['nombre'].widget.attrs['autofocus'] = True        
               
         self.fields['tipo'].empty_label = "Seleccione un tipo vehículo"
         self.fields['marca'].empty_label = "Seleccione una marca"        
@@ -121,22 +119,22 @@ class VehiculoForm(ModelForm):
         exclude = ['usuario']
         widgets = {
             'nombre' : TextInput(attrs={                
-                'placeholder':'nombre del vehículo'
+                'placeholder':'Ej: "Mi pichirilo"'
             }),
             'modelo' : TextInput(attrs={                  
-                'placeholder':'modelo'            
+                'placeholder':'Ej: Escarabajo'            
             }),
             'placa' : TextInput(attrs={                              
-                'placeholder':'placa'            
+                'placeholder':'Ej: ABC123'            
             }),
             'anio' : TextInput(attrs={                               
-                'placeholder':'año'            
+                'placeholder':'Digite el año de su vehículo'            
             }),           
             'color' : TextInput(attrs={                                
                 'placeholder':'color'            
             }),
             'tanque' : NumberInput(attrs={                               
-                'placeholder':'capacidad del tanque'            
+                'placeholder':'Digite el número de galones'            
             }),
             'num_chasis' : TextInput(attrs={                   
                 'placeholder':'numero del chasis'                     

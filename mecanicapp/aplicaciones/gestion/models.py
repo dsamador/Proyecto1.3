@@ -68,7 +68,7 @@ class Lavadero(Comunes):
 
 class Taller(Comunes):    
     direccion = models.CharField('Dirección', max_length=250, blank=True, null=True)    
-    correo = models.CharField('Correo', max_length=100, blank=True, null=True)    
+    correo = models.EmailField('Correo', max_length=100, blank=True, null=True)    
     telefono = models.CharField('Telefono', max_length=15, blank=True, null=True)    
     usuario = UserForeignKey(auto_user_add=True,related_name='+',verbose_name="Owner")
 
